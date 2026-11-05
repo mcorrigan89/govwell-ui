@@ -176,7 +176,8 @@ export function UserMenu({
       }}
     >
       {organizations.map((org) => (
-        <DropdownMenuRadioItem key={org.id} value={org.id}>
+        // switching moves you to another organization, so the menu closes with it
+        <DropdownMenuRadioItem key={org.id} value={org.id} closeOnClick>
           <span className="flex min-w-0 flex-1 flex-col">
             <span className="truncate">{org.name}</span>
             {org.role && <span className="truncate text-xs text-muted-foreground">{roleLabel(org.role)}</span>}

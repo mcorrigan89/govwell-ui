@@ -259,6 +259,9 @@ describe('UserMenu', () => {
 
     await userEvent.click(within(menu).getByRole('menuitemradio', { name: /Shelby County/ }));
     expect(onSwitch).toHaveBeenCalledWith('shelby');
+    // let the menu finish closing first: under load its exit can still be
+    // running, and a click would land in the closing menu instead of a new one
+    await waitFor(() => expect(screen.queryByRole('menu')).not.toBeInTheDocument());
 
     await userEvent.click(screen.getByRole('button', { name: 'Dana Ruiz, account menu' }));
     await userEvent.click(await screen.findByRole('menuitem', { name: 'Sign out' }));
