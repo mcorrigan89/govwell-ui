@@ -109,9 +109,28 @@ const hookItems = Object.entries(HOOKS).map(([name, spec]) => ({
 // ── components ─────────────────────────────────────────────────────────────
 // name → { description, deps (npm), ui (other registry items it imports) }
 const UI = {
+  accordion: {
+    description: 'Stacked sections that open and close, with Regular-weight questions between Ash hairlines and a thin plus or minus.',
+    deps: ['@base-ui/react', 'lucide-react'],
+  },
+  'alert-dialog': {
+    description: 'A confirmation that has to be answered, on a square panel over a Slate wash.',
+    deps: ['@base-ui/react'],
+    ui: ['button'],
+  },
+  'aspect-ratio': { description: 'Holds its content to a fixed width-to-height ratio.', deps: [] },
+  avatar: {
+    description:
+      'A person as a circle with their image, or their initials on the grey surface, with an optional status dot and group count.',
+    deps: ['@base-ui/react'],
+  },
   badge: {
     description: 'A small square label in the eyebrow’s type, on a brand tint or a solid status colour.',
     deps: ['@base-ui/react', 'class-variance-authority'],
+  },
+  breadcrumb: {
+    description: 'A trail of muted links to the current page, with thin chevrons between and the page you are on in Regular.',
+    deps: ['@base-ui/react', 'lucide-react'],
   },
   button: {
     description: 'Square buttons in GT Standard Light: a Hope primary, a Slate secondary, outline, ghost, destructive and link.',
@@ -127,10 +146,38 @@ const UI = {
     description: 'A small square box with a Concrete edge that fills Slate, with the tick knocked out, when checked.',
     deps: ['@base-ui/react', 'lucide-react'],
   },
+  collapsible: { description: 'An unstyled section that shows and hides behind a trigger.', deps: ['@base-ui/react'] },
+  combobox: {
+    description: 'A select you can type into to filter, with Slate chips for several values.',
+    deps: ['@base-ui/react', 'lucide-react'],
+    ui: ['button', 'input-group'],
+  },
+  command: {
+    description: 'A searchable list of commands in a square panel, inline or as a ⌘K palette.',
+    deps: ['cmdk', 'lucide-react'],
+    ui: ['dialog', 'input-group'],
+  },
+  'context-menu': {
+    description: 'The dropdown menu’s panel, opened by right-click or long-press.',
+    deps: ['@base-ui/react', 'lucide-react'],
+  },
   dialog: {
     description: 'A modal on a square panel over a Slate wash, with a Regular-weight title.',
     deps: ['@base-ui/react', 'lucide-react'],
     ui: ['button'],
+  },
+  drawer: {
+    description: 'A square panel that slides in from an edge and can be swiped away, with a grab bar.',
+    deps: ['@base-ui/react'],
+  },
+  'dropdown-menu': {
+    description: 'A menu in a square floating panel, with a grey band on the highlighted item.',
+    deps: ['@base-ui/react', 'lucide-react'],
+  },
+  empty: {
+    description: 'An empty state in a dashed frame, its icon on a Hope tint inside the node frame, with a Regular title and a next step.',
+    deps: ['class-variance-authority'],
+    ui: ['node-frame'],
   },
   eyebrow: {
     description: 'GovWell’s signpost: an uppercase label on a brand tint, with an icon on a square tile under its corner.',
@@ -147,6 +194,7 @@ const UI = {
     deps: ['class-variance-authority'],
     ui: ['flag-mark'],
   },
+  'hover-card': { description: 'A preview on hover, in a square floating panel with an Ash hairline.', deps: ['@base-ui/react'] },
   input: { description: 'A square text box with a Concrete edge that darkens on hover and focus.', deps: ['@base-ui/react'] },
   'input-group': {
     description: 'An input with icons, units or buttons attached, in one square box.',
@@ -157,14 +205,34 @@ const UI = {
     description: 'A one-time code entered one character per square box, in groups that share their edges.',
     deps: ['@base-ui/react', 'lucide-react'],
   },
+  item: {
+    description: 'A list row with media, a Regular title, a description and actions: plain, in a hairline panel or on grey.',
+    deps: ['@base-ui/react', 'class-variance-authority'],
+    ui: ['separator'],
+  },
+  kbd: { description: 'A keyboard key as a small square in mono type on the muted surface.', deps: [] },
   label: { description: 'A form label in Regular weight.', deps: [] },
+  menubar: {
+    description: 'A plain bar of menus with a hairline edge; the open menu sits on a grey band.',
+    deps: ['@base-ui/react'],
+    ui: ['dropdown-menu'],
+  },
   'native-select': {
     description: 'The browser’s own select in a square box like the input, for long lists, phones and forms that work without JavaScript.',
     deps: ['lucide-react'],
   },
+  'navigation-menu': {
+    description: 'Site navigation with Light triggers that open a square panel of links; the active link has a Hope bar on its left edge.',
+    deps: ['@base-ui/react', 'class-variance-authority', 'lucide-react'],
+  },
   'node-frame': {
     description: 'The “tech layer”: a dotted frame with square nodes at its corners, around an icon, image or content.',
     deps: [],
+  },
+  pagination: {
+    description: 'Previous, numbered and next page links, with the current page as a square Slate block.',
+    deps: ['lucide-react'],
+    ui: ['button'],
   },
   popover: { description: 'Content in a square floating panel, anchored to its trigger.', deps: ['@base-ui/react'] },
   'radio-group': {
@@ -176,14 +244,25 @@ const UI = {
     deps: ['@base-ui/react', 'lucide-react'],
   },
   separator: { description: 'A hairline rule, across or down.', deps: ['@base-ui/react'] },
+  sheet: {
+    description: 'A square panel that slides in from an edge and runs its full length.',
+    deps: ['@base-ui/react', 'lucide-react'],
+    ui: ['button'],
+  },
+  skeleton: { description: 'A flat, square grey block that pulses where content will load.', deps: [] },
   slider: {
     description: 'A thin Ash track with the chosen range drawn in Slate and square thumbs; one value or a range.',
     deps: ['@base-ui/react'],
   },
+  spinner: { description: 'A loading indicator: a dotted ring with a solid square node travelling round it.', deps: [] },
   stat: { description: 'A key figure: a large Regular-weight number with a short caption.', deps: [] },
   switch: {
     description: 'A square switch: a Concrete block on white when off, a Slate box with the block slid across when on.',
     deps: ['@base-ui/react'],
+  },
+  tabs: {
+    description: 'Tabs on a quiet grey strip with the chosen tab a Slate block, or a line variant with a 2px underline.',
+    deps: ['@base-ui/react', 'class-variance-authority'],
   },
   textarea: { description: 'A multi-line square text box with a Concrete edge that grows with its text.', deps: [] },
   toggle: {
@@ -195,6 +274,7 @@ const UI = {
     deps: ['@base-ui/react', 'class-variance-authority'],
     ui: ['toggle'],
   },
+  tooltip: { description: 'A short label on hover or focus, in a small inverse Slate panel.', deps: ['@base-ui/react'] },
 };
 const uiItems = Object.entries(UI).map(([name, spec]) => ({
   name,
