@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 import { ME, TOWN } from './data';
 
 // The staff app's frame, laid out like GovWell's app today (SidebarLayout):
-// a 230px sidebar standing on the grey ground — logo and collapse button,
+// a 230px sidebar standing on a Slate ground — logo and collapse button,
 // Search (⌘K) and the AI assistant, then the nav in collapsible groups, then
 // the town, the signed-in person, help and settings — beside one white,
 // bordered content panel inset from the top and right. The assistant opens
@@ -30,8 +30,9 @@ type ShellProps = {
   children: ReactNode;
 };
 
-const ring = 'outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-solid focus-visible:outline-ring';
-const row = cn('flex h-9 w-full shrink-0 items-center gap-3 px-3 text-sm font-light text-foreground hover:bg-background', ring);
+// on Slate the theme's Slate focus ring would vanish; Hope reads on it (as in the app-shell block)
+const ring = 'outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-solid focus-visible:outline-hope';
+const row = cn('flex h-9 w-full shrink-0 items-center gap-3 px-3 text-sm font-light text-ash hover:bg-white/5 hover:text-white', ring);
 
 const isActive = (href: string, path: string) => path === href || path.startsWith(`${href}/`);
 
@@ -55,7 +56,7 @@ export function Shell({ nav, path, onSearch, assistant, onAssistant, children }:
 
   return (
     <TooltipProvider>
-      <div className="flex h-dvh flex-col bg-muted text-foreground md:flex-row">
+      <div className="flex h-dvh flex-col bg-slate text-white md:flex-row">
         {/* phone: a top bar with the logo and a menu button */}
         <header className="flex h-14 shrink-0 items-center justify-between px-4 md:hidden">
           <GovWellLogo className="h-5" title="GovWell" />
@@ -69,7 +70,7 @@ export function Shell({ nav, path, onSearch, assistant, onAssistant, children }:
           </button>
         </header>
         <Sheet open={drawer} onOpenChange={setDrawer}>
-          <SheetContent side="left" className="w-[280px] bg-muted p-0">
+          <SheetContent side="left" className="w-[280px] border-r-0 bg-slate p-0 text-white">
             <SheetTitle className="sr-only">Menu</SheetTitle>
             <Sidebar nav={nav} path={path} collapsed={false} onSearch={onSearch} onAssistant={onAssistant} />
           </SheetContent>
@@ -91,13 +92,17 @@ export function Shell({ nav, path, onSearch, assistant, onAssistant, children }:
 
         {/* the content panel, inset from the top and right edges on wide screens */}
         <div className="flex min-h-0 min-w-0 flex-1 gap-2.5 md:mt-2.5 md:mr-2.5">
-          <main id="main" tabIndex={-1} className="min-w-0 flex-1 overflow-y-auto border-border bg-background outline-none md:border">
+          <main
+            id="main"
+            tabIndex={-1}
+            className="min-w-0 flex-1 overflow-y-auto border-border bg-background text-foreground outline-none md:border"
+          >
             {children}
           </main>
           {assistant && (
             <aside
               aria-label="AI assistant"
-              className="hidden w-[400px] shrink-0 flex-col border border-border bg-background duration-200 animate-in slide-in-from-right-4 lg:flex"
+              className="hidden w-[400px] shrink-0 flex-col border border-border bg-background text-foreground duration-200 animate-in slide-in-from-right-4 lg:flex"
             >
               {assistant}
             </aside>
@@ -139,7 +144,7 @@ function Sidebar({ nav, path, collapsed, onToggle, onSearch, onAssistant }: Side
                 type="button"
                 aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
                 onClick={onToggle}
-                className={cn('grid size-8 place-items-center text-muted-foreground hover:bg-background hover:text-foreground', ring)}
+                className={cn('grid size-8 place-items-center text-cement hover:bg-white/10 hover:text-white', ring)}
               >
                 {collapsed ? <PanelLeftOpen className="size-4" /> : <PanelLeftClose className="size-4" />}
               </button>
@@ -152,7 +157,7 @@ function Sidebar({ nav, path, collapsed, onToggle, onSearch, onAssistant }: Side
             aria-label={collapsed ? 'Search' : undefined}
             onClick={onSearch}
             className={cn(
-              'flex h-9 items-center gap-3 border border-border bg-background text-sm font-light text-muted-foreground hover:border-foreground hover:text-foreground',
+              'flex h-9 items-center gap-3 border border-white/15 bg-white/5 text-sm font-light text-cement hover:border-white/60 hover:text-white',
               collapsed ? 'w-8 justify-center self-center' : 'px-3',
               ring,
             )}
@@ -161,7 +166,7 @@ function Sidebar({ nav, path, collapsed, onToggle, onSearch, onAssistant }: Side
             {!collapsed && (
               <>
                 <span className="flex-1 text-left">Search</span>
-                <Kbd>⌘K</Kbd>
+                <Kbd className="bg-white/10 text-cement">⌘K</Kbd>
               </>
             )}
           </button>
@@ -172,12 +177,12 @@ function Sidebar({ nav, path, collapsed, onToggle, onSearch, onAssistant }: Side
             aria-label={collapsed ? 'AI assistant' : undefined}
             onClick={onAssistant}
             className={cn(
-              'flex h-9 items-center gap-3 bg-secondary text-sm font-light text-secondary-foreground hover:bg-secondary/85',
+              'flex h-9 items-center gap-3 bg-white text-sm font-light text-slate hover:bg-ash',
               collapsed ? 'w-8 justify-center self-center' : 'px-3',
               ring,
             )}
           >
-            <Sparkles className="size-4 shrink-0 text-primary" />
+            <Sparkles className="size-4 shrink-0" />
             {!collapsed && <span>Ask the assistant</span>}
           </button>
         </Hint>
@@ -190,7 +195,7 @@ function Sidebar({ nav, path, collapsed, onToggle, onSearch, onAssistant }: Side
               <CollapsibleTrigger className={cn(row, 'group/trigger')}>
                 <group.icon className="size-4 shrink-0" />
                 <span className="flex-1 truncate text-left">{group.label}</span>
-                <ChevronRight className="size-3.5 shrink-0 text-muted-foreground group-data-[panel-open]/trigger:rotate-90" />
+                <ChevronRight className="size-3.5 shrink-0 text-cement group-data-[panel-open]/trigger:rotate-90" />
               </CollapsibleTrigger>
               <CollapsibleContent className="flex flex-col gap-px pb-1">
                 {group.items.map((item) => (
@@ -210,11 +215,11 @@ function Sidebar({ nav, path, collapsed, onToggle, onSearch, onAssistant }: Side
         )}
       </div>
 
-      <div className="flex flex-col gap-px border-t border-border p-2">
-        {!collapsed && <div className="px-3 pt-1 pb-2 text-xs text-muted-foreground">{TOWN.name}</div>}
+      <div className="flex flex-col gap-px border-t border-white/10 p-2">
+        {!collapsed && <div className="px-3 pt-1 pb-2 text-xs text-cement">{TOWN.name}</div>}
         <Hint label={collapsed ? ME.name : null} side="right">
           <a href="#/profile" className={cn(row, collapsed && 'justify-center px-0')} aria-label={collapsed ? ME.name : undefined}>
-            <span className="grid size-6 shrink-0 place-items-center rounded-full bg-secondary text-[0.625rem] text-secondary-foreground">
+            <span className="grid size-6 shrink-0 place-items-center rounded-full bg-hope text-[0.625rem] text-slate">
               {ME.name
                 .split(' ')
                 .map((w) => w[0])
@@ -256,13 +261,13 @@ function NavLink({
         'relative',
         indent && 'pl-10',
         collapsed && 'justify-center px-0',
-        active && 'bg-background font-normal before:absolute before:inset-y-0 before:left-0 before:w-0.5 before:bg-primary',
+        active && 'bg-white/10 font-normal text-white before:absolute before:inset-y-0 before:left-0 before:w-0.5 before:bg-primary',
       )}
     >
       {Icon && !indent && <Icon className="size-4 shrink-0" />}
       {!collapsed && <span className="flex-1 truncate">{item.label}</span>}
       {!collapsed && item.count ? (
-        <span className="min-w-5 bg-hope-tint px-1.5 text-center text-xs text-tint-foreground tabular-nums">{item.count}</span>
+        <span className="min-w-5 bg-hope px-1.5 text-center text-xs text-slate tabular-nums">{item.count}</span>
       ) : null}
     </a>
   );

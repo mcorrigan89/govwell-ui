@@ -22,7 +22,7 @@ import { SearchDialog } from './search';
 import { Shell, type NavGroup } from './shell';
 
 // A sample GovWell staff app built from the registry: the app's layout
-// (sidebar on the grey ground, white content panel), a permits list, a
+// (a Slate sidebar and ground, a white content panel), a permits list, a
 // permit, the overview and the inspection calendar, over made-up data for
 // one town. Open it with ?example=app; pages are hash routes (#/records/building).
 
