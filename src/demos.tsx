@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 
 import { BASE_DEMOS } from '@/docs/demos/base';
+import { CHAT_DEMOS } from '@/docs/demos/chat';
 import { INSTRUMENTS_DEMOS } from '@/docs/demos/instruments';
 import { DATA_DEMOS } from '@/docs/demos/data';
 import { OVERLAYS_DEMOS } from '@/docs/demos/overlays';
@@ -71,6 +72,7 @@ function ThemeDemo() {
 
 export const DEMOS: Record<string, () => ReactNode> = {
   ...BASE_DEMOS,
+  ...CHAT_DEMOS,
   ...INSTRUMENTS_DEMOS,
   ...DATA_DEMOS,
   ...OVERLAYS_DEMOS,
