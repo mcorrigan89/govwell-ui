@@ -271,6 +271,12 @@ const UI = {
     description: 'The dropdown menu’s panel, opened by right-click or long-press.',
     deps: ['@base-ui/react', 'lucide-react'],
   },
+  'copy-button': {
+    description:
+      'A button that copies a value, shows a tick and “Copied” for a moment, announces it, and says so when the clipboard refuses.',
+    deps: ['lucide-react'],
+    ui: ['button'],
+  },
   'date-picker': {
     description: 'A date field that looks like a text input and opens a calendar in a square popover.',
     deps: ['lucide-react'],
@@ -281,6 +287,12 @@ const UI = {
     deps: ['lucide-react'],
     ui: ['calendar', 'input', 'popover'],
   },
+  'description-list': {
+    description:
+      'Label and value facts in a semantic dl: stacked, a label column or a grid, optional hairline rows, an em dash for empty values and an optional source per value.',
+    deps: ['class-variance-authority'],
+    ui: ['quick-tip'],
+  },
   dialog: {
     description: 'A modal on a square panel over a Slate wash, with a Regular-weight title.',
     deps: ['@base-ui/react', 'lucide-react'],
@@ -289,6 +301,12 @@ const UI = {
   distribution: {
     description: 'One flat square bar split by share in the chart colours, with a square-swatch legend beneath.',
     deps: [],
+  },
+  'download-link': {
+    description:
+      'A download that may still be being made: “Preparing…” with a spinner, then a link or button with the file name and size, or an error with Retry.',
+    deps: ['lucide-react'],
+    ui: ['button', 'spinner'],
   },
   drawer: {
     description: 'A square panel that slides in from an edge and can be swiped away, with a grab bar.',
@@ -330,6 +348,11 @@ const UI = {
     deps: ['class-variance-authority'],
     ui: ['flag-mark'],
   },
+  highlight: {
+    description:
+      'Text with search matches marked on a Hope tint, several terms at once, trimmed to a snippet; plus a SearchHit result row.',
+    deps: [],
+  },
   'hover-card': { description: 'A preview on hover, in a square floating panel with an Ash hairline.', deps: ['@base-ui/react'] },
   input: { description: 'A square text box with a Concrete edge that darkens on hover and focus.', deps: ['@base-ui/react'] },
   'input-group': {
@@ -353,10 +376,20 @@ const UI = {
     ui: ['kbd'],
   },
   label: { description: 'A form label in Regular weight.', deps: [] },
+  lightbox: {
+    description:
+      'A dialog that shows an image or document page large, with zoom, highlighted regions, a caption, and previous/next through a set.',
+    deps: ['lucide-react'],
+    ui: ['button', 'dialog', 'spinner'],
+  },
   link: {
     description:
       'A text link with a 1px underline that thickens on hover; external links get an arrow; renders as a router link through render.',
     deps: ['@base-ui/react', 'class-variance-authority', 'lucide-react'],
+  },
+  markdown: {
+    description: 'Markdown with GitHub extensions rendered in the theme’s govwell-prose, with raw HTML dropped and unsafe links stripped.',
+    deps: ['react-markdown', 'remark-gfm'],
   },
   marker: {
     description: 'A line in a conversation that isn’t a message: a note, a separator, or an activity row showing a tool call’s status.',
@@ -534,6 +567,11 @@ const UI = {
     ui: ['button', 'toggle', 'tooltip'],
   },
   tooltip: { description: 'A short label on hover or focus, in a small inverse Slate panel.', deps: ['@base-ui/react'] },
+  tree: {
+    description:
+      'An accessible tree with square expand toggles, guide lines, arrow-key navigation, typeahead and an optional selected row.',
+    deps: ['lucide-react'],
+  },
 };
 const uiItems = Object.entries(UI).map(([name, spec]) => ({
   name,
@@ -590,7 +628,7 @@ const CATEGORIES = [
   {
     id: 'actions',
     title: 'Actions',
-    items: ['button', 'button-group', 'link', 'toggle', 'toggle-group', 'segmented-control', 'toolbar'],
+    items: ['button', 'button-group', 'link', 'toggle', 'toggle-group', 'segmented-control', 'toolbar', 'copy-button', 'download-link'],
   },
   {
     id: 'forms',
@@ -643,6 +681,7 @@ const CATEGORIES = [
       'context-menu',
       'menubar',
       'spotlight',
+      'lightbox',
     ],
   },
   {
@@ -658,7 +697,20 @@ const CATEGORIES = [
   {
     id: 'data',
     title: 'Data display',
-    items: ['table', 'item', 'readout', 'meter', 'distribution', 'chart', 'event-log', 'carousel'],
+    items: [
+      'table',
+      'item',
+      'readout',
+      'meter',
+      'distribution',
+      'chart',
+      'event-log',
+      'carousel',
+      'description-list',
+      'markdown',
+      'highlight',
+      'tree',
+    ],
   },
   {
     id: 'layout',
