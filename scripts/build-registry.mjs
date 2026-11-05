@@ -113,6 +113,10 @@ const UI = {
     description: 'Stacked sections that open and close, with Regular-weight questions between Ash hairlines and a thin plus or minus.',
     deps: ['@base-ui/react', 'lucide-react'],
   },
+  alert: {
+    description: 'A square notice with the icon on a status-colour tile, a left rail for statuses, and a Regular title.',
+    deps: ['class-variance-authority'],
+  },
   'alert-dialog': {
     description: 'A confirmation that has to be answered, on a square panel over a Slate wash.',
     deps: ['@base-ui/react'],
@@ -141,7 +145,22 @@ const UI = {
     deps: ['@base-ui/react', 'class-variance-authority'],
     ui: ['separator'],
   },
+  calendar: {
+    description:
+      'A month grid on a square card: today underlined in Hope, the chosen day a Slate block, a range on grey between Slate ends.',
+    deps: ['react-day-picker', 'lucide-react'],
+    ui: ['button'],
+  },
   card: { description: 'A square panel with an Ash hairline, for a header (with an eyebrow), content and footer.', deps: [] },
+  carousel: {
+    description: 'A strip of slides you swipe, drag or step through with square outlined arrow buttons.',
+    deps: ['embla-carousel-react', 'lucide-react'],
+    ui: ['button'],
+  },
+  chart: {
+    description: 'Recharts on a square card, with series colours that follow the mode and a floating-panel tooltip.',
+    deps: ['recharts'],
+  },
   checkbox: {
     description: 'A small square box with a Concrete edge that fills Slate, with the tick knocked out, when checked.',
     deps: ['@base-ui/react', 'lucide-react'],
@@ -160,6 +179,11 @@ const UI = {
   'context-menu': {
     description: 'The dropdown menu’s panel, opened by right-click or long-press.',
     deps: ['@base-ui/react', 'lucide-react'],
+  },
+  'date-picker': {
+    description: 'A date field that looks like a text input and opens a calendar in a square popover.',
+    deps: ['lucide-react'],
+    ui: ['calendar', 'popover'],
   },
   dialog: {
     description: 'A modal on a square panel over a Slate wash, with a Regular-weight title.',
@@ -235,10 +259,19 @@ const UI = {
     ui: ['button'],
   },
   popover: { description: 'Content in a square floating panel, anchored to its trigger.', deps: ['@base-ui/react'] },
+  progress: {
+    description: 'A square progress bar: Hope on a grey track, or a status colour by tone, with an optional label and value.',
+    deps: ['@base-ui/react', 'class-variance-authority'],
+  },
   'radio-group': {
     description: 'A set of round options, one chosen at a time, the chosen one marked with a Slate edge and dot.',
     deps: ['@base-ui/react'],
   },
+  resizable: {
+    description: 'Panels split by hairline dividers you drag to resize, with an optional square grip.',
+    deps: ['react-resizable-panels'],
+  },
+  'scroll-area': { description: 'A box that scrolls with a thin square scrollbar.', deps: ['@base-ui/react'] },
   select: {
     description: 'A square box that opens its options in a square floating panel, the chosen one ticked.',
     deps: ['@base-ui/react', 'lucide-react'],
@@ -254,12 +287,17 @@ const UI = {
     description: 'A thin Ash track with the chosen range drawn in Slate and square thumbs; one value or a range.',
     deps: ['@base-ui/react'],
   },
+  sonner: {
+    description: 'Toasts as square panels that follow the mode, with a status rail and the icon on a status-colour tile.',
+    deps: ['sonner', 'lucide-react'],
+  },
   spinner: { description: 'A loading indicator: a dotted ring with a solid square node travelling round it.', deps: [] },
   stat: { description: 'A key figure: a large Regular-weight number with a short caption.', deps: [] },
   switch: {
     description: 'A square switch: a Concrete block on white when off, a Slate box with the block slid across when on.',
     deps: ['@base-ui/react'],
   },
+  table: { description: 'A dense table with a grey header row in Regular type, hairline rows and tabular figures.', deps: [] },
   tabs: {
     description: 'Tabs on a quiet grey strip with the chosen tab a Slate block, or a line variant with a 2px underline.',
     deps: ['@base-ui/react', 'class-variance-authority'],
