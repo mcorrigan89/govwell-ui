@@ -2,7 +2,6 @@ import * as React from 'react';
 import { mergeProps } from '@base-ui/react/merge-props';
 import { useRender } from '@base-ui/react/use-render';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 
 // A row in a list — a permit, a case record, a department: media on the
@@ -13,8 +12,9 @@ import { cn } from '@/lib/utils';
 
 function ItemGroup({ className, ...props }: React.ComponentProps<'div'>) {
   return (
+    // no role="list": items are often links or buttons, which can't be list
+    // items. For a real list, pass role="list" and give each Item role="listitem".
     <div
-      role="list"
       data-slot="item-group"
       className={cn('group/item-group flex w-full flex-col gap-4 has-data-[size=sm]:gap-2.5 has-data-[size=xs]:gap-2', className)}
       {...props}
@@ -22,8 +22,10 @@ function ItemGroup({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
-function ItemSeparator({ className, ...props }: React.ComponentProps<typeof Separator>) {
-  return <Separator data-slot="item-separator" orientation="horizontal" className={cn('my-2', className)} {...props} />;
+// a drawn rule, hidden from assistive tech, so it can sit in an item group
+// that's been given role="list" (a list may only hold list items)
+function ItemSeparator({ className, ...props }: React.ComponentProps<'div'>) {
+  return <div aria-hidden data-slot="item-separator" className={cn('my-2 h-px w-full shrink-0 bg-border', className)} {...props} />;
 }
 
 const itemVariants = cva(

@@ -90,7 +90,8 @@ const sidebarFocus =
 
 function UserAvatar({ user, size = 'default' }: { user: UserMenuUser; size?: 'default' | 'sm' | 'lg' }) {
   return (
-    <Avatar size={size}>
+    // decorative: the name is always beside it or in the trigger's label
+    <Avatar size={size} aria-hidden>
       {user.avatarUrl && <AvatarImage src={user.avatarUrl} alt="" />}
       <AvatarFallback>{initials(user.name)}</AvatarFallback>
     </Avatar>
@@ -135,7 +136,6 @@ export function UserMenu({
 
   const trigger = sidebar ? (
     <DropdownMenuTrigger
-      aria-label={collapsed ? `${user.name}, account menu` : undefined}
       className={cn(
         'flex h-16 w-full min-w-0 items-center gap-3 border-t border-white/10 px-4 text-left text-white transition-colors hover:bg-white/5 data-popup-open:bg-white/10',
         sidebarFocus,
@@ -144,6 +144,8 @@ export function UserMenu({
       )}
     >
       <UserAvatar user={user} />
+      {/* named by its text, not an aria-label: the label would leave out the visible initials (WCAG 2.5.3) */}
+      {collapsed && <span className="sr-only">{user.name}</span>}
       {!collapsed && (
         <>
           <span className="flex min-w-0 flex-1 flex-col">
@@ -156,14 +158,13 @@ export function UserMenu({
     </DropdownMenuTrigger>
   ) : (
     <DropdownMenuTrigger
-      aria-label={`${user.name}, account menu`}
       className={cn(
         'flex h-10 max-w-60 min-w-0 items-center gap-2 px-2 text-foreground transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid focus-visible:outline-ring data-popup-open:bg-accent',
         className,
       )}
     >
       <UserAvatar user={user} size="sm" />
-      <span className="hidden truncate text-sm font-normal sm:inline">{user.name}</span>
+      <span className="sr-only truncate text-sm font-normal sm:not-sr-only">{user.name}</span>
       <ChevronDownIcon aria-hidden className="size-4 shrink-0 text-muted-foreground" />
     </DropdownMenuTrigger>
   );

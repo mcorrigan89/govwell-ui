@@ -289,49 +289,52 @@ function FileUpload({
           </Button>
         </div>
       ) : (
-        // a div, not a <button>, so the zone can hold buttons of its own; its
-        // role is "button" when it opens the dialog, "group" when it only takes drops
-        // oxlint-disable-next-line jsx-a11y/no-static-element-interactions
-        <div
-          {...dragProps}
-          data-slot="file-upload-dropzone"
-          data-dragging={dragging || undefined}
-          role={openOnClick ? 'button' : 'group'}
-          tabIndex={openOnClick && !disabled ? 0 : undefined}
-          aria-disabled={disabled || undefined}
-          aria-invalid={ariaInvalid}
-          aria-describedby={ariaDescribedBy}
-          aria-label={accept && accept !== '*' ? `Upload files (${accept})` : 'Upload files'}
-          onClick={(e) => {
-            if (!fromNested(e)) openDialog();
-          }}
-          onKeyDown={(e) => {
-            if ((e.key === 'Enter' || e.key === ' ') && !fromNested(e)) {
-              e.preventDefault();
-              openDialog();
-            }
-          }}
-          className={cn(
-            'relative flex w-full flex-col items-center justify-center gap-2 rounded-none border border-dashed border-input bg-background px-6 py-8 text-center transition-colors outline-none focus-visible:border-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid focus-visible:outline-ring aria-invalid:border-error data-dragging:border-solid data-dragging:border-foreground data-dragging:bg-accent',
-            openOnClick && !disabled && 'cursor-pointer hover:border-foreground',
-            disabled && 'cursor-not-allowed opacity-40',
-          )}
-        >
+        <>
+          {/* outside the zone: an input inside a role="button" is nested-interactive */}
           {input}
-          {children ?? (
-            <>
-              <UploadIcon className="size-6 text-foreground" aria-hidden />
-              <p className="text-base font-light text-foreground">
-                {label ?? (
-                  <>
-                    Drop {multiple ? 'files' : 'a file'} here or <span className="underline decoration-1 underline-offset-4">browse</span>
-                  </>
-                )}
-              </p>
-              {defaultHint && <p className="text-sm text-muted-foreground">{defaultHint}</p>}
-            </>
-          )}
-        </div>
+          {/* a div, not a <button>, so the zone can hold buttons of its own; its
+        role is "button" when it opens the dialog, "group" when it only takes drops; its
+        name is its visible text */}
+          {/* oxlint-disable-next-line jsx-a11y/no-static-element-interactions */}
+          <div
+            {...dragProps}
+            data-slot="file-upload-dropzone"
+            data-dragging={dragging || undefined}
+            role={openOnClick ? 'button' : 'group'}
+            tabIndex={openOnClick && !disabled ? 0 : undefined}
+            aria-disabled={disabled || undefined}
+            aria-invalid={ariaInvalid}
+            aria-describedby={ariaDescribedBy}
+            onClick={(e) => {
+              if (!fromNested(e)) openDialog();
+            }}
+            onKeyDown={(e) => {
+              if ((e.key === 'Enter' || e.key === ' ') && !fromNested(e)) {
+                e.preventDefault();
+                openDialog();
+              }
+            }}
+            className={cn(
+              'relative flex w-full flex-col items-center justify-center gap-2 rounded-none border border-dashed border-input bg-background px-6 py-8 text-center transition-colors outline-none focus-visible:border-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid focus-visible:outline-ring aria-invalid:border-error data-dragging:border-solid data-dragging:border-foreground data-dragging:bg-accent',
+              openOnClick && !disabled && 'cursor-pointer hover:border-foreground',
+              disabled && 'cursor-not-allowed opacity-40',
+            )}
+          >
+            {children ?? (
+              <>
+                <UploadIcon className="size-6 text-foreground" aria-hidden />
+                <p className="text-base font-light text-foreground">
+                  {label ?? (
+                    <>
+                      Drop {multiple ? 'files' : 'a file'} here or <span className="underline decoration-1 underline-offset-4">browse</span>
+                    </>
+                  )}
+                </p>
+                {defaultHint && <p className="text-sm text-muted-foreground">{defaultHint}</p>}
+              </>
+            )}
+          </div>
+        </>
       )}
       {showList && files.length > 0 && (
         <FileUploadList listType={listType}>

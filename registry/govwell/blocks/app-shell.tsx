@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, type ComponentType, type ReactNode } from 'react';
+import { useEffect, useId, useState, type ComponentType, type ReactNode } from 'react';
 import { ChevronsLeft, ChevronsRight, Menu, XIcon } from 'lucide-react';
 
 import { FlagMark, GovWellLogo } from '@/components/ui/flag-mark';
@@ -90,8 +90,9 @@ function SidebarBrand({ brand, narrow, close }: { brand: Brand; narrow: boolean;
   const name = brand.name ?? 'GovWell';
   return (
     <div className={cn('flex h-16 shrink-0 items-center gap-2 border-b border-white/10 px-5', narrow && 'justify-center px-0')}>
-      <a href={brand.href ?? '/'} aria-label={name} className={cn('flex min-w-0 flex-col gap-1 text-white', sidebarFocus)}>
-        {narrow ? <FlagMark className="h-5" /> : <GovWellLogo className="h-5" />}
+      {/* named by its content (the logo's title, then the caption), so the visible caption is in the name */}
+      <a href={brand.href ?? '/'} className={cn('flex min-w-0 flex-col gap-1 text-white', sidebarFocus)}>
+        {narrow ? <FlagMark className="h-5" title={name} /> : <GovWellLogo className="h-5" title={name} />}
         {!narrow && brand.caption && <span className="truncate text-xs text-cement">{brand.caption}</span>}
       </a>
       {close}
@@ -132,6 +133,7 @@ export function AppShell({
   children: ReactNode;
 }) {
   const [collapsed, setCollapsed] = useState(false);
+  const mainId = `app-shell-main-${useId().replace(/:/g, '')}`;
   const [drawer, setDrawer] = useState(false);
   // read after mount, not in useState's initializer, so a server render and
   // the first client render agree
@@ -241,6 +243,21 @@ export function AppShell({
   return (
     <TooltipProvider>
       <div data-slot="app-shell" className={cn('flex min-h-screen bg-background text-foreground', className)}>
+        {/* the first stop for the keyboard: past the sidebar to the page (WCAG 2.4.1) */}
+        <a
+          href={`#${mainId}`}
+          // focus by hand: a hash router would read the href as a route
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById(mainId)?.focus();
+          }}
+          data-slot="app-shell-skip-link"
+          className={
+            'sr-only z-50 bg-primary px-4 py-3 text-primary-foreground focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:outline-2 focus:outline-offset-2 focus:outline-solid focus:outline-ring'
+          }
+        >
+          Skip to content
+        </a>
         <aside
           data-slot="app-shell-sidebar"
           data-collapsed={collapsed || undefined}
@@ -303,8 +320,13 @@ export function AppShell({
             {topBar}
           </header>
           <main
+            id={mainId}
+            tabIndex={-1}
             data-slot="app-shell-main"
-            className={fullBleed ? 'flex min-h-0 w-full flex-1 flex-col' : 'mx-auto w-full max-w-6xl flex-1 px-4 py-8 md:px-6'}
+            className={cn(
+              'outline-none',
+              fullBleed ? 'flex min-h-0 w-full flex-1 flex-col' : 'mx-auto w-full max-w-6xl flex-1 px-4 py-8 md:px-6',
+            )}
           >
             {children}
           </main>

@@ -57,6 +57,19 @@ export function Shell({ nav, path, onSearch, assistant, onAssistant, children }:
   return (
     <TooltipProvider>
       <div className="flex h-dvh flex-col bg-slate text-white md:flex-row">
+        {/* the first stop for the keyboard, as GovWell's SkipToContent (WCAG 2.4.1) */}
+        <a
+          href="#main"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById('main')?.focus();
+          }}
+          className={
+            'sr-only z-50 bg-primary px-4 py-3 text-primary-foreground focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:outline-2 focus:outline-offset-2 focus:outline-solid focus:outline-hope'
+          }
+        >
+          Skip to content
+        </a>
         {/* phone: a top bar with the logo and a menu button */}
         <header className="flex h-14 shrink-0 items-center justify-between px-4 md:hidden">
           <GovWellLogo className="h-5" title="GovWell" />
@@ -218,14 +231,15 @@ function Sidebar({ nav, path, collapsed, onToggle, onSearch, onAssistant }: Side
       <div className="flex flex-col gap-px border-t border-white/10 p-2">
         {!collapsed && <div className="px-3 pt-1 pb-2 text-xs text-cement">{TOWN.name}</div>}
         <Hint label={collapsed ? ME.name : null} side="right">
-          <a href="#/profile" className={cn(row, collapsed && 'justify-center px-0')} aria-label={collapsed ? ME.name : undefined}>
-            <span className="grid size-6 shrink-0 place-items-center rounded-full bg-hope text-[0.625rem] text-slate">
+          <a href="#/profile" className={cn(row, collapsed && 'justify-center px-0')}>
+            <span aria-hidden className="grid size-6 shrink-0 place-items-center rounded-full bg-hope text-[0.625rem] text-slate">
               {ME.name
                 .split(' ')
                 .map((w) => w[0])
                 .join('')}
             </span>
-            {!collapsed && <span className="truncate">{ME.name}</span>}
+            {/* named by its text: an aria-label would leave out the visible initials */}
+            <span className={collapsed ? 'sr-only' : 'truncate'}>{ME.name}</span>
           </a>
         </Hint>
         <NavLink item={{ href: '#/help', label: 'Get help', icon: CircleHelp }} path={path} collapsed={collapsed} />

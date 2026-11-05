@@ -97,11 +97,11 @@ describe('Calendar', () => {
     render(<Single />);
     expect(screen.getByText('November 2026')).toBeInTheDocument();
     const grid = screen.getByRole('grid');
-    const day = within(grid).getByRole('button', { name: /November 13th, 2026/ });
+    const day = within(grid).getByRole('button', { name: /November 13, 2026/ });
     await userEvent.click(day);
     expect(screen.getByText('Picked: 13')).toBeInTheDocument();
     // the grid re-renders on select, so look the day up again
-    expect(within(screen.getByRole('grid')).getByRole('button', { name: /November 13th, 2026/ })).toHaveAttribute(
+    expect(within(screen.getByRole('grid')).getByRole('button', { name: /November 13, 2026/ })).toHaveAttribute(
       'data-selected-single',
       'true',
     );
@@ -123,10 +123,10 @@ describe('DatePicker', () => {
 
   it('opens a calendar and shows the picked date', async () => {
     render(<Example />);
-    const trigger = screen.getByRole('button', { name: 'Inspection date' });
+    const trigger = screen.getByRole('button', { name: /^Inspection date: / });
     expect(trigger).toHaveTextContent('Pick a date');
     await userEvent.click(trigger);
-    await userEvent.click(await screen.findByRole('button', { name: /November 20th, 2026/ }));
+    await userEvent.click(await screen.findByRole('button', { name: /November 20, 2026/ }));
     expect(trigger).toHaveTextContent(
       new Date(2026, 10, 20).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }),
     );

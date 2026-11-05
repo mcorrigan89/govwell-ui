@@ -359,7 +359,10 @@ function TimeGrid({
               data-today={today || undefined}
               className={cn('flex items-center gap-2 border-l border-border px-2 py-3', today && 'bg-hope-tint text-tint-foreground')}
             >
-              <span className="eyebrow-type text-xs text-muted-foreground">{dayName(day, locale)}</span>
+              {/* muted grey fails on the dark Hope tint; today's day name takes the tint's own text colour */}
+              <span className={cn('eyebrow-type text-xs', today ? 'text-tint-foreground' : 'text-muted-foreground')}>
+                {dayName(day, locale)}
+              </span>
               <span className={cn('text-xl font-normal tabular-nums', today && 'bg-primary px-1.5 text-primary-foreground')}>
                 {day.getDate()}
               </span>

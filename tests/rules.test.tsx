@@ -115,7 +115,7 @@ describe('ConditionBuilder', () => {
 
     // a date: a calendar picker
     await pick(within(row(1)).getByRole('combobox', { name: 'What to check' }), 'Submitted on');
-    expect(within(row(1)).getByRole('button', { name: 'Date' })).toHaveTextContent('Pick a date');
+    expect(within(row(1)).getByRole('button', { name: /^Date: / })).toHaveTextContent('Pick a date');
     expect(await optionsOf(within(row(1)).getByRole('combobox', { name: 'Comparison' }))).toContain('is on or after');
   });
 

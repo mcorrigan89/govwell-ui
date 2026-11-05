@@ -22,6 +22,7 @@ function Calendar({
   buttonVariant = 'ghost',
   locale,
   formatters,
+  labels,
   components,
   ...props
 }: React.ComponentProps<typeof DayPicker> & {
@@ -40,6 +41,18 @@ function Calendar({
       )}
       captionLayout={captionLayout}
       locale={locale}
+      labels={{
+        // the day's own number as a word ("November 1, 2026", not "1st"), so the
+        // name holds the visible text (WCAG 2.5.3, label in name)
+        labelDayButton: (date, modifiers) =>
+          `${modifiers.today ? 'Today, ' : ''}${date.toLocaleDateString(locale?.code ?? 'en-US', {
+            weekday: 'long',
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric',
+          })}${modifiers.selected ? ', selected' : ''}`,
+        ...labels,
+      }}
       formatters={{
         formatMonthDropdown: (date) => date.toLocaleString(locale?.code, { month: 'short' }),
         ...formatters,
