@@ -303,7 +303,7 @@ function ConditionBuilder(allProps: ConditionBuilderProps) {
     ));
 
   return (
-    <div data-slot="condition-builder" className={cn('flex flex-col gap-3', className)} {...props}>
+    <div data-slot="condition-builder" className={cn('@container flex flex-col gap-3', className)} {...props}>
       {both ? (
         <>
           <p className="text-sm text-muted-foreground">All of these</p>
@@ -402,7 +402,10 @@ function ConditionRow({
       <span data-slot="condition-row-joiner" className="flex h-12 items-center text-base font-light text-muted-foreground">
         {joiner}
       </span>
-      <div className="flex flex-wrap items-center gap-2">
+      {/* the same grid on every row, so rows line up. Wide: fact, comparison, value and
+          remove on one line. Medium: the fact (and remove) above, comparison and value
+          beside each other below. Narrow: one control per line. */}
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2 @md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)_auto] @2xl:grid-cols-[minmax(12rem,9fr)_minmax(10rem,7fr)_minmax(0,17fr)_auto]">
         <Select
           value={c.fact}
           disabled={disabled}
@@ -411,7 +414,7 @@ function ConditionRow({
             if (next && next.name !== c.fact) onChange(defaultCondition(next));
           }}
         >
-          <SelectTrigger aria-label="What to check" className="min-w-44 flex-[2]">
+          <SelectTrigger aria-label="What to check" className={cn('w-full', PLACE.fact)}>
             <SelectValue>{fact?.label ?? c.fact}</SelectValue>
           </SelectTrigger>
           <SelectContent alignItemWithTrigger={false}>
@@ -433,6 +436,7 @@ function ConditionRow({
           <SegmentedControl
             aria-label="Yes or no"
             fitContent
+            className={PLACE.both}
             disabled={disabled}
             value={(c.op === '!=' ? !c.value : c.value) ? 'yes' : 'no'}
             onValueChange={(v) => onChange({ ...c, op: '==', value: v === 'yes' })}
@@ -443,7 +447,7 @@ function ConditionRow({
         ) : (
           <>
             <Select value={c.op} disabled={disabled} onValueChange={(v) => v && onChange(withOp(c, v as ConditionOp, fact))}>
-              <SelectTrigger aria-label="Comparison" className="w-44 shrink-0">
+              <SelectTrigger aria-label="Comparison" className={cn('w-full', PLACE.op)}>
                 <SelectValue>{opWord(c.op, kind)}</SelectValue>
               </SelectTrigger>
               <SelectContent alignItemWithTrigger={false}>
@@ -454,7 +458,12 @@ function ConditionRow({
                 ))}
               </SelectContent>
             </Select>
-            {c.op !== 'exists' && <ValueInput condition={c} fact={fact} kind={kind} disabled={disabled} onChange={onChange} />}
+            {c.op !== 'exists' ? (
+              <ValueInput condition={c} fact={fact} kind={kind} disabled={disabled} onChange={onChange} />
+            ) : (
+              // "is set" has no value; keep its column so the remove button stays in line
+              <span aria-hidden className="hidden @2xl:block" />
+            )}
           </>
         )}
 
@@ -464,6 +473,7 @@ function ConditionRow({
           variant="ghost"
           aria-label="Remove condition"
           title="Remove condition"
+          className={PLACE.remove}
           disabled={disabled}
           onClick={onRemove}
         >
@@ -474,7 +484,15 @@ function ConditionRow({
   );
 }
 
-const valueBox = 'min-w-44 flex-[2]';
+// where each part of a condition row sits in its grid, at each container width
+const PLACE = {
+  fact: 'col-start-1 row-start-1 @md:col-span-2 @2xl:col-span-1',
+  remove: 'col-start-2 row-start-1 @md:col-start-3 @2xl:col-start-4',
+  op: 'col-start-1 @md:row-start-2 @2xl:col-start-2 @2xl:row-start-1',
+  value: 'col-start-1 @md:col-start-2 @md:row-start-2 @2xl:col-start-3 @2xl:row-start-1',
+  both: 'col-start-1 @md:col-span-2 @md:row-start-2 @2xl:col-start-2 @2xl:row-start-1',
+};
+const valueBox = cn('w-full min-w-0', PLACE.value);
 
 function ValueInput({
   condition: c,
