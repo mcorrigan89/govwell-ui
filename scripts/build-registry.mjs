@@ -628,6 +628,11 @@ const UI = {
       'An accessible tree with square expand toggles, guide lines, arrow-key navigation, typeahead and an optional selected row.',
     deps: ['lucide-react'],
   },
+  verdict: {
+    description:
+      'A decision worn like a stamp: a solid mark (check, double check, cross, turn-back, clock) that pops in, then the decision on its tint.',
+    deps: ['lucide-react'],
+  },
   'vector-tile-layer': {
     description: 'A server’s vector tiles drawn on canvas inside a Map, with paint-rule helpers coloured from the theme’s tokens.',
     deps: ['protomaps-leaflet', 'react-leaflet'],
@@ -768,7 +773,7 @@ const CATEGORIES = [
   {
     id: 'status',
     title: 'Status and identity',
-    items: ['badge', 'status-badge', 'tone-badge', 'actor-badge', 'avatar', 'kbd', 'deadline', 'relative-time'],
+    items: ['badge', 'status-badge', 'tone-badge', 'verdict', 'actor-badge', 'avatar', 'kbd', 'deadline', 'relative-time'],
   },
   {
     id: 'data',

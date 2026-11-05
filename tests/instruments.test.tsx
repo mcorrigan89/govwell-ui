@@ -10,6 +10,7 @@ import { Meter } from '@/components/ui/meter';
 import { Readout } from '@/components/ui/readout';
 import { Seal } from '@/components/ui/seal';
 import { ToneBadge } from '@/components/ui/tone-badge';
+import { Verdict } from '@/components/ui/verdict';
 import { useHotkeys, type HotkeyHandler } from '@/hooks/use-hotkeys';
 import { INSTRUMENTS_DEMOS } from '../src/demos/instruments';
 
@@ -333,5 +334,31 @@ describe('INSTRUMENTS_DEMOS', () => {
       expect(document.body.textContent, name).not.toBe('');
       unmount();
     }
+  });
+});
+
+describe('Verdict', () => {
+  it('stamps a pass on Field and a fail on red, the decision in sentence case on its tint', () => {
+    render(
+      <>
+        <Verdict kind="pass" subject="Zoning">
+          Approved
+        </Verdict>
+        <Verdict kind="fail">Failed</Verdict>
+      </>,
+    );
+    const pass = screen.getByText('Approved').closest('[data-verdict]')!;
+    expect(pass).toHaveAttribute('data-verdict', 'pass');
+    expect(pass.firstElementChild).toHaveClass('bg-ok', 'animate-in');
+    expect(pass.lastElementChild).toHaveClass('bg-field-tint');
+    expect(within(pass as HTMLElement).getByText('Zoning')).toBeInTheDocument();
+    expect(pass.className).not.toMatch(/uppercase|eyebrow/);
+    const fail = screen.getByText('Failed').closest('[data-verdict]')!;
+    expect(fail.firstElementChild).toHaveClass('bg-destructive');
+  });
+
+  it('keeps the mark out of the accessible name', () => {
+    render(<Verdict kind="revise">Revise</Verdict>);
+    expect(screen.getByText('Revise').closest('[data-verdict]')!.firstElementChild).toHaveAttribute('aria-hidden');
   });
 });
