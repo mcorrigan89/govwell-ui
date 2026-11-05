@@ -81,5 +81,10 @@ pnpm test       # vitest
 pnpm verify     # install every item into a fresh app and build it
 ```
 
+`http://localhost:5175/?example=app` is a sample staff app built from the
+registry and laid out like GovWell's app today: the sidebar on a grey ground,
+a white content panel, a permits list, a permit with its workflow, Insights
+and the inspection calendar (made-up data for a fictional town).
+
 See [CLAUDE.md](CLAUDE.md) for the architecture and styling conventions, and
 [PLAN.md](PLAN.md) for the brand analysis and decisions.
