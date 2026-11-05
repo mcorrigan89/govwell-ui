@@ -197,6 +197,11 @@ const UI = {
     deps: ['@base-ui/react', 'lucide-react'],
   },
   collapsible: { description: 'An unstyled section that shows and hides behind a trigger.', deps: ['@base-ui/react'] },
+  'color-picker': {
+    description: 'A swatch in a text-box trigger that opens a square popover with a colour field, a hex box and GovWell brand presets.',
+    deps: ['react-colorful'],
+    ui: ['popover'],
+  },
   combobox: {
     description: 'A select you can type into to filter, with Slate chips for several values.',
     deps: ['@base-ui/react', 'lucide-react'],
@@ -221,6 +226,11 @@ const UI = {
     description: 'A date field that looks like a text input and opens a calendar in a square popover.',
     deps: ['lucide-react'],
     ui: ['calendar', 'popover'],
+  },
+  'date-range-picker': {
+    description: 'A start–end date range picked from presets or as a custom range on a two-month calendar, in a square popover.',
+    deps: ['lucide-react'],
+    ui: ['calendar', 'input', 'popover'],
   },
   dialog: {
     description: 'A modal on a square panel over a Slate wash, with a Regular-weight title.',
@@ -258,6 +268,12 @@ const UI = {
     description: 'Labels, controls, help text and errors composed into form fields; takes errors from any form library.',
     deps: ['class-variance-authority'],
     ui: ['label'],
+  },
+  'file-upload': {
+    description:
+      'A dashed drop zone (or a button) that checks type, size and count, and lists files with progress, errors and remove buttons.',
+    deps: ['lucide-react'],
+    ui: ['button', 'progress'],
   },
   'flag-mark': { description: 'The GovWell flag mark and the full logo, from GovWell’s artwork, in the current colour.', deps: [] },
   'grid-panel': {
@@ -326,6 +342,10 @@ const UI = {
     description: 'The “tech layer”: a dotted frame with square nodes at its corners, around an icon, image or content.',
     deps: [],
   },
+  'number-input': {
+    description: 'A number in a square text box with an optional unit, steppers, arrow-key stepping and min/max clamping.',
+    deps: ['@base-ui/react', 'lucide-react'],
+  },
   'page-header': {
     description: 'The top of a page: an optional eyebrow, a Regular title with a count, a subtitle, search and actions; also PageSection.',
     deps: ['lucide-react'],
@@ -368,11 +388,21 @@ const UI = {
     description: 'Panels split by hairline dividers you drag to resize, with an optional square grip.',
     deps: ['react-resizable-panels'],
   },
+  'rich-text-editor': {
+    description:
+      'A TipTap rich-text box framed like a textarea, with a formatting toolbar, HTML value, read-only and disabled states, and optional merge fields.',
+    deps: ['@tiptap/core', '@tiptap/pm', '@tiptap/react', '@tiptap/starter-kit', '@tiptap/extensions', 'lucide-react'],
+    ui: ['button', 'dropdown-menu', 'input', 'toolbar'],
+  },
   'scroll-area': { description: 'A box that scrolls with a thin square scrollbar.', deps: ['@base-ui/react'] },
   seal: {
     description:
       'A line-art stamp for issued, approved or certified: a square frame with corner nodes, the flag mark and the word on a status band.',
     deps: [],
+  },
+  'segmented-control': {
+    description: 'Mutually exclusive options in a quiet strip, the chosen one a Slate block; sizes, icons, and full or fitted width.',
+    deps: ['@base-ui/react', 'class-variance-authority'],
   },
   select: {
     description: 'A square box that opens its options in a square floating panel, the chosen one ticked.',
@@ -423,6 +453,12 @@ const UI = {
     description: 'A clickable card: an icon on a tint, a title and a line of description; a Slate edge when selected; a button or a link.',
     deps: ['@base-ui/react', 'class-variance-authority'],
   },
+  'time-input': {
+    description:
+      'A time of day in a square text box that takes “2p”, “1430” or “2:30 pm”, settles to 12- or 24-hour time, and steps with the arrow keys.',
+    deps: ['lucide-react'],
+    ui: ['input-group'],
+  },
   toggle: {
     description: 'A button in Light type that stays pressed in, shown as a Slate block, until pressed again.',
     deps: ['@base-ui/react', 'class-variance-authority'],
@@ -436,6 +472,11 @@ const UI = {
     description: 'A square status badge picked by tone; also accepts Phosphor’s tone names, so code written for Phosphor keeps working.',
     deps: [],
     ui: ['badge'],
+  },
+  toolbar: {
+    description: 'Groups of buttons, toggles and links in one square strip with separators and arrow-key focus; plain or floating.',
+    deps: ['@base-ui/react', 'class-variance-authority'],
+    ui: ['button', 'toggle', 'tooltip'],
   },
   tooltip: { description: 'A short label on hover or focus, in a small inverse Slate panel.', deps: ['@base-ui/react'] },
 };
