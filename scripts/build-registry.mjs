@@ -205,6 +205,12 @@ const UI = {
       'A square message body in Light type: Slate for your own messages, plain or muted for the assistant, plus tinted, outline and unsent variants.',
     deps: ['@base-ui/react', 'class-variance-authority'],
   },
+  'busy-hold': {
+    description:
+      'Holds a region still while slow work runs: every control inside is disabled and dimmed, and a status line with a spinner says what is happening and for how long.',
+    deps: [],
+    ui: ['spinner'],
+  },
   button: {
     description: 'Square buttons in GT Standard Light: a Hope primary, a Slate secondary, outline, ghost, destructive and link.',
     deps: ['@base-ui/react', 'class-variance-authority'],
@@ -287,6 +293,12 @@ const UI = {
     deps: ['lucide-react'],
     ui: ['calendar', 'input', 'popover'],
   },
+  deadline: {
+    description:
+      'A deadline told as what is left or how late (“3 days left”, “Due today”, “2 days late”), coloured by urgency, with the full date as its title.',
+    deps: ['lucide-react', 'class-variance-authority'],
+    ui: ['tone-badge'],
+  },
   'description-list': {
     description:
       'Label and value facts in a semantic dl: stacked, a label column or a grid, optional hairline rows, an em dash for empty values and an optional source per value.',
@@ -320,6 +332,12 @@ const UI = {
     description: 'An empty state in a dashed frame, its icon on a Hope tint inside the node frame, with a Regular title and a next step.',
     deps: ['class-variance-authority'],
     ui: ['node-frame'],
+  },
+  'error-page': {
+    description:
+      'What a page shows when it breaks or is not found: a framed status tile, a large title, a way back, and the technical message folded away.',
+    deps: ['lucide-react'],
+    ui: ['button', 'collapsible', 'node-frame'],
   },
   'event-log': {
     description:
@@ -466,6 +484,10 @@ const UI = {
     description: 'A dashboard figure: a large Regular-weight tabular number with a muted label, marked by tone.',
     deps: [],
   },
+  'relative-time': {
+    description: 'A time that reads “5 minutes ago” or “in 2 days”, keeps itself current and shows the full date as its title.',
+    deps: [],
+  },
   resizable: {
     description: 'Panels split by hairline dividers you drag to resize, with an optional square grip.',
     deps: ['react-resizable-panels'],
@@ -497,6 +519,11 @@ const UI = {
     deps: ['@base-ui/react', 'lucide-react'],
   },
   separator: { description: 'A hairline rule, across or down.', deps: ['@base-ui/react'] },
+  'settings-section': {
+    description:
+      'A titled section of a settings page: explanation beside a square panel with a Save/Cancel footer, stacked when narrow, with a danger-zone variant.',
+    deps: ['class-variance-authority'],
+  },
   sheet: {
     description: 'A square panel that slides in from an edge and runs its full length.',
     deps: ['@base-ui/react', 'lucide-react'],
@@ -608,6 +635,20 @@ const BLOCKS = {
     deps: [],
     ui: ['button', 'input', 'label', 'flag-mark'],
   },
+  'user-menu': {
+    title: 'User menu',
+    description:
+      'Who you are and where: avatar, name and email, the active organization and role, switching organizations, your links and sign out; from the top bar or the sidebar.',
+    deps: ['lucide-react'],
+    ui: ['avatar', 'dropdown-menu'],
+  },
+  'week-calendar': {
+    title: 'Week calendar',
+    description:
+      'One week, Monday to Sunday: events placed by time and coloured by status, today and the current time marked, week navigation, and a day list on narrow screens.',
+    deps: ['lucide-react'],
+    ui: ['button', 'status-badge', 'tone-badge'],
+  },
 };
 const blockItems = Object.entries(BLOCKS).map(([name, spec]) => ({
   name,
@@ -687,12 +728,12 @@ const CATEGORIES = [
   {
     id: 'feedback',
     title: 'Feedback',
-    items: ['alert', 'banner', 'sonner', 'progress', 'spinner', 'skeleton', 'empty', 'query-state'],
+    items: ['alert', 'banner', 'sonner', 'progress', 'spinner', 'skeleton', 'empty', 'query-state', 'busy-hold', 'error-page'],
   },
   {
     id: 'status',
     title: 'Status and identity',
-    items: ['badge', 'status-badge', 'tone-badge', 'actor-badge', 'avatar', 'kbd'],
+    items: ['badge', 'status-badge', 'tone-badge', 'actor-badge', 'avatar', 'kbd', 'deadline', 'relative-time'],
   },
   {
     id: 'data',
@@ -715,14 +756,14 @@ const CATEGORIES = [
   {
     id: 'layout',
     title: 'Layout',
-    items: ['page-header', 'card', 'tile', 'separator', 'aspect-ratio', 'scroll-area', 'resizable'],
+    items: ['page-header', 'card', 'tile', 'separator', 'aspect-ratio', 'scroll-area', 'resizable', 'settings-section'],
   },
   {
     id: 'chat',
     title: 'AI chat',
     items: ['message', 'bubble', 'attachment', 'marker', 'message-scroller', 'chat-composer', 'questionnaire'],
   },
-  { id: 'blocks', title: 'Blocks', items: ['app-shell', 'data-table', 'sign-in'] },
+  { id: 'blocks', title: 'Blocks', items: ['app-shell', 'data-table', 'sign-in', 'user-menu', 'week-calendar'] },
 ];
 const categoryOf = new Map(CATEGORIES.flatMap((c) => c.items.map((name) => [name, c.id])));
 
