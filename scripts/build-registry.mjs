@@ -118,6 +118,11 @@ const UI = {
     description: 'Stacked sections that open and close, with Regular-weight questions between Ash hairlines and a thin plus or minus.',
     deps: ['@base-ui/react', 'lucide-react'],
   },
+  'actor-badge': {
+    description: 'The who-did-it chip: a person by initials, or the system, an automation or the AI assistant by an icon on a tint.',
+    deps: ['lucide-react'],
+    ui: ['avatar'],
+  },
   alert: {
     description: 'A square notice with the icon on a status-colour tile, a left rail for statuses, and a Regular title.',
     deps: ['class-variance-authority'],
@@ -142,6 +147,11 @@ const UI = {
   badge: {
     description: 'A small square label in the eyebrow’s type, on a brand tint or a solid status colour.',
     deps: ['@base-ui/react', 'class-variance-authority'],
+  },
+  banner: {
+    description:
+      'A full-width band like govwell.com’s announcement bar, in Hope or a status colour, with an action, foldable details and a remembered dismissal.',
+    deps: ['class-variance-authority', 'lucide-react'],
   },
   breadcrumb: {
     description: 'A trail of muted links to the current page, with thin chevrons between and the page you are on in Regular.',
@@ -196,6 +206,12 @@ const UI = {
     description: 'A searchable list of commands in a square panel, inline or as a ⌘K palette.',
     deps: ['cmdk', 'lucide-react'],
     ui: ['dialog', 'input-group'],
+  },
+  'confirm-dialog': {
+    description:
+      'A one-call confirm or cancel on the alert dialog, declarative or as a promise, with destructive styling and a pending state.',
+    deps: ['lucide-react'],
+    ui: ['alert-dialog', 'spinner'],
   },
   'context-menu': {
     description: 'The dropdown menu’s panel, opened by right-click or long-press.',
@@ -272,6 +288,11 @@ const UI = {
     ui: ['kbd'],
   },
   label: { description: 'A form label in Regular weight.', deps: [] },
+  link: {
+    description:
+      'A text link with a 1px underline that thickens on hover; external links get an arrow; renders as a router link through render.',
+    deps: ['@base-ui/react', 'class-variance-authority', 'lucide-react'],
+  },
   marker: {
     description: 'A line in a conversation that isn’t a message: a note, a separator, or an activity row showing a tool call’s status.',
     deps: ['@base-ui/react', 'class-variance-authority', 'lucide-react'],
@@ -305,6 +326,11 @@ const UI = {
     description: 'The “tech layer”: a dotted frame with square nodes at its corners, around an icon, image or content.',
     deps: [],
   },
+  'page-header': {
+    description: 'The top of a page: an optional eyebrow, a Regular title with a count, a subtitle, search and actions; also PageSection.',
+    deps: ['lucide-react'],
+    ui: ['badge', 'eyebrow', 'input-group'],
+  },
   pagination: {
     description: 'Previous, numbered and next page links, with the current page as a square Slate block.',
     deps: ['lucide-react'],
@@ -315,10 +341,20 @@ const UI = {
     description: 'A square progress bar: Hope on a grey track, or a status colour by tone, with an optional label and value.',
     deps: ['@base-ui/react', 'class-variance-authority'],
   },
+  'query-state': {
+    description: 'Loading, failed and empty states for a page or a table row, never shown in place of each other.',
+    deps: ['lucide-react'],
+    ui: ['alert', 'button', 'empty', 'spinner', 'table'],
+  },
   questionnaire: {
     description: 'A short run of questions, one at a time, as a real form: square choice cards, a text answer, and Next and Submit.',
     deps: ['@shadcn/react', 'lucide-react'],
     ui: ['button'],
+  },
+  'quick-tip': {
+    description: 'An inline “?” that opens help in a popover on click, or a tooltip on hover.',
+    deps: ['lucide-react'],
+    ui: ['popover', 'tooltip'],
   },
   'radio-group': {
     description: 'A set of round options, one chosen at a time, the chosen one marked with a Slate edge and dot.',
@@ -358,7 +394,21 @@ const UI = {
     deps: ['sonner', 'lucide-react'],
   },
   spinner: { description: 'A loading indicator: a dotted ring with a solid square node travelling round it.', deps: [] },
+  spotlight: {
+    description: 'A Hope ring on a target with a square callout anchored beside it, and a guided tour with Back, Next and Done.',
+    deps: ['@base-ui/react', 'class-variance-authority', 'lucide-react'],
+    ui: ['button'],
+  },
   stat: { description: 'A key figure: a large Regular-weight number with a short caption.', deps: [] },
+  'status-badge': {
+    description: 'An organisation’s status (a name and a hue) on a brand tint with a small square dot; no status reads as Draft.',
+    deps: ['class-variance-authority'],
+  },
+  steps: {
+    description:
+      'Progress through a process as square markers: finished Slate, current Hope, error red; horizontal or vertical, optionally clickable.',
+    deps: ['lucide-react'],
+  },
   switch: {
     description: 'A square switch: a Concrete block on white when off, a Slate box with the block slid across when on.',
     deps: ['@base-ui/react'],
@@ -369,6 +419,10 @@ const UI = {
     deps: ['@base-ui/react', 'class-variance-authority'],
   },
   textarea: { description: 'A multi-line square text box with a Concrete edge that grows with its text.', deps: [] },
+  tile: {
+    description: 'A clickable card: an icon on a tint, a title and a line of description; a Slate edge when selected; a button or a link.',
+    deps: ['@base-ui/react', 'class-variance-authority'],
+  },
   toggle: {
     description: 'A button in Light type that stays pressed in, shown as a Slate block, until pressed again.',
     deps: ['@base-ui/react', 'class-variance-authority'],
