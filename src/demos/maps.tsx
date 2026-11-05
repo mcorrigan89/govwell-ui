@@ -178,17 +178,19 @@ const ZCTA = 'https://r2-public.protomaps.com/protomaps-sample-datasets/cb_2018_
 
 function VectorTileLayerDemo() {
   const [layer, setLayer] = useState<VectorTileLayerHandle | null>(null);
-  const [zip, setZip] = useState<string | null>(null);
+  // starts on Burlington's, so the highlight is there before anyone clicks
+  const [zip, setZip] = useState<string | null>('05401');
   const rules = useMemo(
     () => [
-      polygonRule({ dataSource: 'zcta', dataLayer: 'zcta', tone: 'info', opacity: 0.12 }),
+      // Slate edges: Sky ones vanish into the basemap's water
+      polygonRule({ dataSource: 'zcta', dataLayer: 'zcta', tone: 'info', strokeTone: 'default', opacity: 0.08, width: 1.5 }),
       polygonRule({
         dataSource: 'zcta',
         dataLayer: 'zcta',
         tone: 'primary',
         strokeTone: 'default',
         opacity: 0.35,
-        width: 2,
+        width: 3,
         filter: (_z, f) => f.props.ZCTA5CE10 === zip,
       }),
     ],
