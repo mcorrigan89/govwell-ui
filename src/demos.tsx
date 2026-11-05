@@ -64,6 +64,23 @@ function ThemeDemo() {
         <p className="eyebrow-type">Eyebrow · uppercase · 4% tracking</p>
       </section>
       <section className="flex flex-col gap-3">
+        <h3 className="eyebrow-type text-muted-foreground">The AI’s mark</h3>
+        <p className="max-w-prose text-sm text-muted-foreground">
+          The one gradient: what the assistant and the AI readers do wears a slow band of the brand’s colours. ai-border on a card or
+          button, ai-edge down a panel’s left side. It holds still for reduced motion.
+        </p>
+        <div className="flex flex-wrap items-start gap-4">
+          <div className="ai-border max-w-sm bg-card p-5">
+            <p className="text-lg">Automated review</p>
+            <p className="text-sm text-muted-foreground">Read 4 documents with two readers · 19 checks passed</p>
+          </div>
+          <div className="ai-edge relative max-w-sm border border-border bg-card p-5 pl-6">
+            <p className="text-lg">Assistant</p>
+            <p className="text-sm text-muted-foreground">Ask about the caseload, or have it act.</p>
+          </div>
+        </div>
+      </section>
+      <section className="flex flex-col gap-3">
         <h3 className="eyebrow-type text-muted-foreground">Base grid</h3>
         <div className="base-grid flex h-48 items-end p-6">
           <p className="text-3xl">

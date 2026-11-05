@@ -26,6 +26,9 @@ const vars = (palette) => Object.fromEntries(Object.entries(palette).map(([k, v]
 const FONT_CSS = `${BASE}/fonts/gt-standard.css`;
 
 // ── the theme: tokens, type, utilities ─────────────────────────────────────
+// the AI's band: Hope round to Hope again, so the moving gradient loops seamlessly
+const AI_SPECTRUM = 'var(--hope), var(--chart-6), var(--teal), var(--sky), var(--chart-8), var(--field), var(--hope)';
+
 const theme = {
   name: 'theme',
   type: 'registry:theme',
@@ -121,6 +124,36 @@ const theme = {
       'line-height': '1',
       'letter-spacing': '0.04em',
       'text-transform': 'uppercase',
+    },
+    // the AI's mark, the one gradient in the system: what the assistant and
+    // the AI readers do wears a slow band of the brand's colours, as a border
+    // (ai-border) or a rail down the left edge (ai-edge; the element must be
+    // positioned). Plain rules, not utilities, so they win over a
+    // component's own border classes. Set --ai-fill to the element's
+    // background where it isn't the card's.
+    '.ai-border': {
+      '--ai-fill': 'var(--card)',
+      border: '2px solid transparent',
+      background: `linear-gradient(var(--ai-fill), var(--ai-fill)) padding-box, linear-gradient(90deg, ${AI_SPECTRUM}) border-box`,
+      'background-size': '100% 100%, 200% 100%',
+      animation: 'ai-band 6s linear infinite',
+    },
+    '.ai-edge::before': {
+      content: "''",
+      position: 'absolute',
+      'inset-block': '0',
+      left: '0',
+      'z-index': '1',
+      width: '3px',
+      background: `linear-gradient(180deg, ${AI_SPECTRUM})`,
+      'background-size': '100% 200%',
+      animation: 'ai-flow 5s linear infinite',
+      'pointer-events': 'none',
+    },
+    '@keyframes ai-band': { to: { 'background-position': '0 0, 200% 0' } },
+    '@keyframes ai-flow': { to: { 'background-position': '0 200%' } },
+    '@media (prefers-reduced-motion: reduce)': {
+      '.ai-border, .ai-edge::before': { animation: 'none' },
     },
   },
 };
