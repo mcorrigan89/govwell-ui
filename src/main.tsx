@@ -53,7 +53,7 @@ function Preview() {
   return (
     <div className="min-h-screen">
       {/* the site's own header: Slate, the white logo, plain links */}
-      <header className="flex flex-wrap items-center justify-between gap-4 bg-slate px-6 py-4 text-white">
+      <header className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 bg-slate px-6 py-4 text-white">
         <a href="#/" aria-label="GovWell UI, all components" className="flex items-center gap-3">
           {/* the logo SVG is GovWell's own, drawn in currentColor */}
           <span className="block w-32 [&_svg]:block [&_svg]:h-auto [&_svg]:w-full" dangerouslySetInnerHTML={{ __html: logo }} />
