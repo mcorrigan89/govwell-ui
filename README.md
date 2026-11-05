@@ -26,6 +26,14 @@ Private because it serves GT Standard, which is licensed to GovWell.
   `link`, `number-input`, `time-input`, `date-range-picker`,
   `segmented-control`, `toolbar`, `color-picker`, `file-upload`,
   `rich-text-editor`, `key-hints` and the `use-hotkeys` hook.
+- More from govwell-cqrs: `description-list`, `copy-button`, `markdown` (with
+  the theme's `govwell-prose`), `highlight`, `tree`, `lightbox`,
+  `download-link`, `deadline`, `relative-time`, `busy-hold`, `error-page`,
+  `settings-section`, `condition-builder` and `rule-builder` (same stored
+  format as cqrs), and the blocks `user-menu` and `week-calendar`.
+- Maps (Leaflet): `map`, `mini-map`, `point-picker`, `area-picker`,
+  `vector-tile-layer`, and `client-only` for lazy-loading them in
+  server-rendered apps.
 - The AI chat kit: `message`, `bubble`, `attachment`, `marker`,
   `message-scroller`, `questionnaire`, `chat-composer`.
 - The standard set: accordion, alert, alert-dialog, aspect-ratio, avatar,
