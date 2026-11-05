@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 
 import { BASE_DEMOS } from '@/docs/demos/base';
+import { MAPS_DEMOS } from '@/docs/demos/maps';
 import { PATTERNS_DEMOS } from '@/docs/demos/patterns';
 import { CONTENT_DEMOS } from '@/docs/demos/content';
 import { RULES_DEMOS } from '@/docs/demos/rules';
@@ -78,6 +79,7 @@ function ThemeDemo() {
 
 export const DEMOS: Record<string, () => ReactNode> = {
   ...BASE_DEMOS,
+  ...MAPS_DEMOS,
   ...PATTERNS_DEMOS,
   ...CONTENT_DEMOS,
   ...RULES_DEMOS,
