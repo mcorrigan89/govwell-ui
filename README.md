@@ -16,6 +16,18 @@ Private because it serves GT Standard, which is licensed to GovWell.
 - `utils`, `use-color-mode`.
 - GovWell pieces: `eyebrow`, `flag-mark` (the logo), `node-frame`, `stat`,
   `grid-panel`.
+- Blocks (install to `components/blocks`): `app-shell` (the staff app frame),
+  `data-table` (sorting, filtering, selection with bulk actions, pinned
+  columns, drag reordering), `sign-in`.
+- Product pieces, ported from the GovWell app and govwell-cqrs: `query-state`,
+  `status-badge`, `actor-badge`, `tone-badge`, `readout`, `meter`,
+  `distribution`, `seal`, `event-log`, `spotlight` (highlight and tours),
+  `confirm-dialog`, `page-header`, `banner`, `steps`, `tile`, `quick-tip`,
+  `link`, `number-input`, `time-input`, `date-range-picker`,
+  `segmented-control`, `toolbar`, `color-picker`, `file-upload`,
+  `rich-text-editor`, `key-hints` and the `use-hotkeys` hook.
+- The AI chat kit: `message`, `bubble`, `attachment`, `marker`,
+  `message-scroller`, `questionnaire`, `chat-composer`.
 - The standard set: accordion, alert, alert-dialog, aspect-ratio, avatar,
   badge, breadcrumb, button, button-group, calendar, card, carousel, chart,
   checkbox, collapsible, combobox, command, context-menu, date-picker, dialog,
