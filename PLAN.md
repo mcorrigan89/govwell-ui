@@ -219,19 +219,33 @@ colour modes.
 - **Accessibility over brand purity** where they clash. The muted-text grey
   and the error red above are the two current cases, and both are listed here.
 
+## Decisions made while building
+
+- **Fonts:** GT Standard is used and served from the registry host
+  (`public/fonts`, Light, Regular, Medium and Bold). Apps load
+  `/fonts/gt-standard.css` with a `<link>`; the shadcn CLI can't write
+  `@font-face` rules, and the font files must not be copied into consumers'
+  repos. The registry and repo stay private.
+- **Logo:** `flag-mark` is generated from the logo SVG on govwell.com
+  (`assets/govwell-logo.svg`), not redrawn.
+- **Error red:** `#b42318` (fills and text on white), `#ff8a7a` for red text
+  in dark mode.
+- **Warning:** a deeper amber, `#dc6803` with Slate text, so warnings don't
+  look like the Hope primary button.
+- **Icons:** lucide for now.
+- **Charts:** on white the first series is Slate (Hope, Sky and Field are
+  under 3:1 on white); on Slate, Hope leads.
+- **Selected states are Slate** (checkbox, radio, switch, toggles, tabs,
+  calendar days, pagination); Hope marks the one main action and progress.
+- **Token names:** the brand's Base is `base-grey` and the grid line colour
+  is `gridline`, because `base` and `grid` collide with Tailwind's
+  `text-base` and `bg-grid`. A test guards against this.
+- **Preview port:** 5175, so it can run beside Headway's previews.
+
 ## Open questions
 
-1. **Fonts:** can this library rely on GT Standard being loaded by the apps
-   that use it (GovWell has a web licence, since the site uses it)? Which free
-   fallback should ship: **Inter** (closest metrics, widely used) or **Geist**
-   (a bit more character)?
-2. **Error red:** OK with `#b42318` for errors and destructive actions, or
-   does GovWell have a red from product/design?
-3. **Warning colour:** reuse Hope for warnings (simple, on brand, but then the
-   primary button and warnings share a colour), or add a deeper amber?
-4. **Logo files:** can you add the flag mark / wordmark SVGs (from the brand
-   resources) to the repo for the `flag-mark` item?
-5. **Icons:** stay on lucide for now, or does GovWell's Streamline licence
-   allow including the curated set?
-6. **Hosting and visibility:** public GitHub Pages like Phosphor, or private
-   (internal registry URL, private repo)?
+1. **Error red:** keep `#b42318`, or does product design have a red?
+2. **Icons:** does GovWell's Streamline licence allow including the curated
+   icon set from the brand book?
+3. **Hosting:** where should the private registry be served from (it needs
+   to serve `public/r` and `public/fonts`)?
