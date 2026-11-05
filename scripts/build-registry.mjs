@@ -360,6 +360,11 @@ const UI = {
     description: 'GovWell’s signpost: an uppercase label on a brand tint, with an icon on a square tile under its corner.',
     deps: ['class-variance-authority'],
   },
+  'figure-icon': {
+    description:
+      'A figure’s icon on a square brand tint, saying what kind of figure it is (money, work, time) without colouring the number.',
+    deps: [],
+  },
   field: {
     description: 'Labels, controls, help text and errors composed into form fields; takes errors from any form library.',
     deps: ['class-variance-authority'],
@@ -782,6 +787,7 @@ const CATEGORIES = [
       'table',
       'item',
       'readout',
+      'figure-icon',
       'meter',
       'distribution',
       'chart',
