@@ -1,6 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { applyColorMode, storedColorMode, useColorMode } from '@/hooks/use-color-mode';
+import { useDark } from '@/hooks/use-dark';
 
 afterEach(() => {
   localStorage.clear();
@@ -26,5 +27,22 @@ describe('useColorMode', () => {
     expect(storedColorMode()).toBe('light');
     applyColorMode();
     expect(document.documentElement.dataset.mode).toBeUndefined();
+  });
+});
+
+describe('useDark', () => {
+  it('follows data-mode on <html> as it changes', async () => {
+    const { result } = renderHook(() => useDark());
+    expect(result.current).toBe(false);
+    await act(async () => {
+      document.documentElement.dataset.mode = 'dark';
+      await Promise.resolve();
+    });
+    expect(result.current).toBe(true);
+    await act(async () => {
+      delete document.documentElement.dataset.mode;
+      await Promise.resolve();
+    });
+    expect(result.current).toBe(false);
   });
 });
