@@ -255,6 +255,12 @@ const UI = {
     deps: ['cmdk', 'lucide-react'],
     ui: ['dialog', 'input-group'],
   },
+  'condition-builder': {
+    description:
+      'Builds all/any conditions a row at a time (fact, comparison, a value box that fits the fact) and reads them back as a sentence; the stored format matches govwell-cqrs.',
+    deps: ['lucide-react'],
+    ui: ['button', 'combobox', 'date-picker', 'input', 'number-input', 'segmented-control', 'select'],
+  },
   'confirm-dialog': {
     description:
       'A one-call confirm or cancel on the alert dialog, declarative or as a promise, with destructive styling and a pending state.',
@@ -437,6 +443,12 @@ const UI = {
     deps: ['@tiptap/core', '@tiptap/pm', '@tiptap/react', '@tiptap/starter-kit', '@tiptap/extensions', 'lucide-react'],
     ui: ['button', 'dropdown-menu', 'input', 'toolbar'],
   },
+  'rule-builder': {
+    description:
+      'A rule that reads as a sentence: WHEN a trigger, ONLY IF conditions, THEN actions with their own settings, on a square card.',
+    deps: ['lucide-react'],
+    ui: ['button', 'card', 'condition-builder', 'date-picker', 'eyebrow', 'input', 'number-input', 'segmented-control', 'select'],
+  },
   'scroll-area': { description: 'A box that scrolls with a thin square scrollbar.', deps: ['@base-ui/react'] },
   seal: {
     description:
@@ -605,6 +617,8 @@ const CATEGORIES = [
       'color-picker',
       'file-upload',
       'rich-text-editor',
+      'condition-builder',
+      'rule-builder',
     ],
   },
   {
