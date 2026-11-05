@@ -59,6 +59,13 @@ export const LIGHT = {
   'sky-tint': '#c6e6f9',
   'field-tint': '#c4edcf',
   'ash-tint': '#d9d9d9',
+  // two status tints beyond the brand's three accents, so the six colours an
+  // org can give a status all look different: amber (the warning orange) and
+  // teal (between Sky and Field). Status and tags only; never text, never a
+  // main action.
+  'amber-tint': '#f1c39a',
+  teal: '#3db6a4',
+  'teal-tint': '#b7e4dd',
   'tint-foreground': '#202020',
   // lines of the base grid (the base-grid utility)
   gridline: '#e6e6e6',
@@ -69,6 +76,10 @@ export const LIGHT = {
   'chart-3': '#41aaeb',
   'chart-4': '#39c25e',
   'chart-5': '#7c7c7c',
+  // past five series: the two status extensions, then a deep Sky
+  'chart-6': '#dc6803',
+  'chart-7': '#3db6a4',
+  'chart-8': '#1b6fa3',
   radius: '0rem',
 };
 
@@ -97,6 +108,9 @@ export const DARK = {
   'sky-tint': '#2e4a5c',
   'field-tint': '#2c4f35',
   'ash-tint': '#4d4d4d',
+  // stronger than 30%: on Slate the muted versions read as Hope's and Field's tints
+  'amber-tint': '#733711',
+  'teal-tint': '#1f5a55',
   'tint-foreground': '#ffffff',
   gridline: '#333333',
   // on Slate, Hope leads and every series reads
@@ -105,6 +119,10 @@ export const DARK = {
   'chart-3': '#41aaeb',
   'chart-4': '#39c25e',
   'chart-5': '#b1b1b1',
+  'chart-6': '#f08a3c',
+  'chart-7': '#3db6a4',
+  // deep Sky is too dark on Slate; a pale Sky instead
+  'chart-8': '#9dd3f5',
 };
 
 // text-on-surface pairs that must meet WCAG AA (4.5:1), in both modes
@@ -130,6 +148,8 @@ export const TEXT_PAIRS = [
   ['tint-foreground', 'sky-tint'],
   ['tint-foreground', 'field-tint'],
   ['tint-foreground', 'ash-tint'],
+  ['tint-foreground', 'amber-tint'],
+  ['tint-foreground', 'teal-tint'],
 ];
 
 // non-text pairs that must reach 3:1: control edges, the focus ring, and the

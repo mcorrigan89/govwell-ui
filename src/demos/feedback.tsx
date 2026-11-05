@@ -68,14 +68,27 @@ function QueryStateDemo() {
 
 function StatusBadgeDemo() {
   return (
-    <div className="flex flex-wrap gap-3">
-      <StatusBadge status={{ name: 'Submitted', color: 'blue' }} />
-      <StatusBadge status={{ name: 'Awaiting payment', color: 'amber' }} />
-      <StatusBadge status={{ name: 'Inspection due', color: 'yellow' }} />
-      <StatusBadge status={{ name: 'Issued', color: 'green' }} />
-      <StatusBadge status={{ name: 'Closed', color: 'gray' }} />
-      <StatusBadge status={{ name: 'Violation', color: 'red' }} />
-      <StatusBadge status={null} />
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
+        <p className="text-sm text-muted-foreground">The six colours an org can give a status, all distinct</p>
+        <div className="flex flex-wrap gap-3">
+          <StatusBadge status={{ name: 'Submitted', color: 'blue' }} />
+          <StatusBadge status={{ name: 'Awaiting payment', color: 'amber' }} />
+          <StatusBadge status={{ name: 'Issued', color: 'green' }} />
+          <StatusBadge status={{ name: 'Certified', color: 'emerald' }} />
+          <StatusBadge status={{ name: 'Closed', color: 'gray' }} />
+          <StatusBadge status={{ name: 'Violation', color: 'red' }} />
+        </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <p className="text-sm text-muted-foreground">Other names fold onto the nearest: yellow is Hope, purple is Sky, cyan is teal</p>
+        <div className="flex flex-wrap gap-3">
+          <StatusBadge status={{ name: 'Inspection due', color: 'yellow' }} />
+          <StatusBadge status={{ name: 'Plan review', color: 'purple' }} />
+          <StatusBadge status={{ name: 'Renewal open', color: 'cyan' }} />
+          <StatusBadge status={null} />
+        </div>
+      </div>
     </div>
   );
 }

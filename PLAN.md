@@ -249,3 +249,16 @@ colour modes.
    icon set from the brand book?
 3. **Hosting:** where should the private registry be served from (it needs
    to serve `public/r` and `public/fonts`)?
+
+## Decision: two status tints beyond the brand palette (November 2026)
+
+The brand book has three accents (Hope, Sky, Field). GovWell's apps need more
+distinct status colours than that: govwell-cqrs lets an org pick six (blue,
+amber, green, emerald, gray, red), and with only the brand tints amber read as
+Hope and emerald as Field. The legacy app's tags also use orange and yellow as
+different colours. So the theme adds `amber-tint` (from the warning orange) and
+`teal-tint` (a teal between Sky and Field), for statuses and tags only, and
+charts get three more series (`chart-6` … `chart-8`; the legacy app's chart
+palette has eight). Buttons need nothing new: both apps only use neutral and
+danger buttons. Plan-review markup colours (17 highlighters) are user content
+and stay out of the theme. Worth confirming with brand.

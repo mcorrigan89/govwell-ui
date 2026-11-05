@@ -98,8 +98,17 @@ describe('StatusBadge', () => {
     expect(badge).toHaveAttribute('data-hue', 'sky');
     expect(badge).toHaveClass('bg-sky-tint');
     expect(badge.querySelector('[data-slot=status-badge-dot]')).toHaveClass('bg-info', 'size-2');
-    expect(statusHue('emerald')).toBe('field');
+    expect(statusHue('emerald')).toBe('teal');
     expect(statusHue('chartreuse')).toBe('ash');
+  });
+
+  it('gives each of the six colours an org can pick its own tint', () => {
+    // govwell-cqrs contract/src/records.ts: the status colour picker
+    const picker = ['blue', 'amber', 'green', 'emerald', 'gray', 'red'];
+    const hues = picker.map(statusHue);
+    expect(new Set(hues).size).toBe(picker.length);
+    render(<StatusBadge status={{ name: 'Awaiting payment', color: 'amber' }} />);
+    expect(screen.getByText('Awaiting payment')).toHaveClass('bg-amber-tint');
   });
 
   it('says Draft when there is no status', () => {

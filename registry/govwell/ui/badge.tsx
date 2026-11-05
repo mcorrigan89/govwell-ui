@@ -14,6 +14,9 @@ const badgeVariants = cva(
         default: 'bg-hope-tint text-tint-foreground',
         sky: 'bg-sky-tint text-tint-foreground',
         field: 'bg-field-tint text-tint-foreground',
+        // the two status extensions, for tags that need more than the brand tints
+        amber: 'bg-amber-tint text-tint-foreground',
+        teal: 'bg-teal-tint text-tint-foreground',
         ash: 'bg-ash-tint text-tint-foreground',
         outline: 'border-border text-foreground',
         solid: 'bg-secondary text-secondary-foreground',
