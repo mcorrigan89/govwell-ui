@@ -117,7 +117,16 @@ const UI = {
     description: 'Square buttons in GT Standard Light: a Hope primary, a Slate secondary, outline, ghost, destructive and link.',
     deps: ['@base-ui/react', 'class-variance-authority'],
   },
+  'button-group': {
+    description: 'Buttons, inputs and selects butted together into one square strip, with grey text plates and hairline separators.',
+    deps: ['@base-ui/react', 'class-variance-authority'],
+    ui: ['separator'],
+  },
   card: { description: 'A square panel with an Ash hairline, for a header (with an eyebrow), content and footer.', deps: [] },
+  checkbox: {
+    description: 'A small square box with a Concrete edge that fills Slate, with the tick knocked out, when checked.',
+    deps: ['@base-ui/react', 'lucide-react'],
+  },
   dialog: {
     description: 'A modal on a square panel over a Slate wash, with a Regular-weight title.',
     deps: ['@base-ui/react', 'lucide-react'],
@@ -144,14 +153,48 @@ const UI = {
     deps: ['@base-ui/react', 'class-variance-authority'],
     ui: ['button'],
   },
+  'input-otp': {
+    description: 'A one-time code entered one character per square box, in groups that share their edges.',
+    deps: ['@base-ui/react', 'lucide-react'],
+  },
   label: { description: 'A form label in Regular weight.', deps: [] },
+  'native-select': {
+    description: 'The browser’s own select in a square box like the input, for long lists, phones and forms that work without JavaScript.',
+    deps: ['lucide-react'],
+  },
   'node-frame': {
     description: 'The “tech layer”: a dotted frame with square nodes at its corners, around an icon, image or content.',
     deps: [],
   },
   popover: { description: 'Content in a square floating panel, anchored to its trigger.', deps: ['@base-ui/react'] },
+  'radio-group': {
+    description: 'A set of round options, one chosen at a time, the chosen one marked with a Slate edge and dot.',
+    deps: ['@base-ui/react'],
+  },
+  select: {
+    description: 'A square box that opens its options in a square floating panel, the chosen one ticked.',
+    deps: ['@base-ui/react', 'lucide-react'],
+  },
   separator: { description: 'A hairline rule, across or down.', deps: ['@base-ui/react'] },
+  slider: {
+    description: 'A thin Ash track with the chosen range drawn in Slate and square thumbs; one value or a range.',
+    deps: ['@base-ui/react'],
+  },
   stat: { description: 'A key figure: a large Regular-weight number with a short caption.', deps: [] },
+  switch: {
+    description: 'A square switch: a Concrete block on white when off, a Slate box with the block slid across when on.',
+    deps: ['@base-ui/react'],
+  },
+  textarea: { description: 'A multi-line square text box with a Concrete edge that grows with its text.', deps: [] },
+  toggle: {
+    description: 'A button in Light type that stays pressed in, shown as a Slate block, until pressed again.',
+    deps: ['@base-ui/react', 'class-variance-authority'],
+  },
+  'toggle-group': {
+    description: 'A row of toggles, one or several pressed, spaced apart or butted into one square strip.',
+    deps: ['@base-ui/react', 'class-variance-authority'],
+    ui: ['toggle'],
+  },
 };
 const uiItems = Object.entries(UI).map(([name, spec]) => ({
   name,
