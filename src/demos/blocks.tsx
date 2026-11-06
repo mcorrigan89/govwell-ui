@@ -21,7 +21,7 @@ import {
 import { AppShell, type NavSection } from '@/components/blocks/app-shell';
 import { DataTable, dataTableColumns } from '@/components/blocks/data-table';
 import { SignIn } from '@/components/blocks/sign-in';
-import { Badge } from '@/components/ui/badge';
+import { StatusBadge } from '@/components/ui/status-badge';
 import { Button } from '@/components/ui/button';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 
@@ -215,7 +215,9 @@ export const PERMITS: Permit[] = [
   },
 ];
 
-const STATUS_BADGE = { 'In review': 'sky', Issued: 'field', Corrections: 'warning', Submitted: 'ash' } as const;
+// statuses are org data (a name and a hue), shown as status badges: a tint
+// with a square dot, so every status has the same weight in a long table
+const STATUS_HUE = { 'In review': 'blue', Issued: 'green', Corrections: 'amber', Submitted: 'gray' } as const;
 const money = (n: number) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
 const col = dataTableColumns<Permit>();
@@ -223,7 +225,10 @@ const PERMIT_COLUMNS = col.columns([
   col.accessor('number', { header: 'Permit', cell: (c) => <span className="font-normal">{c.getValue()}</span> }),
   col.accessor('address', { header: 'Address' }),
   col.accessor('type', { header: 'Type' }),
-  col.accessor('status', { header: 'Status', cell: (c) => <Badge variant={STATUS_BADGE[c.getValue()]}>{c.getValue()}</Badge> }),
+  col.accessor('status', {
+    header: 'Status',
+    cell: (c) => <StatusBadge status={{ name: c.getValue(), color: STATUS_HUE[c.getValue()] }} />,
+  }),
   col.accessor('fees', { header: 'Fees', cell: (c) => money(c.getValue()) }),
   col.accessor('submitted', { header: 'Submitted', sortFn: 'text' }),
   col.accessor('reviewer', { header: 'Reviewer' }),
