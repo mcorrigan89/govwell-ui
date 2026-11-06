@@ -115,7 +115,8 @@ export function Shell({ nav, path, onSearch, assistant, onAssistant, children }:
           {assistant && (
             <aside
               aria-label="AI assistant"
-              className="hidden w-[400px] shrink-0 flex-col border border-border bg-background text-foreground duration-200 animate-in slide-in-from-right-4 lg:flex"
+              // the AI's mark down its left edge
+              className="ai-edge relative hidden w-[400px] shrink-0 flex-col border border-border bg-background text-foreground duration-200 animate-in slide-in-from-right-4 lg:flex"
             >
               {assistant}
             </aside>
@@ -190,7 +191,8 @@ function Sidebar({ nav, path, collapsed, onToggle, onSearch, onAssistant }: Side
             aria-label={collapsed ? 'AI assistant' : undefined}
             onClick={onAssistant}
             className={cn(
-              'flex h-9 items-center gap-3 bg-white text-sm font-light text-slate hover:bg-ash',
+              // the AI's mark round a white button
+              'ai-border flex h-9 items-center gap-3 bg-white text-sm font-light text-slate [--ai-fill:var(--color-white)] hover:[--ai-fill:var(--ash)]',
               collapsed ? 'w-8 justify-center self-center' : 'px-3',
               ring,
             )}

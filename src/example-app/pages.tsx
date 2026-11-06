@@ -4,7 +4,9 @@ import {
   BarChart3,
   Bell,
   Check,
+  ClipboardCheck,
   Construction,
+  FileStack,
   FileText,
   Lock,
   Mail,
@@ -12,12 +14,16 @@ import {
   Plus,
   Printer,
   Share2,
+  Timer,
   Users,
+  Wallet,
 } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { toast } from 'sonner';
 
 import { DataTable, dataTableColumns } from '@/components/blocks/data-table';
+import { FigureIcon } from '@/components/ui/figure-icon';
+import { Verdict } from '@/components/ui/verdict';
 import { WeekCalendar } from '@/components/blocks/week-calendar';
 import { ActorBadge } from '@/components/ui/actor-badge';
 import {
@@ -180,15 +186,18 @@ export function InsightsPage() {
       <Section title="Overview" description="What came in, how fast it went out, and what it brought in.">
         <div className="grid grid-cols-2 border-t border-l border-border lg:grid-cols-4">
           {[
-            { value: String(Math.round(RECORDS.length * 0.6 * scale)), label: 'Records created' },
-            { value: `${Math.max(6, 14 - scale)} days`, label: 'Median issuance time' },
-            { value: money(18_400 * scale), label: 'Revenue collected' },
-            { value: String(INSPECTIONS.length * 4 * scale), label: 'Inspections logged' },
+            { value: String(Math.round(RECORDS.length * 0.6 * scale)), label: 'Records created', icon: FileStack, tint: 'sky' as const },
+            { value: `${Math.max(6, 14 - scale)} days`, label: 'Median issuance time', icon: Timer, tint: 'hope' as const },
+            { value: money(18_400 * scale), label: 'Revenue collected', icon: Wallet, tint: 'field' as const },
+            { value: String(INSPECTIONS.length * 4 * scale), label: 'Inspections logged', icon: ClipboardCheck, tint: 'teal' as const },
           ].map((s) => (
-            <Stat key={s.label} className="border-r border-b border-border p-5">
-              <StatValue className="text-4xl">{s.value}</StatValue>
-              <StatLabel>{s.label}</StatLabel>
-            </Stat>
+            <div key={s.label} className="flex items-start justify-between gap-3 border-r border-b border-border p-5">
+              <Stat>
+                <StatValue className="text-4xl">{s.value}</StatValue>
+                <StatLabel>{s.label}</StatLabel>
+              </Stat>
+              <FigureIcon icon={s.icon} tint={s.tint} />
+            </div>
           ))}
         </div>
       </Section>
@@ -551,7 +560,7 @@ function InspectionsTab({ record }: { record: PermitRecord }) {
             </span>
           </span>
           {i.result ? (
-            <Badge variant={i.result === 'passed' ? 'field' : 'outline'}>{i.result === 'passed' ? 'Passed' : 'Failed'}</Badge>
+            <Verdict kind={i.result === 'passed' ? 'pass' : 'fail'}>{i.result === 'passed' ? 'Passed' : 'Failed'}</Verdict>
           ) : (
             <Badge variant="sky">Scheduled</Badge>
           )}
@@ -641,7 +650,8 @@ function Workflow({ record, step, onAdvance }: { record: PermitRecord; step: num
         {WORKFLOW.map((name, i) =>
           i < step ? (
             <li key={name} className="flex items-center gap-3 px-1 py-1.5 text-sm">
-              <span className="grid size-5 place-items-center bg-secondary text-secondary-foreground">
+              {/* done on Field, as the permit's workflow in govwell-cqrs */}
+              <span className="grid size-5 place-items-center bg-field-tint text-tint-foreground">
                 <Check className="size-3" />
               </span>
               {name}
