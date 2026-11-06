@@ -128,6 +128,12 @@ const UI = {
     ui: ['button'],
   },
   'aspect-ratio': { description: 'Holds its content to a fixed width-to-height ratio.', deps: [] },
+  attachment: {
+    description:
+      'A file card in a message or composer with an Ash hairline, a file tile, name and detail, and idle, uploading, processing, error and done states.',
+    deps: ['@base-ui/react', 'class-variance-authority'],
+    ui: ['button'],
+  },
   avatar: {
     description:
       'A person as a circle with their image, or their initials on the grey surface, with an optional status dot and group count.',
@@ -140,6 +146,11 @@ const UI = {
   breadcrumb: {
     description: 'A trail of muted links to the current page, with thin chevrons between and the page you are on in Regular.',
     deps: ['@base-ui/react', 'lucide-react'],
+  },
+  bubble: {
+    description:
+      'A square message body in Light type: Slate for your own messages, plain or muted for the assistant, plus tinted, outline and unsent variants.',
+    deps: ['@base-ui/react', 'class-variance-authority'],
   },
   button: {
     description: 'Square buttons in GT Standard Light: a Hope primary, a Slate secondary, outline, ghost, destructive and link.',
@@ -165,6 +176,11 @@ const UI = {
   chart: {
     description: 'Recharts on a square card, with series colours that follow the mode and a floating-panel tooltip.',
     deps: ['recharts'],
+  },
+  'chat-composer': {
+    description: 'Where you write to the assistant: a growing textarea and a Hope send button; Enter sends, Shift+Enter adds a line.',
+    deps: ['lucide-react'],
+    ui: ['button', 'spinner'],
   },
   checkbox: {
     description: 'A small square box with a Concrete edge that fills Slate, with the tick knocked out, when checked.',
@@ -256,10 +272,25 @@ const UI = {
     ui: ['kbd'],
   },
   label: { description: 'A form label in Regular weight.', deps: [] },
+  marker: {
+    description: 'A line in a conversation that isn’t a message: a note, a separator, or an activity row showing a tool call’s status.',
+    deps: ['@base-ui/react', 'class-variance-authority', 'lucide-react'],
+    ui: ['spinner'],
+  },
   menubar: {
     description: 'A plain bar of menus with a hairline edge; the open menu sits on a grey band.',
     deps: ['@base-ui/react'],
     ui: ['dropdown-menu'],
+  },
+  message: {
+    description: 'One turn in a conversation: avatar, a small header, content and footer; your own messages sit on the right.',
+    deps: [],
+  },
+  'message-scroller': {
+    description:
+      'A conversation’s scrolling area that follows new answers at the end, holds still while you read back, and jumps to the end.',
+    deps: ['@shadcn/react', 'lucide-react'],
+    ui: ['button'],
   },
   meter: { description: 'An n-of-m count drawn as square segments, filled Slate or a status colour.', deps: [] },
   'native-select': {
@@ -283,6 +314,11 @@ const UI = {
   progress: {
     description: 'A square progress bar: Hope on a grey track, or a status colour by tone, with an optional label and value.',
     deps: ['@base-ui/react', 'class-variance-authority'],
+  },
+  questionnaire: {
+    description: 'A short run of questions, one at a time, as a real form: square choice cards, a text answer, and Next and Submit.',
+    deps: ['@shadcn/react', 'lucide-react'],
+    ui: ['button'],
   },
   'radio-group': {
     description: 'A set of round options, one chosen at a time, the chosen one marked with a Slate edge and dot.',
