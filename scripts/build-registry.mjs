@@ -398,7 +398,29 @@ const uiItems = Object.entries(UI).map(([name, spec]) => ({
 // ── blocks ─────────────────────────────────────────────────────────────────
 // larger compositions, installed to components/blocks so they can import each
 // other and the ui items: name → { title, description, deps, ui }
-const BLOCKS = {};
+const BLOCKS = {
+  'app-shell': {
+    title: 'App shell',
+    description:
+      'The staff app frame: a Slate sidebar with the GovWell logo and nav grouped by kind of work, the current page marked in Hope, collapsible to an icon rail, a drawer on phones, and a white top bar and page.',
+    deps: ['lucide-react'],
+    ui: ['flag-mark', 'sheet', 'tooltip'],
+  },
+  'data-table': {
+    title: 'Data table',
+    description:
+      'A table that sorts, filters, pages, hides columns and selects rows, with a bulk-action bar, a pinned header and first column, drag or keyboard reordering, expandable rows, and loading and empty states.',
+    deps: ['@tanstack/react-table', '@dnd-kit/core', '@dnd-kit/sortable', '@dnd-kit/utilities', 'lucide-react'],
+    ui: ['table', 'button', 'checkbox', 'dropdown-menu', 'input-group', 'pagination', 'empty', 'spinner'],
+  },
+  'sign-in': {
+    title: 'Sign in',
+    description:
+      'A square sign-in card on the base grid under the GovWell logo: email and password or an emailed link, with a Hope button.',
+    deps: [],
+    ui: ['button', 'input', 'label', 'flag-mark'],
+  },
+};
 const blockItems = Object.entries(BLOCKS).map(([name, spec]) => ({
   name,
   type: 'registry:block',
