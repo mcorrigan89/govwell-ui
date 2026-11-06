@@ -154,6 +154,10 @@ vi.mock('protomaps-leaflet', () => {
     constructor(options: Record<string, unknown>) {
       this.options = options;
     }
+    // records what drew, in order, on the fake context
+    draw(ctx: { drawn: Record<string, unknown>[] }) {
+      ctx.drawn.push(this.options);
+    }
   }
   return {
     PolygonSymbolizer: Symbolizer,
@@ -563,12 +567,17 @@ describe('VectorTileLayer', () => {
   });
 
   it("paints in the theme's token colours, read as tiles are drawn", () => {
-    const rule = polygonRule({ dataLayer: 'parcels', tone: 'primary', strokeTone: 'default' });
-    const options = (rule.symbolizer as unknown as { options: { fill: () => string; stroke: () => string } }).options;
-    expect(options.fill()).toBe('#feaf0e');
-    expect(options.stroke()).toBe('#202020');
+    const rule = polygonRule({ dataLayer: 'parcels', tone: 'primary', strokeTone: 'default', opacity: 0.12 });
+    // the fill, then its outline: drawn separately, so a light fill keeps a solid outline
+    const ctx = { drawn: [] as Record<string, unknown>[] };
+    rule.symbolizer.draw(ctx as unknown as CanvasRenderingContext2D, [], 10, {} as never);
+    const [fill, outline] = ctx.drawn as [{ fill: () => string; opacity: number }, { color: () => string; opacity: number }];
+    expect(fill.opacity).toBe(0.12);
+    expect(outline.opacity).toBe(1);
+    expect(fill.fill()).toBe('#feaf0e');
+    expect(outline.color()).toBe('#202020');
     document.documentElement.style.setProperty('--hope', '#ffbb22');
-    expect(options.fill()).toBe('#ffbb22');
+    expect(fill.fill()).toBe('#ffbb22');
     document.documentElement.style.removeProperty('--hope');
     const line = lineRule({ dataLayer: 'mains', tone: 'info', dash: [4, 2] });
     expect((line.symbolizer as unknown as { options: { dash: number[] } }).options.dash).toEqual([4, 2]);

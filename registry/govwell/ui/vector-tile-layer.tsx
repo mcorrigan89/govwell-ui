@@ -144,22 +144,36 @@ type RuleBase = {
   id?: string;
 };
 
-/** filled areas (parcels, zones) in a tone, with an outline in the same tone (or `strokeTone`) */
+/**
+ * filled areas (parcels, zones) in a tone, outlined in the same tone (or
+ * `strokeTone`). The outline is drawn separately at `strokeOpacity`: the
+ * polygon symbolizer applies its opacity to fill and outline alike, so a
+ * light fill would otherwise leave outlines nearly invisible on a busy map.
+ */
 function polygonRule({
   tone = 'default',
   strokeTone,
   opacity = 0.15,
+  strokeOpacity = 1,
   width = 1,
   ...rule
-}: RuleBase & { strokeTone?: MapTone; opacity?: number; width?: number }): PaintRule {
+}: RuleBase & { strokeTone?: MapTone; opacity?: number; strokeOpacity?: number; width?: number }): PaintRule {
+  const fill = new PolygonSymbolizer({ fill: toneColor(tone), opacity, width: 0 });
+  const outline = width > 0 ? new LineSymbolizer({ color: toneColor(strokeTone ?? tone), width, opacity: strokeOpacity }) : null;
+  return { ...rule, symbolizer: outlined(fill, outline) };
+}
+
+// draws a fill and then its outline, each with its own style (set per
+// feature, since the two share the canvas's alpha and colours)
+function outlined(fill: PaintSymbolizer, outline: PaintSymbolizer | null): PaintSymbolizer {
   return {
-    ...rule,
-    symbolizer: new PolygonSymbolizer({
-      fill: toneColor(tone),
-      opacity,
-      stroke: toneColor(strokeTone ?? tone),
-      width,
-    }),
+    draw(ctx, geom, z, feature) {
+      fill.before?.(ctx, z);
+      fill.draw(ctx, geom, z, feature);
+      if (!outline) return;
+      outline.before?.(ctx, z);
+      outline.draw(ctx, geom, z, feature);
+    },
   };
 }
 
