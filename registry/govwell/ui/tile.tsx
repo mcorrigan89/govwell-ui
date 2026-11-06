@@ -24,6 +24,8 @@ const tileIconVariants = cva(
         hope: 'bg-hope-tint',
         sky: 'bg-sky-tint',
         field: 'bg-field-tint',
+        amber: 'bg-amber-tint',
+        teal: 'bg-teal-tint',
         ash: 'bg-ash-tint',
       },
     },

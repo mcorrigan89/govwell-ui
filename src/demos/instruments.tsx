@@ -89,6 +89,19 @@ function DistributionDemo() {
         ]}
       />
       <Distribution
+        label="Permits issued by type"
+        parts={[
+          { name: 'Building', count: 184 },
+          { name: 'Electrical', count: 121 },
+          { name: 'Plumbing', count: 96 },
+          { name: 'Mechanical', count: 74 },
+          { name: 'Demolition', count: 22 },
+          { name: 'Sign', count: 31 },
+          { name: 'Fence', count: 48 },
+          { name: 'Solar', count: 57 },
+        ]}
+      />
+      <Distribution
         label="Inspections this week"
         parts={[
           { name: 'Passed', count: 41, tone: 'ok' },

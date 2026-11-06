@@ -176,6 +176,8 @@ function BadgeDemo() {
         <Badge>Case study</Badge>
         <Badge variant="sky">Insights</Badge>
         <Badge variant="field">Guides</Badge>
+        <Badge variant="amber">Fees due</Badge>
+        <Badge variant="teal">Certified</Badge>
         <Badge variant="ash">20,903 population</Badge>
         <Badge variant="outline">Draft</Badge>
         <Badge variant="solid">New</Badge>

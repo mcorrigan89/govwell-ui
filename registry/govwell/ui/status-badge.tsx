@@ -5,9 +5,10 @@ import { cn } from '@/lib/utils';
 
 // A record's status. Statuses are org data — a name and a hue the org picked
 // — so the hue is mapped onto GovWell's palette rather than painted as is:
-// the label sits on a brand tint (Sky for working, Hope for waiting on
-// someone, Field for done, Ash for closed) with a small square dot in the
-// status colour in front of it. Red has no brand tint, so it is a hairline
+// the label sits on a tint (Sky for working, Hope for waiting on someone,
+// Field for done, Ash for closed, and two beyond the brand — amber and teal —
+// so an org's orange and emerald don't read as its yellow and green) with a
+// small square dot in the status colour in front of it. Red has no brand tint, so it is a hairline
 // box with a red dot. No status yet reads as a dashed "Draft".
 //
 //   <StatusBadge status={{ name: 'In review', color: 'blue' }} />
@@ -19,7 +20,8 @@ const statusBadgeVariants = cva(
       hue: {
         sky: 'bg-sky-tint',
         hope: 'bg-hope-tint',
-        amber: 'bg-hope-tint',
+        amber: 'bg-amber-tint',
+        teal: 'bg-teal-tint',
         field: 'bg-field-tint',
         ash: 'bg-ash-tint',
         red: 'border-border bg-transparent text-foreground',
@@ -34,20 +36,21 @@ const DOT: Record<StatusHue, string> = {
   sky: 'bg-info',
   hope: 'bg-primary',
   amber: 'bg-warning',
+  teal: 'bg-teal',
   field: 'bg-ok',
   ash: 'bg-muted-foreground',
   red: 'bg-destructive',
   draft: 'border border-muted-foreground',
 };
 
-type StatusHue = 'sky' | 'hope' | 'amber' | 'field' | 'ash' | 'red' | 'draft';
+type StatusHue = 'sky' | 'hope' | 'amber' | 'teal' | 'field' | 'ash' | 'red' | 'draft';
 
 // the hue names orgs pick (and the colour pickers that feed them), onto ours
 const HUES: Record<string, StatusHue> = {
   blue: 'sky',
   sky: 'sky',
-  cyan: 'sky',
-  teal: 'sky',
+  cyan: 'teal',
+  teal: 'teal',
   info: 'sky',
   indigo: 'sky',
   purple: 'sky',
@@ -59,7 +62,7 @@ const HUES: Record<string, StatusHue> = {
   orange: 'amber',
   warning: 'amber',
   green: 'field',
-  emerald: 'field',
+  emerald: 'teal',
   lime: 'field',
   field: 'field',
   ok: 'field',

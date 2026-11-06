@@ -7,7 +7,7 @@ import type { TooltipValueType } from 'recharts';
 import { cn } from '@/lib/utils';
 
 // Recharts on a square card with an Ash hairline. Name each series in a
-// ChartConfig with a colour — var(--chart-1) … var(--chart-5), in that order,
+// ChartConfig with a colour — var(--chart-1) … var(--chart-8), in that order,
 // never cycled — and the container exposes it as --color-<key> for the marks.
 // The series follow the mode: on white, Slate leads and Hope, Sky, Field and
 // Concrete support it (the three brand colours are under 3:1 on white, so

@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 
 // One bar split by share — applications by status, fees by type — with a
 // legend of square swatches beneath. Parts take the chart palette in order
-// (chart-1 to chart-5), or a tone you name: a chart colour, a status
+// (chart-1 to chart-8), or a tone you name: a chart colour, a status
 // (ok, info, warning, destructive), the signal-tone names, or any CSS colour.
 // Dashed parts are outlined instead of filled, for "expected" or "not yet".
 // Square, flat, no glow; parts with no count are left out.
@@ -17,6 +17,9 @@ const TONES: Record<string, string> = {
   'chart-3': 'var(--chart-3)',
   'chart-4': 'var(--chart-4)',
   'chart-5': 'var(--chart-5)',
+  'chart-6': 'var(--chart-6)',
+  'chart-7': 'var(--chart-7)',
+  'chart-8': 'var(--chart-8)',
   neutral: 'var(--chart-1)',
   ok: 'var(--ok)',
   info: 'var(--info)',
@@ -36,6 +39,9 @@ type DistributionTone =
   | 'chart-3'
   | 'chart-4'
   | 'chart-5'
+  | 'chart-6'
+  | 'chart-7'
+  | 'chart-8'
   | 'neutral'
   | 'ok'
   | 'info'
@@ -67,7 +73,7 @@ function Distribution({
   parts: DistributionPart[];
 }) {
   const shown = parts
-    .map((p, i) => ({ ...p, color: p.tone ? (TONES[p.tone] ?? p.tone) : `var(--chart-${(i % 5) + 1})` }))
+    .map((p, i) => ({ ...p, color: p.tone ? (TONES[p.tone] ?? p.tone) : `var(--chart-${(i % 8) + 1})` }))
     .filter((p) => p.count > 0);
   const total = shown.reduce((sum, p) => sum + p.count, 0);
   const summary = shown.map((p) => `${p.name} ${p.count}`).join(', ');
