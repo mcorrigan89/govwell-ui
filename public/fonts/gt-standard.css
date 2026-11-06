@@ -1,0 +1,32 @@
+/* GT Standard (Grilli Type), licensed to GovWell. Served from the private
+   registry's host; apps load it with
+     <link rel="stylesheet" href="<registry>/fonts/gt-standard.css" />
+   and the theme's font stack picks it up. URLs are relative to this file. */
+@font-face {
+  font-family: 'GT Standard';
+  src: url('GT-Standard-L-Standard-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GT Standard';
+  src: url('GT-Standard-L-Standard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GT Standard';
+  src: url('GT-Standard-L-Standard-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GT Standard';
+  src: url('GT-Standard-L-Standard-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

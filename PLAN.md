@@ -43,18 +43,18 @@ From the brand book and the live site (values read from govwell.com's CSS):
 
 Brand palette (from the book):
 
-| Token | Hex | Role |
-|---|---|---|
-| `jet` | `#000000` | Logo, strongest black |
-| `slate` | `#202020` | Text on light; dark-mode ground (the site's body text is this) |
-| `concrete` | `#7c7c7c` | Borders, disabled, decorative greys |
-| `cement` | `#b1b1b1` | Borders and rules |
-| `ash` | `#d9d9d9` | Hairlines, dividers |
-| `base` | `#ececec` | Subtle surfaces (the grid backgrounds in the book) |
-| `white` | `#ffffff` | Ground in light mode |
-| `hope` | `#feaf0e` | The accent: primary action, progress, highlights |
-| `sky` | `#41aaeb` | Extended palette: info, links on dark |
-| `field` | `#39c25e` | Extended palette: success |
+| Token      | Hex       | Role                                                           |
+| ---------- | --------- | -------------------------------------------------------------- |
+| `jet`      | `#000000` | Logo, strongest black                                          |
+| `slate`    | `#202020` | Text on light; dark-mode ground (the site's body text is this) |
+| `concrete` | `#7c7c7c` | Borders, disabled, decorative greys                            |
+| `cement`   | `#b1b1b1` | Borders and rules                                              |
+| `ash`      | `#d9d9d9` | Hairlines, dividers                                            |
+| `base`     | `#ececec` | Subtle surfaces (the grid backgrounds in the book)             |
+| `white`    | `#ffffff` | Ground in light mode                                           |
+| `hope`     | `#feaf0e` | The accent: primary action, progress, highlights               |
+| `sky`      | `#41aaeb` | Extended palette: info, links on dark                          |
+| `field`    | `#39c25e` | Extended palette: success                                      |
 
 The book also uses 30% and 50% tints of Hope, Sky, Field and Ash for the
 eyebrow chips and tiles. These become tokens (`hope-tint`, `sky-tint`, …).
@@ -120,13 +120,13 @@ from page 44 of the book.
 
 ### Signature pieces (new)
 
-| Item | What it is |
-|---|---|
-| `eyebrow` | The eyebrow label: an uppercase tinted chip with an icon tile under its lower-left corner. Tones `hope`, `field`, `sky`, `ash`. |
-| `flag-mark` | The GovWell flag mark and wordmark as SVG components, in Jet, Slate or White. Logo files come from GovWell's brand assets; I won't redraw them. |
-| `node-frame` | The "tech layer" frame: a dotted box with solid square nodes at its corners, around an icon, image or block of content. |
-| `stat` | A large Regular-weight figure with a short caption, as in the site's metrics strip (7000+, 200+, 98%). |
-| `grid-panel` | A section laid on the base grid with one highlighted intersection and optional colour block, for heroes and feature callouts. |
+| Item         | What it is                                                                                                                                      |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `eyebrow`    | The eyebrow label: an uppercase tinted chip with an icon tile under its lower-left corner. Tones `hope`, `field`, `sky`, `ash`.                 |
+| `flag-mark`  | The GovWell flag mark and wordmark as SVG components, in Jet, Slate or White. Logo files come from GovWell's brand assets; I won't redraw them. |
+| `node-frame` | The "tech layer" frame: a dotted box with solid square nodes at its corners, around an icon, image or block of content.                         |
+| `stat`       | A large Regular-weight figure with a short caption, as in the site's metrics strip (7000+, 200+, 98%).                                          |
+| `grid-panel` | A section laid on the base grid with one highlighted intersection and optional colour block, for heroes and feature callouts.                   |
 
 ### The standard set (from Headway, restyled)
 

@@ -1,0 +1,7 @@
+node_modules
+dist
+public/r
+registry.json
+.verify
+src/theme.generated.css
+src/items.generated.json

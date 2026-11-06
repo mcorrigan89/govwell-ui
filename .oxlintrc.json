@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "react", "jsx-a11y", "import"],
+  "categories": {
+    "correctness": "error"
+  },
+  "rules": {
+    // a Field is a div with role="group": a <fieldset> per field would be
+    // wrong (FieldSet is the fieldset), and no other element fits
+    "jsx-a11y/prefer-tag-over-role": "off"
+  },
+  "env": {
+    "builtin": true,
+    "browser": true,
+    "node": true
+  }
+}
