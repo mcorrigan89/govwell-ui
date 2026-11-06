@@ -105,6 +105,7 @@ export function AppShell({
   activeHref,
   brand = {},
   topBar,
+  sidebarFooter,
   renderLink = defaultLink,
   storageKey = DEFAULT_STORAGE_KEY,
   fullBleed = false,
@@ -120,6 +121,8 @@ export function AppShell({
   brand?: Brand;
   /** the top bar's content, right of the menu button */
   topBar?: ReactNode;
+  /** under the nav, e.g. the user menu's sidebar variant; a function is told whether the rail is collapsed */
+  sidebarFooter?: ReactNode | ((collapsed: boolean) => ReactNode);
   renderLink?: (props: AppShellLinkProps) => ReactNode;
   /** the localStorage key that remembers the collapsed rail */
   storageKey?: string;
@@ -225,6 +228,15 @@ export function AppShell({
       </nav>
     );
   };
+  // the slot under the nav (the signed-in person's menu): told whether the rail is collapsed
+  const footerSlot = (narrow: boolean) => {
+    const content = typeof sidebarFooter === 'function' ? sidebarFooter(narrow) : sidebarFooter;
+    return content ? (
+      <div data-slot="app-shell-sidebar-footer" className={cn('border-t border-white/10 py-3', narrow ? 'px-2' : 'px-3')}>
+        {content}
+      </div>
+    ) : null;
+  };
 
   return (
     <TooltipProvider>
@@ -239,6 +251,7 @@ export function AppShell({
         >
           <SidebarBrand brand={brand} narrow={collapsed} />
           {nav(collapsed)}
+          {footerSlot(collapsed)}
           <button
             type="button"
             onClick={toggle}
@@ -284,6 +297,7 @@ export function AppShell({
                   }
                 />
                 {nav(false, () => setDrawer(false))}
+                {footerSlot(false)}
               </SheetContent>
             </Sheet>
             {topBar}

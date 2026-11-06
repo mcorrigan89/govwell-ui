@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 
 import { AppShell, type NavSection } from '@/components/blocks/app-shell';
+import { UserMenu } from '@/components/blocks/user-menu';
 import { DataTable, dataTableColumns } from '@/components/blocks/data-table';
 import { SignIn } from '@/components/blocks/sign-in';
 import { StatusBadge } from '@/components/ui/status-badge';
@@ -77,6 +78,16 @@ function AppShellDemo() {
         ]}
         activeHref="#/cases/CE-2026-0112"
         storageKey="govwell.demo.sidebar.collapsed"
+        sidebarFooter={(collapsed) => (
+          <UserMenu
+            variant="sidebar"
+            collapsed={collapsed}
+            user={{ name: 'Dana Ruiz', email: 'dana.ruiz@ashford.gov' }}
+            organizations={[{ id: 'ashford', name: 'City of Ashford', role: admin ? 'admin' : 'reviewer' }]}
+            activeOrganizationId="ashford"
+            onSignOut={() => {}}
+          />
+        )}
         renderLink={({ href, className, children, attrs, ...rest }) => (
           <a href={href} className={className} aria-current={rest['aria-current']} onClick={(e) => e.preventDefault()} {...attrs}>
             {children}
