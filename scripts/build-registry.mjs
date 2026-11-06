@@ -97,6 +97,11 @@ const HOOKS = {
     title: 'useColorMode',
     description: 'Light (the default), dark, or follow the OS, on <html data-mode>, remembered between visits.',
   },
+  'use-hotkeys': {
+    title: 'useHotkeys',
+    description:
+      'Single-key and modifier shortcuts for a screen that stay quiet while someone is typing, inside a dialog, or on a focused control.',
+  },
 };
 const hookItems = Object.entries(HOOKS).map(([name, spec]) => ({
   name,
@@ -190,6 +195,10 @@ const UI = {
     deps: ['@base-ui/react', 'lucide-react'],
     ui: ['button'],
   },
+  distribution: {
+    description: 'One flat square bar split by share in the chart colours, with a square-swatch legend beneath.',
+    deps: [],
+  },
   drawer: {
     description: 'A square panel that slides in from an edge and can be swiped away, with a grab bar.',
     deps: ['@base-ui/react'],
@@ -202,6 +211,12 @@ const UI = {
     description: 'An empty state in a dashed frame, its icon on a Hope tint inside the node frame, with a Regular title and a next step.',
     deps: ['class-variance-authority'],
     ui: ['node-frame'],
+  },
+  'event-log': {
+    description:
+      'An activity timeline, newest first: an Ash rule with square status nodes, the time and a tint badge for who did it, plus a source filter.',
+    deps: ['class-variance-authority'],
+    ui: ['badge', 'toggle-group'],
   },
   eyebrow: {
     description: 'GovWell’s signpost: an uppercase label on a brand tint, with an icon on a square tile under its corner.',
@@ -235,12 +250,18 @@ const UI = {
     ui: ['separator'],
   },
   kbd: { description: 'A keyboard key as a small square in mono type on the muted surface.', deps: [] },
+  'key-hints': {
+    description: 'A one-line legend of a screen’s shortcuts: square keycaps and what they do, in small muted type.',
+    deps: [],
+    ui: ['kbd'],
+  },
   label: { description: 'A form label in Regular weight.', deps: [] },
   menubar: {
     description: 'A plain bar of menus with a hairline edge; the open menu sits on a grey band.',
     deps: ['@base-ui/react'],
     ui: ['dropdown-menu'],
   },
+  meter: { description: 'An n-of-m count drawn as square segments, filled Slate or a status colour.', deps: [] },
   'native-select': {
     description: 'The browser’s own select in a square box like the input, for long lists, phones and forms that work without JavaScript.',
     deps: ['lucide-react'],
@@ -267,11 +288,20 @@ const UI = {
     description: 'A set of round options, one chosen at a time, the chosen one marked with a Slate edge and dot.',
     deps: ['@base-ui/react'],
   },
+  readout: {
+    description: 'A dashboard figure: a large Regular-weight tabular number with a muted label, marked by tone.',
+    deps: [],
+  },
   resizable: {
     description: 'Panels split by hairline dividers you drag to resize, with an optional square grip.',
     deps: ['react-resizable-panels'],
   },
   'scroll-area': { description: 'A box that scrolls with a thin square scrollbar.', deps: ['@base-ui/react'] },
+  seal: {
+    description:
+      'A line-art stamp for issued, approved or certified: a square frame with corner nodes, the flag mark and the word on a status band.',
+    deps: [],
+  },
   select: {
     description: 'A square box that opens its options in a square floating panel, the chosen one ticked.',
     deps: ['@base-ui/react', 'lucide-react'],
@@ -311,6 +341,11 @@ const UI = {
     description: 'A row of toggles, one or several pressed, spaced apart or butted into one square strip.',
     deps: ['@base-ui/react', 'class-variance-authority'],
     ui: ['toggle'],
+  },
+  'tone-badge': {
+    description: 'A square status badge picked by tone; also accepts Phosphor’s tone names, so code written for Phosphor keeps working.',
+    deps: [],
+    ui: ['badge'],
   },
   tooltip: { description: 'A short label on hover or focus, in a small inverse Slate panel.', deps: ['@base-ui/react'] },
 };
