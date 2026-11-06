@@ -5,6 +5,7 @@ import { applyColorMode, useColorMode, type ColorMode } from '@/hooks/use-color-
 import { DEMOS } from '@/docs/demos';
 import catalog from '@/docs/items.generated.json';
 import { cn } from '@/lib/utils';
+import { ExampleApp } from './example-app/app';
 import logo from '../assets/govwell-logo.svg?raw';
 import './styles.css';
 
@@ -14,6 +15,7 @@ import './styles.css';
 //   #/c/<category>     one category
 //   #/<name>           one item
 // ?item=<name>,<name> shows a fixed few, which is handy for screenshots.
+// ?example=app is the sample staff app (src/example-app), full screen.
 const { categories, items } = catalog;
 type Item = (typeof items)[number];
 
@@ -105,21 +107,26 @@ function Preview() {
           <span className="block w-32 [&_svg]:block [&_svg]:h-auto [&_svg]:w-full" dangerouslySetInnerHTML={{ __html: logo }} />
           <span className="text-sm text-cement">UI</span>
         </a>
-        <div role="group" aria-label="Colour mode" className="flex gap-1">
-          {MODES.map((m) => (
-            <button
-              key={m.mode}
-              type="button"
-              aria-pressed={mode === m.mode}
-              onClick={() => setMode(m.mode)}
-              className={cn(
-                'h-8 px-3 text-sm outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid focus-visible:outline-hope',
-                mode === m.mode ? 'bg-hope text-slate' : 'text-cement hover:text-white',
-              )}
-            >
-              {m.label}
-            </button>
-          ))}
+        <div className="flex flex-wrap items-center gap-4">
+          <a href="?example=app#/insights" className="text-sm text-cement underline-offset-4 hover:text-white hover:underline">
+            Sample app
+          </a>
+          <div role="group" aria-label="Colour mode" className="flex gap-1">
+            {MODES.map((m) => (
+              <button
+                key={m.mode}
+                type="button"
+                aria-pressed={mode === m.mode}
+                onClick={() => setMode(m.mode)}
+                className={cn(
+                  'h-8 px-3 text-sm outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid focus-visible:outline-hope',
+                  mode === m.mode ? 'bg-hope text-slate' : 'text-cement hover:text-white',
+                )}
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
         </div>
       </header>
       <div className="mx-auto flex max-w-6xl gap-12 px-6 py-12">
@@ -192,8 +199,6 @@ function Preview() {
 // before React renders, so a dark reload doesn't flash light
 applyColorMode();
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <Preview />
-  </StrictMode>,
-);
+const example = new URLSearchParams(location.search).get('example') === 'app';
+
+createRoot(document.getElementById('root')!).render(<StrictMode>{example ? <ExampleApp /> : <Preview />}</StrictMode>);
