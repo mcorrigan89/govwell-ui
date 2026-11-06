@@ -11,7 +11,7 @@ const at = (p: string) => fileURLToPath(new URL(p, import.meta.url));
 export default defineConfig({
   base: process.env.BASE_PATH ?? '/',
   // one page with every component on it; not worth splitting
-  build: { chunkSizeWarningLimit: 1600 },
+  build: { chunkSizeWarningLimit: 2600 },
   // 5175, so it can run beside Headway's previews; the theme's font
   // URLs point here (REGISTRY_URL in scripts/build-registry.mjs)
   server: { port: 5175, strictPort: true },
