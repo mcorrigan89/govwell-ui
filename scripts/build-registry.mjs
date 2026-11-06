@@ -173,6 +173,11 @@ const HOOKS = {
     title: 'useColorMode',
     description: 'Light (the default), dark, or follow the OS, on <html data-mode>, remembered between visits.',
   },
+  'use-dark': {
+    title: 'useDark',
+    description:
+      'Whether the page is dark right now (data-mode dark, or system while the OS prefers dark), for what picks its colours in script: a map canvas, a chart in hex.',
+  },
   'use-hotkeys': {
     title: 'useHotkeys',
     description:
@@ -742,7 +747,7 @@ const blockItems = Object.entries(BLOCKS).map(([name, spec]) => ({
 // every item belongs to exactly one, in this order; the preview groups its
 // sidebar and pages by them, and the registry carries them as `categories`
 const CATEGORIES = [
-  { id: 'foundations', title: 'Foundations', items: ['theme', 'utils', 'use-color-mode', 'use-hotkeys', 'client-only'] },
+  { id: 'foundations', title: 'Foundations', items: ['theme', 'utils', 'use-color-mode', 'use-dark', 'use-hotkeys', 'client-only'] },
   { id: 'brand', title: 'Brand', items: ['eyebrow', 'flag-mark', 'node-frame', 'grid-panel', 'stat', 'seal'] },
   {
     id: 'actions',
