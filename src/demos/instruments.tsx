@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { KeyHint, KeyHints } from '@/components/ui/key-hints';
 import { Meter } from '@/components/ui/meter';
 import { Readout } from '@/components/ui/readout';
+import { Verdict } from '@/components/ui/verdict';
 import { Seal } from '@/components/ui/seal';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ToneBadge, type Tone } from '@/components/ui/tone-badge';
@@ -238,9 +239,33 @@ function KeyHintsDemo() {
   );
 }
 
+function VerdictDemo() {
+  return (
+    <div className="flex flex-col items-start gap-3">
+      <Verdict kind="pass" subject="Zoning">
+        Approved
+      </Verdict>
+      <Verdict kind="noted" subject="Building">
+        Approved as noted
+      </Verdict>
+      <Verdict kind="revise" subject="Fire">
+        Revise and resubmit
+      </Verdict>
+      <Verdict kind="pending" subject="Engineering">
+        In review
+      </Verdict>
+      <div className="flex gap-3">
+        <Verdict kind="pass">Passed</Verdict>
+        <Verdict kind="fail">Failed</Verdict>
+      </div>
+    </div>
+  );
+}
+
 export const INSTRUMENTS_DEMOS: Record<string, () => ReactNode> = {
   'tone-badge': ToneBadgeDemo,
   readout: ReadoutDemo,
+  verdict: VerdictDemo,
   meter: MeterDemo,
   distribution: DistributionDemo,
   seal: SealDemo,
