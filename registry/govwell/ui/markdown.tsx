@@ -16,6 +16,10 @@ import { cn } from '@/lib/utils';
 //   <Markdown>{conditions}</Markdown>
 
 const defaultComponents: Components = {
+  // a GFM task list's box is read-only and unlabelled; name it by its state so
+  // a screen reader hears "done" or "to do" before the item's text
+  input: ({ node: _node, ...props }) =>
+    props.type === 'checkbox' ? <input {...props} aria-label={props.checked ? 'Done' : 'To do'} /> : <input {...props} />,
   // links keep the prose underline and gain the standard focus ring
   a: ({ node: _node, className, children, ...props }) => (
     <a

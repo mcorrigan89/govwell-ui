@@ -97,6 +97,7 @@ function DateRangePicker({
   disabled,
   className,
   calendar,
+  'aria-label': ariaLabel,
   ...props
 }: Omit<React.ComponentProps<'button'>, 'value' | 'defaultValue' | 'onChange'> & {
   value?: DateRangeValue;
@@ -155,6 +156,8 @@ function DateRangePicker({
           className,
         )}
         {...props}
+        // an aria-label names the field; the name keeps what's shown after it (WCAG 2.5.3)
+        aria-label={ariaLabel ? `${ariaLabel}: ${from || to ? formatDateRange(from, to) : placeholder}` : undefined}
       >
         <span className="truncate">{from || to ? formatDateRange(from, to) : placeholder}</span>
         <CalendarIcon className="shrink-0 text-foreground" />

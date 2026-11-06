@@ -23,6 +23,7 @@ function DatePicker({
   disabled,
   className,
   calendar,
+  'aria-label': ariaLabel,
   ...props
 }: Omit<React.ComponentProps<'button'>, 'value' | 'defaultValue' | 'onChange'> & {
   value?: Date | undefined;
@@ -33,6 +34,7 @@ function DatePicker({
   calendar?: Omit<React.ComponentProps<typeof Calendar>, 'mode' | 'selected' | 'onSelect'>;
 }) {
   const [open, setOpen] = React.useState(false);
+  const shown = value ? format(value) : placeholder;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -45,8 +47,10 @@ function DatePicker({
           className,
         )}
         {...props}
+        // an aria-label names the field; the name keeps what's shown after it (WCAG 2.5.3)
+        aria-label={ariaLabel ? `${ariaLabel}: ${shown}` : undefined}
       >
-        <span className="truncate">{value ? format(value) : placeholder}</span>
+        <span className="truncate">{shown}</span>
         <CalendarIcon className="shrink-0 text-foreground" />
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">

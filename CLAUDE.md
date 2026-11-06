@@ -22,7 +22,7 @@ pnpm build        # registry + type-check + vite build → dist/
 pnpm verify       # install every item into a fresh app in .verify/ and build it
 ```
 
-`check-types`, `lint`, `format:check`, `test` and `verify` are the checks. Commits are made with the Graphite CLI (`gt create`), one branch per piece of work, stacked on `main`.
+`check-types`, `lint`, `format:check`, `test` and `verify` are the checks. `tests/a11y.test.tsx` runs axe's WCAG 2.2 A/AA rules over every demo and the sample app's pages (contrast is left to `tests/contrast.test.ts`, since jsdom has no layout); a new demo is covered automatically. For a full audit, contrast and open popups included, load `/node_modules/axe-core/axe.min.js` into the running preview and run `axe.run()` in light and dark. Commits are made with the Graphite CLI (`gt create`), one branch per piece of work, stacked on `main`.
 
 ## Architecture
 
@@ -50,6 +50,7 @@ pnpm verify       # install every item into a fresh app in .verify/ and build it
 - **Checked / on / selected**: Slate fills (`bg-secondary text-secondary-foreground`) for checkboxes, radios, switches, selected days and pressed toggles; Hope (`bg-primary`) only where it marks progress or the one main action (a progress bar, the current step).
 - **Floating panels** (popover, menus, tooltip, hover card, select/combobox/command popups): `border border-border bg-popover text-popover-foreground shadow-lg`, square. Modals (dialog, alert dialog, sheet, drawer): the same panel, `p-8`, over `bg-slate/60`; titles `text-3xl font-normal tracking-tight`. Tooltips are the inverse: `bg-secondary text-secondary-foreground`.
 - **Status surfaces** (alert, toast): a square panel with the status shown on a tile or rail in the status colour; body text stays `foreground`.
+- **Accessible names**: an `aria-label` must contain the visible text (WCAG 2.5.3): a date picker labelled "Due by" is named "Due by: Pick a date". Prefer naming by content (a visually hidden span) to an `aria-label` that drops visible initials or captions. Icon-only buttons need an `aria-label`. Don't put `role="separator"` inside a list or listbox: draw the rule with an `aria-hidden` div.
 - **No glow, no gradients, no rounded corners.** Shadows only on floating layers. Disabled is `opacity-40`.
 - **Motion**: the `tw-animate-css` enter/exit classes; keep it short (100–200ms). No colour transitions on a selection that moves between siblings (segmented control, toggle group, tabs, pagination): the old and new fills cross-fade and read as a flicker. Swap instantly.
 - Components must read correctly in light and dark; check both with the preview's mode switch.

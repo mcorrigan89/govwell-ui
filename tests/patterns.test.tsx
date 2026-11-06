@@ -250,7 +250,7 @@ describe('UserMenu', () => {
         onSignOut={onSignOut}
       />,
     );
-    await userEvent.click(screen.getByRole('button', { name: 'Dana Ruiz, account menu' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Dana Ruiz' }));
     const menu = await screen.findByRole('menu');
     expect(within(menu).getByText('dana@springfield.gov')).toBeInTheDocument();
     expect(within(menu).getByRole('menuitemradio', { name: /City of Springfield/ })).toHaveAttribute('aria-checked', 'true');
@@ -263,7 +263,7 @@ describe('UserMenu', () => {
     // running, and a click would land in the closing menu instead of a new one
     await waitFor(() => expect(screen.queryByRole('menu')).not.toBeInTheDocument());
 
-    await userEvent.click(screen.getByRole('button', { name: 'Dana Ruiz, account menu' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Dana Ruiz' }));
     await userEvent.click(await screen.findByRole('menuitem', { name: 'Sign out' }));
     expect(onSignOut).toHaveBeenCalledOnce();
   });
@@ -278,7 +278,7 @@ describe('UserMenu', () => {
         activeOrganizationId="springfield"
       />,
     );
-    const trigger = screen.getByRole('button', { name: 'Dana Ruiz, account menu' });
+    const trigger = screen.getByRole('button', { name: 'Dana Ruiz' });
     expect(trigger).toHaveTextContent('DR');
     await userEvent.click(trigger);
     const menu = await screen.findByRole('menu');

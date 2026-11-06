@@ -30,6 +30,7 @@ function NumberInput({
   'aria-labelledby': ariaLabelledBy,
   'aria-describedby': ariaDescribedBy,
   'aria-invalid': ariaInvalid,
+  'aria-required': ariaRequired,
   onBlur,
   onFocus,
   ...props
@@ -50,6 +51,7 @@ function NumberInput({
   'aria-labelledby'?: string;
   'aria-describedby'?: string;
   'aria-invalid'?: React.AriaAttributes['aria-invalid'];
+  'aria-required'?: React.AriaAttributes['aria-required'];
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
   onFocus?: React.FocusEventHandler<HTMLInputElement>;
 }) {
@@ -86,6 +88,7 @@ function NumberInput({
           aria-labelledby={ariaLabelledBy}
           aria-describedby={ariaDescribedBy}
           aria-invalid={ariaInvalid}
+          aria-required={ariaRequired}
           onBlur={onBlur}
           onFocus={onFocus}
           className={cn(

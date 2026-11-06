@@ -396,7 +396,6 @@ const UI = {
   item: {
     description: 'A list row with media, a Regular title, a description and actions: plain, in a hairline panel or on grey.',
     deps: ['@base-ui/react', 'class-variance-authority'],
-    ui: ['separator'],
   },
   kbd: { description: 'A keyboard key as a small square in mono type on the muted surface.', deps: [] },
   'key-hints': {

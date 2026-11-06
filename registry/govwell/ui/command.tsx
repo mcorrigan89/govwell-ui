@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Command as CommandPrimitive } from 'cmdk';
+import { Command as CommandPrimitive, useCommandState } from 'cmdk';
 import { CheckIcon, SearchIcon } from 'lucide-react';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -137,8 +137,13 @@ function CommandGroup({ className, ref, ...props }: React.ComponentProps<typeof 
   );
 }
 
-function CommandSeparator({ className, ...props }: React.ComponentProps<typeof CommandPrimitive.Separator>) {
-  return <CommandPrimitive.Separator data-slot="command-separator" className={cn('-mx-1 h-px w-auto bg-border', className)} {...props} />;
+// a drawn rule, hidden from assistive tech: cmdk's own separator is
+// role="separator", which a listbox may not contain. Like cmdk's, it hides
+// while there's a search, unless `alwaysRender`.
+function CommandSeparator({ className, alwaysRender, ...props }: React.ComponentProps<'div'> & { alwaysRender?: boolean }) {
+  const searching = useCommandState((state) => state.search !== '');
+  if (searching && !alwaysRender) return null;
+  return <div aria-hidden data-slot="command-separator" className={cn('-mx-1 h-px w-auto bg-border', className)} {...props} />;
 }
 
 function CommandItem({ className, children, ref, ...props }: React.ComponentProps<typeof CommandPrimitive.Item>) {

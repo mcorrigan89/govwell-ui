@@ -62,6 +62,7 @@ function ComboboxInput({
             size="icon-xs"
             variant="ghost"
             render={<ComboboxTrigger />}
+            aria-label="Show options"
             data-slot="input-group-button"
             className="group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent"
             disabled={disabled}
@@ -195,9 +196,12 @@ function ComboboxChip({
   className,
   children,
   showRemove = true,
+  removeLabel,
   ...props
 }: ComboboxPrimitive.Chip.Props & {
   showRemove?: boolean;
+  /** the remove button's name; default "Remove <chip text>" when the chip is plain text */
+  removeLabel?: string;
 }) {
   return (
     <ComboboxPrimitive.Chip
@@ -214,6 +218,7 @@ function ComboboxChip({
           render={<Button variant="ghost" size="icon-xs" />}
           className="-ml-1 size-7 text-secondary-foreground hover:bg-secondary-foreground hover:text-secondary"
           data-slot="combobox-chip-remove"
+          aria-label={removeLabel ?? (typeof children === 'string' || typeof children === 'number' ? `Remove ${children}` : 'Remove')}
         >
           <XIcon className="pointer-events-none" />
         </ComboboxPrimitive.ChipRemove>

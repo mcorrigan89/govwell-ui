@@ -150,7 +150,7 @@ describe('DateRangePicker', () => {
   it('picks a preset from the popover and closes', async () => {
     const onValueChange = vi.fn();
     render(<DateRangePicker aria-label="Submitted" onValueChange={onValueChange} />);
-    const trigger = screen.getByRole('button', { name: 'Submitted' });
+    const trigger = screen.getByRole('button', { name: /^Submitted: / });
     expect(trigger).toHaveTextContent('Pick a date range');
     await userEvent.click(trigger);
     await userEvent.click(await screen.findByRole('button', { name: 'Today' }));
@@ -171,7 +171,7 @@ describe('DateRangePicker', () => {
       return <DateRangePicker aria-label="Issued" value={value} onValueChange={setValue} />;
     }
     render(<Demo />);
-    const trigger = screen.getByRole('button', { name: 'Issued' });
+    const trigger = screen.getByRole('button', { name: /^Issued: / });
     expect(trigger).toHaveTextContent('March 3 – 14');
     await userEvent.click(trigger);
     // a custom value opens on the custom pane
@@ -357,7 +357,7 @@ describe('FileUpload', () => {
     const { container } = render(<FileUpload multiple onFilesChange={onFilesChange} />);
     const input = container.querySelector('input[type=file]') as HTMLInputElement;
     const click = vi.spyOn(input, 'click');
-    const zone = screen.getByRole('button', { name: 'Upload files' });
+    const zone = screen.getByRole('button', { name: /^Drop files here/ });
     await userEvent.click(zone);
     expect(click).toHaveBeenCalledTimes(1);
     zone.focus();
@@ -383,7 +383,7 @@ describe('FileUpload', () => {
         onFilesChange={onFilesChange}
       />,
     );
-    const zone = screen.getByRole('button', { name: 'Upload files (.pdf)' });
+    const zone = screen.getByRole('button', { name: /^Drop files here/ });
     const files = [pdf('ok.pdf'), new File(['x'], 'photo.png', { type: 'image/png' }), pdf('huge.pdf', 5000), pdf('extra.pdf')];
     fireEvent.dragEnter(zone, { dataTransfer: { files } });
     expect(zone).toHaveAttribute('data-dragging');
@@ -444,7 +444,7 @@ describe('FileUpload', () => {
     );
     const inputs = container.querySelectorAll<HTMLInputElement>('input[type=file]');
     const click = vi.spyOn(inputs[0]!, 'click');
-    await userEvent.click(screen.getByRole('button', { name: 'Upload files' }));
+    await userEvent.click(screen.getByRole('button', { name: /^Drop a file here/ }));
     expect(click).not.toHaveBeenCalled();
     const click2 = vi.spyOn(inputs[1]!, 'click');
     await userEvent.click(screen.getByRole('button', { name: 'Upload licence' }));
