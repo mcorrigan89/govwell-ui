@@ -11,6 +11,7 @@ import { Readout } from '@/components/ui/readout';
 import { Seal } from '@/components/ui/seal';
 import { ToneBadge } from '@/components/ui/tone-badge';
 import { Verdict } from '@/components/ui/verdict';
+import { FigureIcon } from '@/components/ui/figure-icon';
 import { useHotkeys, type HotkeyHandler } from '@/hooks/use-hotkeys';
 import { INSTRUMENTS_DEMOS } from '../src/demos/instruments';
 
@@ -360,5 +361,15 @@ describe('Verdict', () => {
   it('keeps the mark out of the accessible name', () => {
     render(<Verdict kind="revise">Revise</Verdict>);
     expect(screen.getByText('Revise').closest('[data-verdict]')!.firstElementChild).toHaveAttribute('aria-hidden');
+  });
+});
+
+describe('FigureIcon', () => {
+  it('draws the icon on its tint, hidden from assistive tech', () => {
+    const { container } = render(<FigureIcon icon={(p) => <svg data-testid="icon" {...p} />} tint="amber" />);
+    const tile = container.firstElementChild!;
+    expect(tile).toHaveClass('bg-amber-tint', 'text-tint-foreground', 'size-9');
+    expect(tile).toHaveAttribute('aria-hidden');
+    expect(screen.getByTestId('icon')).toHaveClass('size-4');
   });
 });

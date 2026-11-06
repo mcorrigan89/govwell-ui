@@ -1,4 +1,5 @@
 import { useRef, useState, type ReactNode } from 'react';
+import { CalendarClock, ListChecks, Receipt, Wallet } from 'lucide-react';
 
 import { Distribution } from '@/components/ui/distribution';
 import { EventLog, EventLogEmpty, EventLogFilter, EventLogItem, type EventLogTone } from '@/components/ui/event-log';
@@ -6,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { KeyHint, KeyHints } from '@/components/ui/key-hints';
 import { Meter } from '@/components/ui/meter';
 import { Readout } from '@/components/ui/readout';
+import { FigureIcon } from '@/components/ui/figure-icon';
 import { Verdict } from '@/components/ui/verdict';
 import { Seal } from '@/components/ui/seal';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -239,6 +241,27 @@ function KeyHintsDemo() {
   );
 }
 
+// figures in hairline tiles, each with its kind's icon on a tint: the
+// caseload strip and a permit's header in govwell-cqrs
+function FigureIconDemo() {
+  const figures = [
+    { label: 'Open steps', value: '38', tone: 'info', icon: ListChecks, tint: 'sky' },
+    { label: 'Collected all time', value: '$16,627.26', tone: 'ok', icon: Wallet, tint: 'teal' },
+    { label: 'Balance due', value: '$6,448.30', tone: 'warning', icon: Receipt, tint: 'amber' },
+    { label: 'Valid until', value: '4/27/2027', tone: 'neutral', icon: CalendarClock, tint: 'hope' },
+  ] as const;
+  return (
+    <div className="grid grid-cols-[repeat(auto-fit,minmax(12rem,1fr))] border-t border-l border-border">
+      {figures.map((f) => (
+        <div key={f.label} className="flex items-start justify-between gap-3 border-r border-b border-border p-5 whitespace-nowrap">
+          <Readout label={f.label} value={f.value} tone={f.tone} />
+          <FigureIcon icon={f.icon} tint={f.tint} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function VerdictDemo() {
   return (
     <div className="flex flex-col items-start gap-3">
@@ -266,6 +289,7 @@ export const INSTRUMENTS_DEMOS: Record<string, () => ReactNode> = {
   'tone-badge': ToneBadgeDemo,
   readout: ReadoutDemo,
   verdict: VerdictDemo,
+  'figure-icon': FigureIconDemo,
   meter: MeterDemo,
   distribution: DistributionDemo,
   seal: SealDemo,
