@@ -57,5 +57,6 @@ pnpm verify       # install every item into a fresh app in .verify/ and build it
 
 1. Put the source in `registry/govwell/ui/`.
 2. Add it to `UI` in `scripts/build-registry.mjs` (npm deps and any `ui` registry deps).
-3. Add a demo to a file in `src/demos/` (spread into `DEMOS` in `src/demos.tsx`) and a test in `tests/`.
-4. Run `pnpm verify`.
+3. Add its name to one of the `CATEGORIES` in the same file (the build fails if an item has no category). The preview groups its sidebar and pages by category; `#/c/<category>` shows one group.
+4. Add a demo to a file in `src/demos/` (spread into `DEMOS` in `src/demos.tsx`) and a test in `tests/`.
+5. Run `pnpm verify`.
