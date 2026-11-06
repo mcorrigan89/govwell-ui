@@ -108,7 +108,51 @@ const hookItems = Object.entries(HOOKS).map(([name, spec]) => ({
 
 // ── components ─────────────────────────────────────────────────────────────
 // name → { description, deps (npm), ui (other registry items it imports) }
-const UI = {};
+const UI = {
+  badge: {
+    description: 'A small square label in the eyebrow’s type, on a brand tint or a solid status colour.',
+    deps: ['@base-ui/react', 'class-variance-authority'],
+  },
+  button: {
+    description: 'Square buttons in GT Standard Light: a Hope primary, a Slate secondary, outline, ghost, destructive and link.',
+    deps: ['@base-ui/react', 'class-variance-authority'],
+  },
+  card: { description: 'A square panel with an Ash hairline, for a header (with an eyebrow), content and footer.', deps: [] },
+  dialog: {
+    description: 'A modal on a square panel over a Slate wash, with a Regular-weight title.',
+    deps: ['@base-ui/react', 'lucide-react'],
+    ui: ['button'],
+  },
+  eyebrow: {
+    description: 'GovWell’s signpost: an uppercase label on a brand tint, with an icon on a square tile under its corner.',
+    deps: ['class-variance-authority'],
+  },
+  field: {
+    description: 'Labels, controls, help text and errors composed into form fields; takes errors from any form library.',
+    deps: ['class-variance-authority'],
+    ui: ['label'],
+  },
+  'flag-mark': { description: 'The GovWell flag mark and the full logo, from GovWell’s artwork, in the current colour.', deps: [] },
+  'grid-panel': {
+    description: 'A panel on the base grid around one intersection: colour block and copy above, flag mark and image below.',
+    deps: ['class-variance-authority'],
+    ui: ['flag-mark'],
+  },
+  input: { description: 'A square text box with a Concrete edge that darkens on hover and focus.', deps: ['@base-ui/react'] },
+  'input-group': {
+    description: 'An input with icons, units or buttons attached, in one square box.',
+    deps: ['@base-ui/react', 'class-variance-authority'],
+    ui: ['button'],
+  },
+  label: { description: 'A form label in Regular weight.', deps: [] },
+  'node-frame': {
+    description: 'The “tech layer”: a dotted frame with square nodes at its corners, around an icon, image or content.',
+    deps: [],
+  },
+  popover: { description: 'Content in a square floating panel, anchored to its trigger.', deps: ['@base-ui/react'] },
+  separator: { description: 'A hairline rule, across or down.', deps: ['@base-ui/react'] },
+  stat: { description: 'A key figure: a large Regular-weight number with a short caption.', deps: [] },
+};
 const uiItems = Object.entries(UI).map(([name, spec]) => ({
   name,
   type: 'registry:ui',

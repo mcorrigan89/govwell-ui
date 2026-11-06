@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 
+import { BASE_DEMOS } from '@/docs/demos/base';
+
 // One demo per registry item, keyed by item name. Items without one show
 // their description only.
 
@@ -63,5 +65,6 @@ function ThemeDemo() {
 }
 
 export const DEMOS: Record<string, () => ReactNode> = {
+  ...BASE_DEMOS,
   theme: ThemeDemo,
 };
