@@ -324,11 +324,25 @@ const uiItems = Object.entries(UI).map(([name, spec]) => ({
   files: [{ path: `registry/govwell/ui/${name}.tsx`, type: 'registry:ui' }],
 }));
 
+// ── blocks ─────────────────────────────────────────────────────────────────
+// larger compositions, installed to components/blocks so they can import each
+// other and the ui items: name → { title, description, deps, ui }
+const BLOCKS = {};
+const blockItems = Object.entries(BLOCKS).map(([name, spec]) => ({
+  name,
+  type: 'registry:block',
+  title: spec.title,
+  description: spec.description,
+  dependencies: spec.deps,
+  registryDependencies: [THEME, UTILS, ...(spec.ui ?? []).map(url)],
+  files: [{ path: `registry/govwell/blocks/${name}.tsx`, type: 'registry:component', target: `components/blocks/${name}.tsx` }],
+}));
+
 const registry = {
   $schema: 'https://ui.shadcn.com/schema/registry.json',
   name: 'govwell',
   homepage: BASE,
-  items: [theme, utils, ...hookItems, ...uiItems],
+  items: [theme, utils, ...hookItems, ...uiItems, ...blockItems],
 };
 
 // every file an item names must exist

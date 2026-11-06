@@ -19,6 +19,7 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: /^@\/components\/ui\//, replacement: at('./registry/govwell/ui/') },
+      { find: /^@\/components\/blocks\//, replacement: at('./registry/govwell/blocks/') },
       { find: /^@\/lib\//, replacement: at('./registry/govwell/lib/') },
       { find: /^@\/hooks\//, replacement: at('./registry/govwell/hooks/') },
       { find: /^@\/docs\//, replacement: at('./src/') },
