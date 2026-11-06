@@ -13,7 +13,7 @@ export const BRAND = {
   concrete: '#7c7c7c',
   cement: '#b1b1b1',
   ash: '#d9d9d9',
-  base: '#ececec',
+  'base-grey': '#ececec',
   hope: '#feaf0e',
   sky: '#41aaeb',
   field: '#39c25e',
