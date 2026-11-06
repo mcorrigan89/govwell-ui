@@ -113,7 +113,8 @@ function Steps({
                 size === 'sm' ? 'text-sm' : 'text-base',
                 status === 'error' ? 'text-error' : status === 'wait' ? 'text-muted-foreground' : 'text-foreground',
                 status === 'process' && 'font-normal',
-                horizontal && 'whitespace-nowrap',
+                // wraps rather than spilling into the next step when the row is narrow
+                horizontal && 'text-pretty',
               )}
             >
               {item.title}
