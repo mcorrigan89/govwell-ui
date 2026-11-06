@@ -50,7 +50,7 @@ pnpm verify       # install every item into a fresh app in .verify/ and build it
 - **Floating panels** (popover, menus, tooltip, hover card, select/combobox/command popups): `border border-border bg-popover text-popover-foreground shadow-lg`, square. Modals (dialog, alert dialog, sheet, drawer): the same panel, `p-8`, over `bg-slate/60`; titles `text-3xl font-normal tracking-tight`. Tooltips are the inverse: `bg-secondary text-secondary-foreground`.
 - **Status surfaces** (alert, toast): a square panel with the status shown on a tile or rail in the status colour; body text stays `foreground`.
 - **No glow, no gradients, no rounded corners.** Shadows only on floating layers. Disabled is `opacity-40`.
-- **Motion**: the `tw-animate-css` enter/exit classes; keep it short (100–200ms).
+- **Motion**: the `tw-animate-css` enter/exit classes; keep it short (100–200ms). No colour transitions on a selection that moves between siblings (segmented control, toggle group, tabs, pagination): the old and new fills cross-fade and read as a flicker. Swap instantly.
 - Components must read correctly in light and dark; check both with the preview's mode switch.
 
 ## Adding a component

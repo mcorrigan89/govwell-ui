@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 // (white in dark mode) when pressed in. Sizes match <Button>.
 
 const toggleVariants = cva(
-  "group/toggle inline-flex items-center justify-center gap-2 rounded-none border border-transparent text-base font-light whitespace-nowrap text-foreground transition-colors outline-none hover:bg-accent hover:text-accent-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-40 aria-invalid:border-error aria-pressed:border-secondary aria-pressed:bg-secondary aria-pressed:text-secondary-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/toggle inline-flex items-center justify-center gap-2 rounded-none border border-transparent text-base font-light whitespace-nowrap text-foreground outline-none hover:bg-accent hover:text-accent-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-40 aria-invalid:border-error aria-pressed:border-secondary aria-pressed:bg-secondary aria-pressed:text-secondary-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
