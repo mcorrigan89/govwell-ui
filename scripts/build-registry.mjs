@@ -155,7 +155,7 @@ const hookItems = Object.entries(HOOKS).map(([name, spec]) => ({
 }));
 
 // ── components ─────────────────────────────────────────────────────────────
-// name → { description, deps (npm), ui (other registry items it imports) }
+// name → { description, deps (npm), devDeps (npm, types), ui (other registry items it imports) }
 const UI = {
   accordion: {
     description: 'Stacked sections that open and close, with Regular-weight questions between Ash hairlines and a thin plus or minus.',
@@ -174,6 +174,13 @@ const UI = {
     description: 'A confirmation that has to be answered, on a square panel over a Slate wash.',
     deps: ['@base-ui/react'],
     ui: ['button'],
+  },
+  'area-picker': {
+    description:
+      'Draw an area a corner per click, close it, drag corners to reshape it, with Undo, Clear and a keyboard “Add corner at centre”.',
+    deps: ['leaflet', 'lucide-react'],
+    devDeps: ['@types/leaflet'],
+    ui: ['map', 'button'],
   },
   'aspect-ratio': { description: 'Holds its content to a fixed width-to-height ratio.', deps: [] },
   attachment: {
@@ -244,6 +251,10 @@ const UI = {
   checkbox: {
     description: 'A small square box with a Concrete edge that fills Slate, with the tick knocked out, when checked.',
     deps: ['@base-ui/react', 'lucide-react'],
+  },
+  'client-only': {
+    description: 'Renders its children only in the browser after hydration, with a fallback on the server; maps are lazy-loaded behind it.',
+    deps: [],
   },
   collapsible: { description: 'An unstyled section that shows and hides behind a trigger.', deps: ['@base-ui/react'] },
   'color-picker': {
@@ -405,6 +416,12 @@ const UI = {
       'A text link with a 1px underline that thickens on hover; external links get an arrow; renders as a router link through render.',
     deps: ['@base-ui/react', 'class-variance-authority', 'lucide-react'],
   },
+  map: {
+    description:
+      'A square Leaflet map with OpenStreetMap tiles and credit, square GovWell zoom buttons and markers, popover-style labels, and token-coloured shapes.',
+    deps: ['leaflet', 'react-leaflet'],
+    devDeps: ['@types/leaflet'],
+  },
   markdown: {
     description: 'Markdown with GitHub extensions rendered in the theme’s govwell-prose, with raw HTML dropped and unsafe links stripped.',
     deps: ['react-markdown', 'remark-gfm'],
@@ -430,6 +447,12 @@ const UI = {
     ui: ['button'],
   },
   meter: { description: 'An n-of-m count drawn as square segments, filled Slate or a status colour.', deps: [] },
+  'mini-map': {
+    description:
+      'A small still map of one place: the parcel outlined in Hope, the address point as a Slate square, and an “Open map” link.',
+    deps: [],
+    ui: ['map'],
+  },
   'native-select': {
     description: 'The browser’s own select in a square box like the input, for long lists, phones and forms that work without JavaScript.',
     deps: ['lucide-react'],
@@ -455,6 +478,13 @@ const UI = {
     description: 'Previous, numbered and next page links, with the current page as a square Slate block.',
     deps: ['lucide-react'],
     ui: ['button'],
+  },
+  'point-picker': {
+    description:
+      'Click the map to place a point and drag it to move, with latitude and longitude boxes for the keyboard; the value is [lat, lng] or null.',
+    deps: ['leaflet', 'react-leaflet'],
+    devDeps: ['@types/leaflet'],
+    ui: ['map', 'button', 'field', 'input'],
   },
   popover: { description: 'Content in a square floating panel, anchored to its trigger.', deps: ['@base-ui/react'] },
   progress: {
@@ -599,6 +629,11 @@ const UI = {
       'An accessible tree with square expand toggles, guide lines, arrow-key navigation, typeahead and an optional selected row.',
     deps: ['lucide-react'],
   },
+  'vector-tile-layer': {
+    description: 'A server’s vector tiles drawn on canvas inside a Map, with paint-rule helpers coloured from the theme’s tokens.',
+    deps: ['protomaps-leaflet', 'react-leaflet'],
+    ui: ['map'],
+  },
 };
 const uiItems = Object.entries(UI).map(([name, spec]) => ({
   name,
@@ -606,6 +641,7 @@ const uiItems = Object.entries(UI).map(([name, spec]) => ({
   title: name.replace(/(^|-)(\w)/g, (_, s, c) => (s ? ' ' : '') + c.toUpperCase()),
   description: spec.description,
   dependencies: spec.deps,
+  ...(spec.devDeps && { devDependencies: spec.devDeps }),
   registryDependencies: [THEME, UTILS, ...(spec.ui ?? []).map(url)],
   files: [{ path: `registry/govwell/ui/${name}.tsx`, type: 'registry:ui' }],
 }));
@@ -664,7 +700,7 @@ const blockItems = Object.entries(BLOCKS).map(([name, spec]) => ({
 // every item belongs to exactly one, in this order; the preview groups its
 // sidebar and pages by them, and the registry carries them as `categories`
 const CATEGORIES = [
-  { id: 'foundations', title: 'Foundations', items: ['theme', 'utils', 'use-color-mode', 'use-hotkeys'] },
+  { id: 'foundations', title: 'Foundations', items: ['theme', 'utils', 'use-color-mode', 'use-hotkeys', 'client-only'] },
   { id: 'brand', title: 'Brand', items: ['eyebrow', 'flag-mark', 'node-frame', 'grid-panel', 'stat', 'seal'] },
   {
     id: 'actions',
@@ -751,6 +787,11 @@ const CATEGORIES = [
       'markdown',
       'highlight',
       'tree',
+      'map',
+      'mini-map',
+      'point-picker',
+      'area-picker',
+      'vector-tile-layer',
     ],
   },
   {
