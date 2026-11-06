@@ -226,7 +226,8 @@ function ComboboxChipsInput({ className, ...props }: ComboboxPrimitive.Input.Pro
   return (
     <ComboboxPrimitive.Input
       data-slot="combobox-chip-input"
-      className={cn('min-w-16 flex-1 bg-transparent outline-none placeholder:text-muted-foreground', className)}
+      // narrow enough to share a line with the chips; it grows into the space left
+      className={cn('min-w-10 flex-1 bg-transparent outline-none placeholder:text-muted-foreground', className)}
       {...props}
     />
   );
