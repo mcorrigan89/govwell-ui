@@ -1,12 +1,14 @@
 import type { ReactNode } from 'react';
 
 import { BASE_DEMOS } from '@/docs/demos/base';
+import { OVERLAYS_DEMOS } from '@/docs/demos/overlays';
+import { DISPLAY_DEMOS } from '@/docs/demos/display';
 import { FORMS_DEMOS } from '@/docs/demos/forms';
 
 // One demo per registry item, keyed by item name. Items without one show
 // their description only.
 
-const BRAND = ['jet', 'slate', 'concrete', 'cement', 'ash', 'base', 'hope', 'sky', 'field'];
+const BRAND = ['jet', 'slate', 'concrete', 'cement', 'ash', 'base-grey', 'hope', 'sky', 'field'];
 const TINTS = ['hope-tint', 'sky-tint', 'field-tint', 'ash-tint'];
 const STATUS = ['primary', 'ok', 'info', 'warning', 'destructive'];
 const SURFACES = ['background', 'card', 'muted', 'accent', 'secondary', 'border', 'input'];
@@ -67,6 +69,8 @@ function ThemeDemo() {
 
 export const DEMOS: Record<string, () => ReactNode> = {
   ...BASE_DEMOS,
+  ...OVERLAYS_DEMOS,
+  ...DISPLAY_DEMOS,
   ...FORMS_DEMOS,
   theme: ThemeDemo,
 };
