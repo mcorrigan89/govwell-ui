@@ -6,7 +6,28 @@ import { contrast, DARK, LIGHT, TEXT_PAIRS, UI_PAIRS } from '../scripts/palette.
 // like a size or a layout keyword quietly recolours everything using that
 // utility (a 'base' token turned every text-base grey; a 'grid' token made
 // bg-grid a fill).
-const RESERVED = ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', 'grid', 'none', 'auto', 'full', 'clip', 'fixed', 'center', 'left', 'right', 'top', 'bottom', 'x', 'y'];
+const RESERVED = [
+  'xs',
+  'sm',
+  'base',
+  'lg',
+  'xl',
+  '2xl',
+  '3xl',
+  'grid',
+  'none',
+  'auto',
+  'full',
+  'clip',
+  'fixed',
+  'center',
+  'left',
+  'right',
+  'top',
+  'bottom',
+  'x',
+  'y',
+];
 
 describe('token names', () => {
   it('never collide with Tailwind size or layout keywords', () => {
