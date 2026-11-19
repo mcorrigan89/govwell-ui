@@ -1,21 +1,23 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import {
-  BarChart3,
-  Briefcase,
-  CalendarDays,
-  CircleDollarSign,
-  ClipboardList,
-  Construction,
-  FileText,
-  ListChecks,
-  MapPin,
-  ShieldAlert,
-  Users,
-} from 'lucide-react';
+import { Landmark, LogIn, MessagesSquare, Shapes } from 'lucide-react';
 
 import { Toaster } from '@/components/ui/sonner';
 
 import { Assistant } from './assistant';
+import { ChatPage } from './chat';
+import { IconMappingPage } from './icon-mapping';
+import {
+  CodeEnforcementIcon,
+  ContactsIcon,
+  InsightsIcon,
+  InspectionCalendarIcon,
+  LocationsIcon,
+  MeetingsIcon,
+  PaymentsIcon,
+  recordTypeIcon,
+  ReportingIcon,
+  TasksIcon,
+} from './icons';
 import { RECORD_TYPES, recordsOfType } from './data';
 import { CalendarPage, InsightsPage, PlaceholderPage, RecordPage, RecordsPage } from './pages';
 import { SearchDialog } from './search';
@@ -27,9 +29,17 @@ import { Shell, type NavGroup } from './shell';
 // one town. Open it with ?example=app; pages are hash routes (#/records/building).
 
 const NAV: NavGroup[] = [
+  // the demo pages, set apart from the app's own sections by a rule
+  // leaves the app for a town's public portal
+  { label: 'Sample Portal', icon: Landmark, href: '?example=portal' },
+  { label: 'Sample AI Chat', icon: MessagesSquare, href: '#/chat' },
+  // leaves the app for the sample sign-in page
+  { label: 'Sample Log In', icon: LogIn, href: '?example=login' },
+  // every icon swapped in the sample, before and after
+  { label: 'Icon Mapping', icon: Shapes, href: '#/icons', dividerAfter: true },
   {
     label: 'Insights',
-    icon: BarChart3,
+    icon: InsightsIcon,
     items: [
       { href: '#/insights', label: 'Overview' },
       { href: '#/insights/inspections', label: 'Inspections' },
@@ -37,7 +47,7 @@ const NAV: NavGroup[] = [
   },
   ...RECORD_TYPES.map((t): NavGroup => ({
     label: t.name,
-    icon: t.id === 'building' ? Construction : FileText,
+    icon: recordTypeIcon(t.id),
     items: [
       { href: `#/records/${t.id}`, label: 'Permits', count: recordsOfType(t.id).filter((r) => r.statusKey === 'submitted').length },
       { href: `#/records/${t.id}/plan-reviews`, label: 'Plan reviews' },
@@ -47,7 +57,7 @@ const NAV: NavGroup[] = [
   })),
   {
     label: 'Code Enforcement',
-    icon: ShieldAlert,
+    icon: CodeEnforcementIcon,
     items: [
       { href: '#/code/cases', label: 'Cases' },
       { href: '#/code/inspections', label: 'Inspections' },
@@ -55,26 +65,26 @@ const NAV: NavGroup[] = [
   },
   {
     label: 'Locations',
-    icon: MapPin,
+    icon: LocationsIcon,
     items: [
       { href: '#/locations/addresses', label: 'Addresses' },
       { href: '#/locations/parcels', label: 'Parcels' },
     ],
   },
-  { label: 'Tasks', icon: ListChecks, href: '#/tasks' },
-  { label: 'Meetings', icon: Briefcase, href: '#/meetings' },
+  { label: 'Tasks', icon: TasksIcon, href: '#/tasks' },
+  { label: 'Meetings', icon: MeetingsIcon, href: '#/meetings' },
   {
     label: 'Payments',
-    icon: CircleDollarSign,
+    icon: PaymentsIcon,
     items: [
       { href: '#/payments/transactions', label: 'Transactions' },
       { href: '#/payments/invoices', label: 'Invoices' },
       { href: '#/payments/deposits', label: 'Deposits' },
     ],
   },
-  { label: 'Inspection Calendar', icon: CalendarDays, href: '#/calendar' },
-  { label: 'Reporting', icon: ClipboardList, href: '#/reporting' },
-  { label: 'Contacts', icon: Users, href: '#/contacts' },
+  { label: 'Inspection Calendar', icon: InspectionCalendarIcon, href: '#/calendar' },
+  { label: 'Reporting', icon: ReportingIcon, href: '#/reporting' },
+  { label: 'Contacts', icon: ContactsIcon, href: '#/contacts' },
 ];
 
 const pathFromHash = () => location.hash.replace(/^#/, '') || '/insights';
@@ -97,6 +107,8 @@ function page(path: string): ReactNode {
   const parts = path.split('/').filter(Boolean);
   if (parts[0] === 'insights' && parts.length === 1) return <InsightsPage />;
   if (parts[0] === 'calendar') return <CalendarPage />;
+  if (parts[0] === 'chat') return <ChatPage />;
+  if (parts[0] === 'icons') return <IconMappingPage />;
   if (parts[0] === 'records' && parts[1] && RECORD_TYPES.some((t) => t.id === parts[1])) {
     if (parts.length === 2) return <RecordsPage typeId={parts[1]} />;
     if (parts.length === 3 && parts[2]!.includes('-2026-')) return <RecordPage id={parts[2]!} />;

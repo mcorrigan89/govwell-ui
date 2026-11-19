@@ -173,12 +173,12 @@ function BadgeDemo() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap items-center gap-2">
-        <Badge>Case study</Badge>
+        <Badge variant="gold">Case study</Badge>
         <Badge variant="sky">Insights</Badge>
         <Badge variant="field">Guides</Badge>
-        <Badge variant="amber">Fees due</Badge>
+        <Badge variant="red">Fees due</Badge>
         <Badge variant="teal">Certified</Badge>
-        <Badge variant="ash">20,903 population</Badge>
+        <Badge variant="brown">20,903 population</Badge>
         <Badge variant="outline">Draft</Badge>
         <Badge variant="solid">New</Badge>
       </div>

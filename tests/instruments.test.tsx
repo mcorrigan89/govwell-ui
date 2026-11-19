@@ -28,14 +28,14 @@ describe('ToneBadge', () => {
         <ToneBadge tone="dim">Withdrawn</ToneBadge>
       </>,
     );
-    expect(screen.getByText('Issued')).toHaveClass('bg-ok', 'text-ok-foreground', 'eyebrow-type', 'rounded-none');
-    expect(screen.getByText('Awaiting payment')).toHaveClass('bg-warning');
+    expect(screen.getByText('Issued')).toHaveClass('bg-greenlight-300', 'text-tag-foreground', 'eyebrow-type', 'rounded-none');
+    expect(screen.getByText('Awaiting payment')).toHaveClass('bg-gold-100');
     const expired = screen.getByText('Expired');
-    expect(expired).toHaveClass('bg-destructive');
+    expect(expired).toHaveClass('bg-ribbon-300');
     expect(expired.className).not.toMatch(/shadow/);
     expect(expired).not.toHaveAttribute('glow');
     expect(screen.getByText('In review')).toHaveClass('border-border');
-    expect(screen.getByText('Withdrawn')).toHaveClass('bg-ash-tint');
+    expect(screen.getByText('Withdrawn')).toHaveClass('bg-groundwork-300');
   });
 
   it('takes the GovWell names, defaults to neutral and passes className through', () => {
@@ -46,8 +46,8 @@ describe('ToneBadge', () => {
         <ToneBadge className="ml-2">Draft</ToneBadge>
       </>,
     );
-    expect(screen.getByText('Scheduled')).toHaveClass('bg-info');
-    expect(screen.getByText('Revoked')).toHaveClass('bg-destructive');
+    expect(screen.getByText('Scheduled')).toHaveClass('bg-blueprint-300');
+    expect(screen.getByText('Revoked')).toHaveClass('bg-ribbon-300');
     const draft = screen.getByText('Draft');
     expect(draft).toHaveAttribute('data-tone', 'neutral');
     expect(draft).toHaveClass('ml-2', 'border-border');
@@ -168,10 +168,10 @@ describe('EventLog', () => {
     expect(items[0]).toHaveTextContent('Framing inspection passed');
     expect(within(items[0]).getByText('2:14 PM').tagName).toBe('TIME');
     expect(within(items[0]).getByText('2:14 PM')).toHaveAttribute('dateTime', '2024-03-04T14:14');
-    expect(within(items[0]).getByText('Staff')).toHaveClass('bg-ash-tint', 'eyebrow-type');
+    expect(within(items[0]).getByText('Staff')).toHaveClass('bg-groundwork-100', 'eyebrow-type');
     expect(within(items[0]).getByText('#4412')).toBeInTheDocument();
     expect(items[0].querySelector('[data-slot="event-log-node"]')).toHaveClass('bg-ok');
-    expect(within(items[1]).getByText('Automation')).toHaveClass('bg-sky-tint');
+    expect(within(items[1]).getByText('Automation')).toHaveClass('bg-blueprint-100');
     expect(within(items[1]).getByText('Corrections requested')).toHaveClass('text-error');
   });
 

@@ -65,6 +65,7 @@ const TONE_HUE: Record<Tone, Hue> = {
 const HUE_CLASS: Record<Hue, string> = {
   neutral: 'bg-background border-l-foreground',
   sky: 'bg-sky-tint text-tint-foreground border-l-info',
+  'pale-sky': 'bg-blueprint-100 text-tag-foreground border-l-info',
   hope: 'bg-hope-tint text-tint-foreground border-l-primary',
   amber: 'bg-amber-tint text-tint-foreground border-l-warning',
   teal: 'bg-teal-tint text-tint-foreground border-l-teal',

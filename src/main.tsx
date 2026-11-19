@@ -6,6 +6,8 @@ import { DEMOS } from '@/docs/demos';
 import catalog from '@/docs/items.generated.json';
 import { cn } from '@/lib/utils';
 import { ExampleApp } from './example-app/app';
+import { SampleLogin } from './example-app/login';
+import { SamplePortal } from './example-app/portal';
 import logo from '../assets/govwell-logo.svg?raw';
 import './styles.css';
 
@@ -15,7 +17,8 @@ import './styles.css';
 //   #/c/<category>     one category
 //   #/<name>           one item
 // ?item=<name>,<name> shows a fixed few, which is handy for screenshots.
-// ?example=app is the sample staff app (src/example-app), full screen.
+// ?example=app is the sample staff app (src/example-app), full screen;
+// ?example=login is its sample sign-in page; ?example=portal a town's public portal.
 const { categories, items } = catalog;
 type Item = (typeof items)[number];
 
@@ -199,6 +202,10 @@ function Preview() {
 // before React renders, so a dark reload doesn't flash light
 applyColorMode();
 
-const example = new URLSearchParams(location.search).get('example') === 'app';
+const example = new URLSearchParams(location.search).get('example');
 
-createRoot(document.getElementById('root')!).render(<StrictMode>{example ? <ExampleApp /> : <Preview />}</StrictMode>);
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    {example === 'app' ? <ExampleApp /> : example === 'login' ? <SampleLogin /> : example === 'portal' ? <SamplePortal /> : <Preview />}
+  </StrictMode>,
+);

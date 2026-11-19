@@ -1,28 +1,9 @@
-import { useMemo, useState, type ComponentType, type ReactNode } from 'react';
-import {
-  ArrowLeft,
-  BarChart3,
-  Bell,
-  Check,
-  ClipboardCheck,
-  Construction,
-  FileStack,
-  FileText,
-  Lock,
-  Mail,
-  MoreVertical,
-  Plus,
-  Printer,
-  Share2,
-  Timer,
-  Users,
-  Wallet,
-} from 'lucide-react';
+import { useEffect, useMemo, useState, type ComponentType, type ReactNode } from 'react';
+import { ArrowLeft, Bell, Check, Construction, FileText, Lock, Mail, MoreVertical, Plus, Printer, Share2, Users } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { toast } from 'sonner';
 
 import { DataTable, dataTableColumns } from '@/components/blocks/data-table';
-import { FigureIcon } from '@/components/ui/figure-icon';
 import { Verdict } from '@/components/ui/verdict';
 import { WeekCalendar } from '@/components/blocks/week-calendar';
 import { ActorBadge } from '@/components/ui/actor-badge';
@@ -57,7 +38,6 @@ import {
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 import { EventLog, EventLogEmpty, EventLogItem } from '@/components/ui/event-log';
 import { SegmentedControl, SegmentedControlItem } from '@/components/ui/segmented-control';
-import { Separator } from '@/components/ui/separator';
 import { Stat, StatLabel, StatValue } from '@/components/ui/stat';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -83,12 +63,14 @@ import {
   type PermitRecord,
   type StatusKey,
 } from './data';
+import { InsightsIcon, recordTypeIcon } from './icons';
+import { PermitsMap } from './permits-map';
 
 // ── the page frame: GovWell's <Page>, a padded header over a padded body ─────
 
 const gutter = 'px-4 md:px-6';
 
-function Page({
+export function Page({
   icon: Icon,
   title,
   subtitle,
@@ -117,7 +99,7 @@ function Page({
         )}
         <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
           <div className="flex min-w-0 items-start gap-3">
-            {Icon && <Icon className="mt-2 size-6 shrink-0 text-muted-foreground" />}
+            {Icon && <Icon className="mt-2 size-6 shrink-0 text-foreground" />}
             <div className="flex min-w-0 flex-col gap-1">
               <h1 className="text-3xl leading-tight font-normal tracking-tight">{title}</h1>
               {subtitle && <div className="text-base font-light text-muted-foreground">{subtitle}</div>}
@@ -149,8 +131,9 @@ const go = (href: string) => {
 // ── Insights ─────────────────────────────────────────────────────────────────
 
 const CHART_CONFIG = {
-  building: { label: 'Building', color: 'var(--chart-1)' },
-  zoning: { label: 'Zoning', color: 'var(--chart-2)' },
+  building: { label: 'Building', color: '#fedb91' },
+  zoning: { label: 'Zoning', color: 'var(--greenlight-200)' },
+  codeEnforcement: { label: 'Code Enforcement', color: 'var(--blueprint-200)' },
 } satisfies ChartConfig;
 
 export function InsightsPage() {
@@ -162,10 +145,16 @@ export function InsightsPage() {
     .map((key) => ({ key, status: STATUSES[key], count: RECORDS.filter((r) => r.statusKey === key).length }))
     .filter((s) => s.count > 0);
   const most = Math.max(...byStatus.map((s) => s.count));
+  // the bars start empty and grow once the page has painted
+  const [grown, setGrown] = useState(false);
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setGrown(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   return (
     <Page
-      icon={BarChart3}
+      icon={InsightsIcon}
       title="Insights"
       actions={
         <Button variant="outline" size="sm" onClick={() => window.print()}>
@@ -173,30 +162,31 @@ export function InsightsPage() {
         </Button>
       }
     >
-      <div className="flex flex-wrap items-center gap-3">
-        <SegmentedControl aria-label="Period" value={period} onValueChange={setPeriod} size="sm" fitContent>
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+        <SegmentedControl aria-label="Period" value={period} onValueChange={setPeriod} variant="underline" size="sm" fitContent>
           <SegmentedControlItem value="4w">Past 4 weeks</SegmentedControlItem>
           <SegmentedControlItem value="quarter">Quarter</SegmentedControlItem>
           <SegmentedControlItem value="year">Year</SegmentedControlItem>
         </SegmentedControl>
-        <span className="text-sm text-muted-foreground">All record types</span>
+        {/* pb-1.5 matches the room the period links keep under their text for the underline */}
+        <span className="pb-1.5 text-sm text-muted-foreground">All record types</span>
       </div>
-      <Separator />
 
       <Section title="Overview" description="What came in, how fast it went out, and what it brought in.">
-        <div className="grid grid-cols-2 border-t border-l border-border lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-4 lg:grid-cols-4">
           {[
-            { value: String(Math.round(RECORDS.length * 0.6 * scale)), label: 'Records created', icon: FileStack, tint: 'sky' as const },
-            { value: `${Math.max(6, 14 - scale)} days`, label: 'Median issuance time', icon: Timer, tint: 'hope' as const },
-            { value: money(18_400 * scale), label: 'Revenue collected', icon: Wallet, tint: 'field' as const },
-            { value: String(INSPECTIONS.length * 4 * scale), label: 'Inspections logged', icon: ClipboardCheck, tint: 'teal' as const },
+            { value: String(Math.round(RECORDS.length * 0.6 * scale)), label: 'Records created', bar: 'bg-sky' },
+            { value: `${Math.max(6, 14 - scale)} days`, label: 'Median issuance time', bar: 'bg-hope' },
+            { value: money(18_400 * scale), label: 'Revenue collected', bar: 'bg-field' },
+            { value: String(INSPECTIONS.length * 4 * scale), label: 'Inspections logged', bar: 'bg-ribbon-300' },
           ].map((s) => (
-            <div key={s.label} className="flex items-start justify-between gap-3 border-r border-b border-border p-5">
-              <Stat>
+            <div key={s.label} className="flex flex-col">
+              {/* a bar of the tile's colour across the top, where the icon used to be */}
+              <div aria-hidden className={cn('h-1', s.bar)} />
+              <Stat className="px-0 pt-3 pb-5">
                 <StatValue className="text-4xl">{s.value}</StatValue>
                 <StatLabel>{s.label}</StatLabel>
               </Stat>
-              <FigureIcon icon={s.icon} tint={s.tint} />
             </div>
           ))}
         </div>
@@ -204,27 +194,63 @@ export function InsightsPage() {
 
       <div className="grid gap-6 xl:grid-cols-[3fr_2fr]">
         <Section title="Records created" description="By month and record type.">
-          <ChartContainer config={CHART_CONFIG} className="h-64 w-full">
-            <BarChart data={months} accessibilityLayer>
+          {/* the hovered month's column shades Gold Standard's light tint (#fee6b2) at 15% */}
+          <ChartContainer
+            config={CHART_CONFIG}
+            className="h-64 w-full border-0 bg-transparent p-0 [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-gold-100/15"
+          >
+            <BarChart data={months} accessibilityLayer margin={{ left: 0, right: 0 }}>
               <CartesianGrid vertical={false} />
               <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} />
-              <YAxis tickLine={false} axisLine={false} width={32} />
+              {/* labels start at the heading's left edge */}
+              <YAxis tickLine={false} axisLine={false} width={28} tick={{ textAnchor: 'start', dx: -20 }} />
               <ChartTooltip content={<ChartTooltipContent indicator="dot" />} />
               <ChartLegend content={<ChartLegendContent />} />
-              <Bar dataKey="building" stackId="a" fill="var(--color-building)" />
-              <Bar dataKey="zoning" stackId="a" fill="var(--color-zoning)" />
+              {/* first on the page, each column growing as one stack: recharts grows
+                  every segment from the baseline, so both series share one timing,
+                  which keeps Zoning sitting on Building the whole way up */}
+              <Bar
+                dataKey="building"
+                stackId="a"
+                fill="var(--color-building)"
+                animationBegin={0}
+                animationDuration={800}
+                animationEasing="ease-out"
+              />
+              <Bar
+                dataKey="zoning"
+                stackId="a"
+                fill="var(--color-zoning)"
+                animationBegin={0}
+                animationDuration={800}
+                animationEasing="ease-out"
+              />{' '}
+              <Bar
+                dataKey="codeEnforcement"
+                stackId="a"
+                fill="var(--color-codeEnforcement)"
+                animationBegin={0}
+                animationDuration={800}
+                animationEasing="ease-out"
+              />
             </BarChart>
           </ChartContainer>
         </Section>
         <Section title="Where records are" description={`${open.length} open across both modules.`}>
           <ul className="grid grid-cols-[max-content_1fr_2rem] items-center gap-x-3 gap-y-3">
-            {byStatus.map((s) => (
+            {byStatus.map((s, i) => (
               <li key={s.key} className="contents">
-                <StatusBadge status={s.status} />
+                <span className="text-sm">{titleCase(s.status.name)}</span>
                 <span className="h-2 bg-muted">
-                  <span className="block h-full bg-secondary" style={{ width: `${(s.count / most) * 100}%` }} />
+                  {/* grows from the left on load, after the chart has started (rowDelay) */}
+                  <span
+                    className="block h-full bg-secondary transition-[width] duration-700 ease-out motion-reduce:transition-none"
+                    style={{ width: grown ? `${(s.count / most) * 100}%` : 0, transitionDelay: `${rowDelay(i)}ms` }}
+                  />
                 </span>
-                <span className="text-right text-sm tabular-nums">{s.count}</span>
+                <span className="text-right text-sm tabular-nums">
+                  <CountUp value={s.count} delay={rowDelay(i)} />
+                </span>
               </li>
             ))}
           </ul>
@@ -232,6 +258,46 @@ export function InsightsPage() {
       </div>
     </Page>
   );
+}
+
+// "Where records are" starts a little after the chart above it begins, then
+// each row a beat after the one before
+const rowDelay = (row: number) => 350 + row * 90;
+
+// A number that ticks up from 0 to its value (700ms, easing out, after
+// `delay`) in step with its bar. Screen readers get the value straight away;
+// reduced motion shows it without counting.
+function CountUp({ value, delay = 0 }: { value: number; delay?: number }) {
+  const [still] = useState(() => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const [shown, setShown] = useState(still ? value : 0);
+  useEffect(() => {
+    if (still) return;
+    const frame = { id: 0 };
+    const start = performance.now() + delay;
+    const tick = (now: number) => {
+      const t = Math.min(1, Math.max(0, (now - start) / 700));
+      setShown(Math.round(value * (1 - (1 - t) ** 3)));
+      if (t < 1) frame.id = requestAnimationFrame(tick);
+    };
+    frame.id = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame.id);
+  }, [value, delay, still]);
+  return (
+    <>
+      <span aria-hidden>{still ? value : shown}</span>
+      <span className="sr-only">{value}</span>
+    </>
+  );
+}
+
+// "Waiting on applicant" → "Waiting on Applicant": every word capitalised but
+// short joining words after the first
+const MINOR_WORDS = new Set(['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'in', 'of', 'on', 'or', 'the', 'to']);
+function titleCase(text: string) {
+  return text
+    .split(' ')
+    .map((word, i) => (i > 0 && MINOR_WORDS.has(word.toLowerCase()) ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1)))
+    .join(' ');
 }
 
 function Section({ title, description, children }: { title: string; description?: string; children: ReactNode }) {
@@ -300,7 +366,7 @@ export function RecordsPage({ typeId }: { typeId: string }) {
 
   return (
     <Page
-      icon={typeId === 'building' ? Construction : FileText}
+      icon={recordTypeIcon(typeId)}
       title={type.name}
       actions={
         <Button
@@ -316,9 +382,7 @@ export function RecordsPage({ typeId }: { typeId: string }) {
           {VIEWS.map((v) => (
             <TabsTrigger key={v.id} value={v.id}>
               {v.label}
-              <Badge variant="ash" className="tabular-nums">
-                {all.filter(v.test).length}
-              </Badge>
+              <span className="font-bold tabular-nums">{all.filter(v.test).length}</span>
             </TabsTrigger>
           ))}
         </TabsList>
@@ -335,6 +399,10 @@ export function RecordsPage({ typeId }: { typeId: string }) {
         selectable={isOpen}
         stickyHeader
         onRowClick={(r) => go(`/records/${r.typeId}/${r.id}`)}
+        // the GIS map is on Building Permits' list
+        aboveTable={
+          typeId === 'building' ? (shown) => <PermitsMap rows={shown} onOpen={(r) => go(`/records/${r.typeId}/${r.id}`)} /> : undefined
+        }
         emptyTitle="No records found"
         emptyDescription="Nothing in this view right now."
         bulkActions={(selected, clear) => (
@@ -384,7 +452,7 @@ export function RecordPage({ id }: { id: string }) {
 
   return (
     <Page
-      icon={record.typeId === 'building' ? Construction : FileText}
+      icon={recordTypeIcon(record.typeId)}
       back={{ href: `#/records/${record.typeId}`, label: type.name }}
       title={
         <>
@@ -393,7 +461,7 @@ export function RecordPage({ id }: { id: string }) {
       }
       subtitle={
         <span className="flex flex-wrap items-center gap-3">
-          {record.address}, Alder Falls
+          {record.address}, Twinsburg
           <StatusBadge status={status} />
         </span>
       }

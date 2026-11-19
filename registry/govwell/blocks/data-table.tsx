@@ -203,6 +203,7 @@ export function DataTable<TData extends RowData>({
   emptyAction,
   emptyIcon = <InboxIcon />,
   toolbar,
+  aboveTable,
   wrapRow = (_row, element) => element,
   className,
 }: {
@@ -248,6 +249,8 @@ export function DataTable<TData extends RowData>({
   emptyIcon?: React.ReactNode;
   /** more controls for the toolbar, after the filter box */
   toolbar?: React.ReactNode;
+  /** something between the toolbar and the table (a map of the rows, say), given the rows that pass the filter */
+  aboveTable?: (rows: TData[]) => React.ReactNode;
   /** wrap a row — e.g. in a context menu trigger; `element` is the <TableRow> */
   wrapRow?: (row: DataTableRow<TData>, element: React.ReactElement) => React.ReactNode;
   className?: string;
@@ -679,6 +682,8 @@ export function DataTable<TData extends RowData>({
           )}
         </div>
       )}
+
+      {aboveTable?.(table.getFilteredRowModel().rows.map((row) => row.original))}
 
       <div
         data-slot="data-table-frame"

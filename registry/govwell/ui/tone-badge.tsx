@@ -18,14 +18,15 @@ const TONE_VARIANT = {
   neutral: 'outline',
   ok: 'ok',
   info: 'info',
-  warning: 'warning',
+  // waiting on someone: Gold Standard's light tint, as on an orange status
+  warning: 'default',
   destructive: 'destructive',
-  muted: 'ash',
+  muted: 'groundwork',
   // the signal-tone names
   phosphor: 'outline',
-  system: 'warning',
+  system: 'default',
   signal: 'destructive',
-  dim: 'ash',
+  dim: 'groundwork',
 } as const;
 
 type Tone = keyof typeof TONE_VARIANT;

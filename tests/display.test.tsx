@@ -160,9 +160,12 @@ describe('Avatar, Item, Spinner and AspectRatio', () => {
     expect(screen.getByRole('link', { name: 'Planning & Zoning' })).toHaveAttribute('href', '#planning');
   });
 
-  it('Spinner announces that something is loading', () => {
-    render(<Spinner />);
-    expect(screen.getByRole('status', { name: 'Loading' })).toBeInTheDocument();
+  it('Spinner announces that something is loading, drawn from the logomark', () => {
+    render(<Spinner className="size-40" />);
+    const spinner = screen.getByRole('status', { name: 'Loading' });
+    expect(spinner).toHaveClass('size-40');
+    expect(spinner).toHaveAttribute('fill', 'currentColor');
+    expect(spinner.querySelector('path')).toHaveAttribute('d', 'M51.2055 56.608H0V107.887H51.2055V56.608Z');
   });
 
   it('AspectRatio holds its shape', () => {

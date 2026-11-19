@@ -46,7 +46,7 @@ Brand palette (from the book):
 | Token      | Hex       | Role                                                           |
 | ---------- | --------- | -------------------------------------------------------------- |
 | `jet`      | `#000000` | Logo, strongest black                                          |
-| `slate`    | `#202020` | Text on light; dark-mode ground (the site's body text is this) |
+| `slate`    | `#000000` | Text on light; dark-mode ground (the site's body text is this) |
 | `concrete` | `#7c7c7c` | Borders, disabled, decorative greys                            |
 | `cement`   | `#b1b1b1` | Borders and rules                                              |
 | `ash`      | `#d9d9d9` | Hairlines, dividers                                            |
@@ -102,7 +102,7 @@ Contrast decisions (checked, WCAG AA):
 ### Colour modes
 
 **Light first**, since the website and most applications are white. Dark mode
-uses Slate (`#202020`) as the ground, as the book's own pages do, with Jet
+uses Slate (`#000000`) as the ground, as the book's own pages do, with Jet
 for raised panels and Hope as the accent. Both are built from the start using
 Headway's setup: `data-mode`, the `use-color-mode` hook and contrast tests per
 mode. There is no `on-sign` equivalent: GovWell panels follow the mode rather

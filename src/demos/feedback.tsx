@@ -81,7 +81,10 @@ function StatusBadgeDemo() {
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted-foreground">Other names fold onto the nearest: yellow is Hope, purple is Sky, cyan is teal</p>
+        <p className="text-sm text-muted-foreground">
+          Other names fold onto the nearest: yellow is Ribbon Cutting’s light red, purple is Blueprint like blue, cyan is Greenlight’s
+          strong green
+        </p>
         <div className="flex flex-wrap gap-3">
           <StatusBadge status={{ name: 'Inspection due', color: 'yellow' }} />
           <StatusBadge status={{ name: 'Plan review', color: 'purple' }} />

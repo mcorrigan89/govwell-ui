@@ -117,6 +117,11 @@ function SegmentedControlDemo() {
           Year
         </SegmentedControlItem>
       </SegmentedControl>
+      <SegmentedControl aria-label="Insights period" defaultValue="4w" variant="underline" size="sm" fitContent>
+        <SegmentedControlItem value="4w">Past 4 weeks</SegmentedControlItem>
+        <SegmentedControlItem value="quarter">Quarter</SegmentedControlItem>
+        <SegmentedControlItem value="year">Year</SegmentedControlItem>
+      </SegmentedControl>
       <SegmentedControl aria-label="Decision" defaultValue="approve" fitContent>
         <SegmentedControlItem value="approve" highlighted>
           Approve

@@ -92,12 +92,12 @@ describe('QueryState', () => {
 });
 
 describe('StatusBadge', () => {
-  it('maps org hues onto GovWell tints with a square dot', () => {
+  it('maps org hues onto GovWell tints, text only', () => {
     render(<StatusBadge status={{ name: 'In review', color: 'Blue' }} />);
     const badge = screen.getByText('In review');
     expect(badge).toHaveAttribute('data-hue', 'sky');
-    expect(badge).toHaveClass('bg-sky-tint');
-    expect(badge.querySelector('[data-slot=status-badge-dot]')).toHaveClass('bg-info', 'size-2');
+    expect(badge).toHaveClass('bg-blueprint-300');
+    expect(badge.children).toHaveLength(0);
     expect(statusHue('emerald')).toBe('teal');
     expect(statusHue('chartreuse')).toBe('ash');
   });
@@ -108,7 +108,7 @@ describe('StatusBadge', () => {
     const hues = picker.map(statusHue);
     expect(new Set(hues).size).toBe(picker.length);
     render(<StatusBadge status={{ name: 'Awaiting payment', color: 'amber' }} />);
-    expect(screen.getByText('Awaiting payment')).toHaveClass('bg-amber-tint');
+    expect(screen.getByText('Awaiting payment')).toHaveClass('bg-gold-100');
   });
 
   it('says Draft when there is no status', () => {

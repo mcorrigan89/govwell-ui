@@ -26,8 +26,9 @@ const vars = (palette) => Object.fromEntries(Object.entries(palette).map(([k, v]
 const FONT_CSS = `${BASE}/fonts/gt-standard.css`;
 
 // ── the theme: tokens, type, utilities ─────────────────────────────────────
-// the AI's band: Hope round to Hope again, so the moving gradient loops seamlessly
-const AI_SPECTRUM = 'var(--hope), var(--chart-6), var(--teal), var(--sky), var(--chart-8), var(--field), var(--hope)';
+// the AI's band: Hope through a pale and a light Hope and back to Hope, so the
+// moving gradient loops seamlessly
+const AI_SPECTRUM = 'var(--hope), #fee6b2, #fec54f, var(--hope)';
 
 const theme = {
   name: 'theme',
@@ -126,11 +127,11 @@ const theme = {
       'text-transform': 'uppercase',
     },
     // the AI's mark, the one gradient in the system: what the assistant and
-    // the AI readers do wears a slow band of the brand's colours, as a border
-    // (ai-border) or a rail down the left edge (ai-edge; the element must be
-    // positioned). Plain rules, not utilities, so they win over a
-    // component's own border classes. Set --ai-fill to the element's
-    // background where it isn't the card's.
+    // the AI readers do wears a slow band of Hope tones, as a border
+    // (ai-border), a rail down the left edge (ai-edge; the element must be
+    // positioned) or the whole fill (ai-fill). Plain rules, not utilities, so
+    // they win over a component's own border classes. With ai-border, set
+    // --ai-fill to the element's background where it isn't the card's.
     '.ai-border': {
       '--ai-fill': 'var(--card)',
       border: '2px solid transparent',
@@ -150,10 +151,20 @@ const theme = {
       animation: 'ai-flow 5s linear infinite',
       'pointer-events': 'none',
     },
+    // the same band filling the whole element (the assistant's button);
+    // Slate type reads on every stop
+    '.ai-fill': {
+      border: '0',
+      background: `linear-gradient(90deg, ${AI_SPECTRUM})`,
+      'background-size': '200% 100%',
+      color: 'var(--slate)',
+      animation: 'ai-fill 6s linear infinite',
+    },
     '@keyframes ai-band': { to: { 'background-position': '0 0, 200% 0' } },
     '@keyframes ai-flow': { to: { 'background-position': '0 200%' } },
+    '@keyframes ai-fill': { to: { 'background-position': '200% 0' } },
     '@media (prefers-reduced-motion: reduce)': {
-      '.ai-border, .ai-edge::before': { animation: 'none' },
+      '.ai-border, .ai-edge::before, .ai-fill': { animation: 'none' },
     },
   },
 };
@@ -257,7 +268,8 @@ const UI = {
     ui: ['spinner'],
   },
   button: {
-    description: 'Square buttons in GT Standard Light: a Hope primary, a Slate secondary, outline, ghost, destructive and link.',
+    description:
+      'Square buttons in GT Standard Light: a black primary that turns Hope on hover, a Slate secondary, outline, ghost, destructive and link.',
     deps: ['@base-ui/react', 'class-variance-authority'],
   },
   'button-group': {
@@ -283,7 +295,7 @@ const UI = {
   },
   'chat-composer': {
     description: 'Where you write to the assistant: a growing textarea and a Hope send button; Enter sends, Shift+Enter adds a line.',
-    deps: ['lucide-react'],
+    deps: [],
     ui: ['button', 'spinner'],
   },
   checkbox: {
@@ -583,7 +595,8 @@ const UI = {
     deps: [],
   },
   'segmented-control': {
-    description: 'Mutually exclusive options in a quiet strip, the chosen one a Slate block; sizes, icons, and full or fitted width.',
+    description:
+      'Mutually exclusive options in a quiet strip, the chosen one a Slate block, or plain links with the chosen one underlined; sizes, icons, and full or fitted width.',
     deps: ['@base-ui/react', 'class-variance-authority'],
   },
   select: {
@@ -610,7 +623,10 @@ const UI = {
     description: 'Toasts as square panels that follow the mode, with a status rail and the icon on a status-colour tile.',
     deps: ['sonner', 'lucide-react'],
   },
-  spinner: { description: 'A loading indicator: a dotted ring with a solid square node travelling round it.', deps: [] },
+  spinner: {
+    description: 'A loading indicator: the GovWell logomark with its flag rippling at 8 frames a second, at icon size or larger.',
+    deps: [],
+  },
   spotlight: {
     description: 'A Hope ring on a target with a square callout anchored beside it, and a guided tour with Back, Next and Done.',
     deps: ['@base-ui/react', 'class-variance-authority', 'lucide-react'],
@@ -618,7 +634,7 @@ const UI = {
   },
   stat: { description: 'A key figure: a large Regular-weight number with a short caption.', deps: [] },
   'status-badge': {
-    description: 'An organisation’s status (a name and a hue) on a brand tint with a small square dot; no status reads as Draft.',
+    description: 'An organisation’s status (a name and a hue) as text on a brand tint; no status reads as Draft.',
     deps: ['class-variance-authority'],
   },
   steps: {

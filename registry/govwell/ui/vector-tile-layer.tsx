@@ -112,7 +112,7 @@ function VectorTileLayer({
 // Each tone's token, with the light theme's value for when there's no page
 // (a test, a worker).
 const TONE_TOKEN: Record<MapTone, [token: string, fallback: string]> = {
-  default: ['slate', '#202020'],
+  default: ['slate', '#000000'],
   primary: ['hope', '#feaf0e'],
   ok: ['ok', '#39c25e'],
   info: ['info', '#41aaeb'],

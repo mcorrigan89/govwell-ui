@@ -7,7 +7,8 @@ import { cn } from '@/lib/utils';
 
 // Tabs on a quiet grey strip: the chosen tab is a square Slate block (white
 // in dark mode), like any other selected control. variant="line" is the
-// lighter one: an Ash hairline with a 2px Slate bar under the chosen tab.
+// lighter one: an Ash hairline with a 2px Slate bar under the chosen tab,
+// close under the label (6px).
 
 function Tabs({ className, orientation = 'horizontal', ...props }: TabsPrimitive.Root.Props) {
   return (
@@ -26,7 +27,7 @@ const tabsListVariants = cva(
     variants: {
       variant: {
         default: 'bg-muted p-1 group-data-horizontal/tabs:h-12',
-        line: 'gap-6 border-border group-data-horizontal/tabs:h-11 group-data-horizontal/tabs:border-b group-data-vertical/tabs:gap-1 group-data-vertical/tabs:border-l',
+        line: 'gap-6 border-border group-data-horizontal/tabs:h-8 group-data-horizontal/tabs:border-b group-data-vertical/tabs:gap-1 group-data-vertical/tabs:border-l',
       },
     },
     defaultVariants: { variant: 'default' },

@@ -3,6 +3,8 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { ExampleApp } from '@/docs/example-app/app';
+import { SampleLogin } from '@/docs/example-app/login';
+import { SamplePortal } from '@/docs/example-app/portal';
 import { RECORDS, recordsOfType } from '@/docs/example-app/data';
 
 // jsdom has no ResizeObserver (cmdk and recharts measure with one) or scrollIntoView
@@ -100,5 +102,101 @@ describe('example app', () => {
     render(<ExampleApp />);
     expect(screen.getByText('Not in this sample')).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Payments: Invoices');
+  });
+});
+
+describe('sample sign-in', () => {
+  it('offers Google, Microsoft or an email, and switches to a phone number', async () => {
+    render(<SampleLogin />);
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Sign in to GovWell');
+    expect(screen.getByRole('button', { name: 'Continue with Google' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Continue with Microsoft' })).toBeInTheDocument();
+    expect(screen.getByLabelText('Email address')).toHaveAttribute('type', 'email');
+    await userEvent.click(screen.getByRole('button', { name: 'Use phone' }));
+    expect(screen.getByLabelText('Phone number')).toHaveAttribute('type', 'tel');
+  });
+
+  it('sends nothing on Continue', async () => {
+    render(<SampleLogin />);
+    await userEvent.type(screen.getByLabelText('Email address'), 'staff@example.gov');
+    await userEvent.click(screen.getByRole('button', { name: 'Continue' }));
+    expect(screen.getByRole('status')).toHaveTextContent('nothing was sent');
+  });
+});
+
+describe('icon mapping page', () => {
+  it('lists each swapped icon with its before and after', () => {
+    goTo('#/icons');
+    render(<ExampleApp />);
+    expect(screen.getByRole('heading', { level: 1, name: 'Icon Mapping' })).toBeInTheDocument();
+    const row = screen.getByRole('row', { name: /^Building Permits/ });
+    expect(within(row).getByText('Construction')).toBeInTheDocument();
+    expect(within(row).getByText('Construction Sign')).toBeInTheDocument();
+  });
+});
+
+describe('chat page', () => {
+  it('greets you, takes an idea as a question and answers it in place of the greeting', async () => {
+    goTo('#/chat');
+    render(<ExampleApp />);
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Good (morning|afternoon|evening), Maya/);
+    await userEvent.click(screen.getByRole('button', { name: 'Find permits waiting on applicants' }));
+    const log = await screen.findByRole('log', { name: 'Conversation' });
+    expect(within(log).getByText('Find permits waiting on applicants')).toBeInTheDocument();
+    expect(await within(log).findByText(/permits are waiting on applicants/, {}, { timeout: 2000 })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { level: 1 })).toBeNull();
+  });
+
+  it('sends with Enter', async () => {
+    goTo('#/chat');
+    render(<ExampleApp />);
+    await userEvent.type(screen.getByRole('textbox', { name: 'Message' }), 'what is overdue?{Enter}');
+    expect(await screen.findByText(/past due/, {}, { timeout: 2000 })).toBeInTheDocument();
+  });
+});
+
+describe('sample community portal', () => {
+  it('lists the online services and who to call', () => {
+    render(<SamplePortal />);
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('City of Twinsburg, OH');
+    expect(screen.getByRole('heading', { level: 2, name: 'What can we help with?' })).toBeInTheDocument();
+    for (const service of [
+      'Building Permits',
+      'Business Licenses',
+      'Code Complaint',
+      'Contractor Registration',
+      'Planning & Zoning Applications',
+      'Public Dashboards',
+    ]) {
+      expect(screen.getByRole('link', { name: new RegExp(`^${service.replace('&', '\\&')}`) })).toBeInTheDocument();
+    }
+    expect(screen.getByRole('link', { name: 'Back' })).toHaveAttribute('href', '?example=app#/insights');
+    expect(screen.getByText('Building Department')).toBeInTheDocument();
+  });
+
+  it('answers a suggested question with a note that nothing is sent', async () => {
+    render(<SamplePortal />);
+    await userEvent.click(screen.getByRole('button', { name: 'Look up a record' }));
+    expect(screen.getByRole('status')).toHaveTextContent('doesn’t send anything');
+  });
+});
+
+describe('permits map', () => {
+  it('maps Building Permits’ list, follows its search, and folds away', async () => {
+    goTo('#/records/building');
+    render(<ExampleApp />);
+    const map = screen.getByRole('region', { name: /permits on the map/ });
+    expect(map).toBeInTheDocument();
+    await userEvent.type(screen.getByRole('textbox', { name: 'Search' }), 'zzz-no-match');
+    expect(screen.getByRole('region', { name: '0 permits on the map' })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('button', { name: 'Hide map' }));
+    expect(screen.queryByRole('region', { name: /permits on the map/ })).toBeNull();
+    expect(screen.getByRole('button', { name: 'Show map' })).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('isn’t on Zoning Permits', () => {
+    goTo('#/records/zoning');
+    render(<ExampleApp />);
+    expect(screen.queryByRole('region', { name: /permits on the map/ })).toBeNull();
   });
 });

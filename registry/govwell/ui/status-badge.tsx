@@ -5,26 +5,39 @@ import { cn } from '@/lib/utils';
 
 // A record's status. Statuses are org data — a name and a hue the org picked
 // — so the hue is mapped onto GovWell's palette rather than painted as is:
-// the label sits on a tint (Sky for working, Hope for waiting on someone,
-// Field for done, Ash for closed, and two beyond the brand — amber and teal —
-// so an org's orange and emerald don't read as its yellow and green) with a
-// small square dot in the status colour in front of it. Red has no brand tint, so it is a hairline
-// box with a red dot. No status yet reads as a dashed "Draft".
+// the label sits on a tint from the tag families, text only: Blueprint's strong
+// 300 for working (as on an "In review" badge), Gold Standard for waiting on someone, Greenlight for done (an org's
+// green on the tint, its emerald or cyan on the strong 300), the darkest Groundwork (white type)
+// for closed, Ribbon Cutting's strong red (white type) for a problem, and Gold's second shade for an org's orange so
+// it doesn't read as its yellow. No status yet reads as a dashed
+// "Draft".
 //
 //   <StatusBadge status={{ name: 'In review', color: 'blue' }} />
 
 const statusBadgeVariants = cva(
-  'eyebrow-type inline-flex w-fit shrink-0 items-center gap-2 rounded-none border border-transparent px-2 py-1.5 text-xs whitespace-nowrap text-tint-foreground',
+  'eyebrow-type tracking-[0.05em] inline-flex w-fit shrink-0 items-center gap-2 rounded-none border border-transparent px-2.5 py-1.5 text-xs whitespace-nowrap text-tag-foreground',
   {
     variants: {
       hue: {
-        sky: 'bg-sky-tint',
-        hope: 'bg-hope-tint',
-        amber: 'bg-amber-tint',
-        teal: 'bg-teal-tint',
-        field: 'bg-field-tint',
-        ash: 'bg-ash-tint',
-        red: 'border-border bg-transparent text-foreground',
+        // the tag families: Blueprint in progress, Gold Standard waiting,
+        // Greenlight done, Groundwork neutral, Ribbon Cutting a problem
+        // in progress: Blueprint's strong 300, as on an "In review" badge
+        sky: 'bg-blueprint-300',
+        // an early step (an org's light blue): Blueprint's 100
+        'pale-sky': 'bg-blueprint-100',
+        // due soon (an org's yellow): Ribbon Cutting's lightest red, as on "Fees due"
+        hope: 'bg-ribbon-100',
+        // waiting to be paid (an org's orange): Gold Standard's lightest
+        amber: 'bg-gold-100',
+        // done: an org's green on Greenlight's tint, its emerald or cyan on the
+        // strong 300 (Field)
+        teal: 'bg-greenlight-300',
+        field: 'bg-greenlight-100',
+        // closed (an org's gray): the darkest Groundwork, white type
+        ash: 'bg-groundwork-400 text-tag-foreground-inverse',
+        // a problem (an org's red): Ribbon Cutting's strong 300, white type, as on
+        // an "Expired" tone badge
+        red: 'bg-ribbon-300 text-tag-foreground-inverse',
         draft: 'border-dashed border-input bg-transparent text-muted-foreground',
       },
     },
@@ -32,23 +45,14 @@ const statusBadgeVariants = cva(
   },
 );
 
-const DOT: Record<StatusHue, string> = {
-  sky: 'bg-info',
-  hope: 'bg-primary',
-  amber: 'bg-warning',
-  teal: 'bg-teal',
-  field: 'bg-ok',
-  ash: 'bg-muted-foreground',
-  red: 'bg-destructive',
-  draft: 'border border-muted-foreground',
-};
-
-type StatusHue = 'sky' | 'hope' | 'amber' | 'teal' | 'field' | 'ash' | 'red' | 'draft';
+type StatusHue = 'sky' | 'pale-sky' | 'hope' | 'amber' | 'teal' | 'field' | 'ash' | 'red' | 'draft';
 
 // the hue names orgs pick (and the colour pickers that feed them), onto ours
 const HUES: Record<string, StatusHue> = {
   blue: 'sky',
   sky: 'sky',
+  'light blue': 'pale-sky',
+  lightblue: 'pale-sky',
   cyan: 'teal',
   teal: 'teal',
   info: 'sky',
@@ -94,7 +98,6 @@ function StatusBadge({ status, draftLabel = 'Draft', className, ...props }: Stat
   const hue: StatusHue = status ? statusHue(status.color) : 'draft';
   return (
     <span data-slot="status-badge" data-hue={hue} className={cn(statusBadgeVariants({ hue }), className)} {...props}>
-      <span data-slot="status-badge-dot" aria-hidden className={cn('size-2 shrink-0', DOT[hue])} />
       {status ? status.name : draftLabel}
     </span>
   );

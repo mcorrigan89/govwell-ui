@@ -5,3 +5,95 @@
 @import './theme.generated.css';
 
 @source '../registry';
+
+/* The sample app's "Ask the assistant" button: a 1px edge with a gold light
+   running round it, paced on a GSAP button study. A conic gradient centred
+   10px down from the top edge shines a wedge of light onto the border; the
+   centre slides 10% → 90% along the top (2s), the wedge swings 180° round the
+   right end (1s), slides back along the bottom (2s) and swings round the left
+   end (1s): one 6s lap, linear. The registered properties let it animate. */
+@property --run-x {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 10%;
+}
+@property --run-turn {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes assistant-run {
+  0% {
+    --run-x: 10%;
+    --run-turn: 0deg;
+  }
+  33.333% {
+    --run-x: 90%;
+    --run-turn: 0deg;
+  }
+  50% {
+    --run-x: 90%;
+    --run-turn: 180deg;
+  }
+  83.333% {
+    --run-x: 10%;
+    --run-turn: 180deg;
+  }
+  100% {
+    --run-x: 10%;
+    --run-turn: 360deg;
+  }
+}
+.assistant-run {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--slate), var(--slate)) padding-box,
+    conic-gradient(from calc(var(--run-turn) - 80deg) at var(--run-x) 10px, transparent 0, var(--hope) 25%, #fee6b2 30%, transparent 35%)
+      border-box,
+    color-mix(in srgb, var(--hope) 25%, var(--slate)) border-box;
+  animation: assistant-run 6s linear infinite;
+}
+/* hovering stops the light (it rests at the top-left corner); leaving starts
+   the lap again from there */
+.assistant-run:hover {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .assistant-run {
+    animation: none;
+  }
+}
+
+/* The assistant button's hover fill: Hope, with an upright band of the light
+   yellows (#fec54f round #fee6b2) from 40% to 60% of a fill 2.5 times the
+   button's width. Sliding it from 100% to 0% starts with the band's front
+   edge at the button's left edge (it comes in at once, no dead run-up) and
+   ends with its back edge at the right, so it moves right off the button and
+   leaves Hope. Eases in gently over 2.5s; it fades in, and leaving fades it out. */
+.assistant-glow {
+  background: linear-gradient(
+    90deg,
+    var(--hope) 0%,
+    var(--hope) 40%,
+    #fec54f 45%,
+    #fee6b2 50%,
+    #fec54f 55%,
+    var(--hope) 60%,
+    var(--hope) 100%
+  );
+  background-size: 250% 100%;
+  background-position: 100% 0%;
+  opacity: 0;
+  transition:
+    opacity 200ms ease-out,
+    background-position 2.5s cubic-bezier(0.45, 0, 0.55, 1);
+}
+.group\/assistant:hover .assistant-glow {
+  opacity: 1;
+  background-position: 0% 0%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .assistant-glow {
+    transition: none;
+  }
+}

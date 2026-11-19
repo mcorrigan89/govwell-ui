@@ -226,6 +226,38 @@ describe('SegmentedControl', () => {
     expect(onValueChange).toHaveBeenCalledTimes(1);
   });
 
+  it('drops the strip for plain links with the chosen one underlined', () => {
+    render(
+      <SegmentedControl aria-label="Period" defaultValue="4w" variant="underline" fitContent>
+        <SegmentedControlItem value="4w">Past 4 weeks</SegmentedControlItem>
+        <SegmentedControlItem value="year">Year</SegmentedControlItem>
+      </SegmentedControl>,
+    );
+    const strip = document.querySelector('[data-slot=segmented-control]');
+    expect(strip).not.toHaveClass('border', 'bg-muted');
+    expect(strip).toHaveClass('gap-6');
+    const chosen = screen.getByRole('button', { name: 'Past 4 weeks' });
+    expect(chosen).toHaveClass('px-0', 'data-pressed:font-medium');
+    expect(chosen).not.toHaveClass('data-pressed:bg-secondary');
+  });
+
+  it('marks the item it replaced, so its underline clears instantly, until the pointer comes back', async () => {
+    render(
+      <SegmentedControl aria-label="Period" defaultValue="4w" variant="underline" fitContent>
+        <SegmentedControlItem value="4w">Past 4 weeks</SegmentedControlItem>
+        <SegmentedControlItem value="year">Year</SegmentedControlItem>
+      </SegmentedControl>,
+    );
+    const weeks = screen.getByRole('button', { name: 'Past 4 weeks' });
+    const year = screen.getByRole('button', { name: 'Year' });
+    expect(weeks).not.toHaveAttribute('data-deselected');
+    await userEvent.click(year);
+    expect(weeks).toHaveAttribute('data-deselected');
+    expect(year).not.toHaveAttribute('data-deselected');
+    await userEvent.hover(weeks);
+    expect(weeks).not.toHaveAttribute('data-deselected');
+  });
+
   it('moves focus with the arrow keys and sizes to fit on request', async () => {
     render(
       <SegmentedControl aria-label="Period" defaultValue="week" fitContent size="sm">

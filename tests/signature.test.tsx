@@ -66,6 +66,6 @@ describe('GridPanel', () => {
 describe('Badge', () => {
   it('renders a status in its colour', () => {
     render(<Badge variant="warning">Needs info</Badge>);
-    expect(screen.getByText('Needs info')).toHaveClass('bg-warning', 'text-warning-foreground');
+    expect(screen.getByText('Needs info')).toHaveClass('bg-gold-100', 'text-tag-foreground');
   });
 });

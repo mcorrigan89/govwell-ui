@@ -2,7 +2,7 @@
 // inspections and staff. Built from a fixed seed so every load (and every
 // test) sees the same records, dated relative to today so deadlines stay live.
 
-export const TOWN = { name: 'Town of Alder Falls', state: 'VT' };
+export const TOWN = { name: 'City of Twinsburg, OH', state: 'OH' };
 
 export type Staff = { id: string; name: string; role: string };
 export const STAFF: Staff[] = [
@@ -16,9 +16,9 @@ export const ME = STAFF[0]!;
 
 export type Status = { name: string; color: string };
 export const STATUSES = {
-  submitted: { name: 'Submitted', color: 'blue' },
-  review: { name: 'In review', color: 'blue' },
-  waiting: { name: 'Waiting on applicant', color: 'yellow' },
+  submitted: { name: 'Submitted', color: 'green' },
+  review: { name: 'In review', color: 'light blue' },
+  waiting: { name: 'Waiting on applicant', color: 'amber' },
   inspections: { name: 'Inspections', color: 'purple' },
   issued: { name: 'Issued', color: 'green' },
   closed: { name: 'Closed', color: 'gray' },
@@ -245,6 +245,8 @@ export const shortDate = (d: Date) => d.toLocaleDateString('en-US', { month: 'sh
 // permits issued per month, for the overview chart (the last six months)
 export function issuedByMonth() {
   const r = rng(7);
+  // its own stream, so adding Code Enforcement left the other series as they were
+  const ce = rng(11);
   const now = new Date();
   return Array.from({ length: 6 }, (_, i) => {
     const d = new Date(now.getFullYear(), now.getMonth() - 5 + i, 1);
@@ -252,6 +254,19 @@ export function issuedByMonth() {
       month: d.toLocaleDateString('en-US', { month: 'short' }),
       building: Math.round(18 + r() * 22 + i * 2),
       zoning: Math.round(4 + r() * 8),
+      codeEnforcement: Math.round(3 + ce() * 7),
     };
   });
+}
+
+// Where a record is on the map. The records are made up, so they're
+// scattered round Twinsburg, OH's town square for the basemap; each record's
+// spot comes from a hash of its number, so it never moves.
+export const TOWN_CENTER: [number, number] = [41.3126, -81.4401];
+export function locationOf(record: { number: string }): [number, number] {
+  let h = 2_166_136_261;
+  for (const c of record.number) h = Math.imul(h ^ c.charCodeAt(0), 16_777_619);
+  const a = ((h >>> 0) % 10_000) / 10_000;
+  const b = ((Math.imul(h, 2_654_435_761) >>> 0) % 10_000) / 10_000;
+  return [TOWN_CENTER[0] + (a - 0.5) * 0.036, TOWN_CENTER[1] + (b - 0.5) * 0.06];
 }

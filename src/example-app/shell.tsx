@@ -1,5 +1,5 @@
-import { useEffect, useState, type ComponentType, type ReactNode } from 'react';
-import { ChevronRight, CircleHelp, Menu, PanelLeftClose, PanelLeftOpen, Search, Settings, Sparkles } from 'lucide-react';
+import { Fragment, useEffect, useState, type ComponentType, type ReactNode } from 'react';
+import { ArrowLeft, ChevronRight, Menu, PanelLeftClose, PanelLeftOpen, Search } from 'lucide-react';
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { FlagMark, GovWellLogo } from '@/components/ui/flag-mark';
@@ -9,6 +9,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { cn } from '@/lib/utils';
 
 import { ME, TOWN } from './data';
+import { AssistantIcon, HelpIcon, SettingsIcon } from './icons';
 
 // The staff app's frame, laid out like GovWell's app today (SidebarLayout):
 // a 230px sidebar standing on a Slate ground — logo and collapse button,
@@ -19,7 +20,14 @@ import { ME, TOWN } from './data';
 // md it's a top bar and a drawer.
 
 export type NavLeaf = { href: string; label: string; icon?: ComponentType<{ className?: string }>; count?: number };
-export type NavGroup = { label: string; icon: ComponentType<{ className?: string }>; href?: string; items?: NavLeaf[] };
+export type NavGroup = {
+  label: string;
+  icon: ComponentType<{ className?: string }>;
+  href?: string;
+  items?: NavLeaf[];
+  /** draw a rule under this entry, setting what follows apart */
+  dividerAfter?: boolean;
+};
 
 type ShellProps = {
   nav: NavGroup[];
@@ -56,71 +64,82 @@ export function Shell({ nav, path, onSearch, assistant, onAssistant, children }:
 
   return (
     <TooltipProvider>
-      <div className="flex h-dvh flex-col bg-slate text-white md:flex-row">
-        {/* the first stop for the keyboard, as GovWell's SkipToContent (WCAG 2.4.1) */}
-        <a
-          href="#main"
-          onClick={(e) => {
-            e.preventDefault();
-            document.getElementById('main')?.focus();
-          }}
-          className={
-            'sr-only z-50 bg-primary px-4 py-3 text-primary-foreground focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:outline-2 focus:outline-offset-2 focus:outline-solid focus:outline-hope'
-          }
-        >
-          Skip to content
-        </a>
-        {/* phone: a top bar with the logo and a menu button */}
-        <header className="flex h-14 shrink-0 items-center justify-between px-4 md:hidden">
-          <GovWellLogo className="h-5" title="GovWell" />
-          <button
-            type="button"
-            aria-label="Open menu"
-            onClick={() => setDrawer(true)}
-            className={cn('grid size-10 place-items-center', ring)}
+      <div className="flex h-dvh flex-col bg-slate text-white">
+        {/* for the demo: back to the design system's preview */}
+        <div className="flex h-9 shrink-0 items-center px-4">
+          <a
+            href="./"
+            className="flex items-center gap-1.5 text-sm text-cement outline-none hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid focus-visible:outline-hope"
           >
-            <Menu className="size-5" />
-          </button>
-        </header>
-        <Sheet open={drawer} onOpenChange={setDrawer}>
-          <SheetContent side="left" className="w-[280px] border-r-0 bg-slate p-0 text-white">
-            <SheetTitle className="sr-only">Menu</SheetTitle>
-            <Sidebar nav={nav} path={path} collapsed={false} onSearch={onSearch} onAssistant={onAssistant} />
-          </SheetContent>
-        </Sheet>
-
-        <div
-          className={cn('hidden shrink-0 transition-[width] duration-200 ease-out md:flex', collapsed ? 'w-12' : 'w-[230px]')}
-          data-collapsed={collapsed || undefined}
-        >
-          <Sidebar
-            nav={nav}
-            path={path}
-            collapsed={collapsed}
-            onToggle={() => setCollapsed((c) => !c)}
-            onSearch={onSearch}
-            onAssistant={onAssistant}
-          />
+            <ArrowLeft className="size-3.5" /> UI guidelines
+          </a>
         </div>
-
-        {/* the content panel, inset from the top and right edges on wide screens */}
-        <div className="flex min-h-0 min-w-0 flex-1 gap-2.5 md:mt-2.5 md:mr-2.5">
-          <main
-            id="main"
-            tabIndex={-1}
-            className="min-w-0 flex-1 overflow-y-auto border-border bg-background text-foreground outline-none md:border"
+        <div className="flex min-h-0 flex-1 flex-col md:flex-row">
+          {/* the first stop for the keyboard, as GovWell's SkipToContent (WCAG 2.4.1) */}
+          <a
+            href="#main"
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('main')?.focus();
+            }}
+            className={
+              'sr-only z-50 bg-primary px-4 py-3 text-primary-foreground focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:outline-2 focus:outline-offset-2 focus:outline-solid focus:outline-hope'
+            }
           >
-            {children}
-          </main>
-          {assistant && (
-            <aside
-              aria-label="AI assistant"
-              // the AI's mark down its left edge
-              className="ai-edge relative hidden w-[400px] shrink-0 flex-col border border-border bg-background text-foreground duration-200 animate-in slide-in-from-right-4 lg:flex"
+            Skip to content
+          </a>
+          {/* phone: a top bar with the logo and a menu button */}
+          <header className="flex h-14 shrink-0 items-center justify-between px-4 md:hidden">
+            <GovWellLogo className="h-5" title="GovWell" />
+            <button
+              type="button"
+              aria-label="Open menu"
+              onClick={() => setDrawer(true)}
+              className={cn('grid size-10 place-items-center', ring)}
             >
-              {assistant}
-            </aside>
-          )}
+              <Menu className="size-5" />
+            </button>
+          </header>
+          <Sheet open={drawer} onOpenChange={setDrawer}>
+            <SheetContent side="left" className="w-[280px] border-r-0 bg-slate p-0 text-white">
+              <SheetTitle className="sr-only">Menu</SheetTitle>
+              <Sidebar nav={nav} path={path} collapsed={false} onSearch={onSearch} onAssistant={onAssistant} />
+            </SheetContent>
+          </Sheet>
+
+          <div
+            className={cn('hidden shrink-0 transition-[width] duration-200 ease-out md:flex', collapsed ? 'w-12' : 'w-[230px]')}
+            data-collapsed={collapsed || undefined}
+          >
+            <Sidebar
+              nav={nav}
+              path={path}
+              collapsed={collapsed}
+              onToggle={() => setCollapsed((c) => !c)}
+              onSearch={onSearch}
+              onAssistant={onAssistant}
+            />
+          </div>
+
+          {/* the content panel, inset from the top and right edges on wide screens */}
+          <div className="flex min-h-0 min-w-0 flex-1 gap-2.5 md:mt-2.5 md:mr-2.5">
+            <main
+              id="main"
+              tabIndex={-1}
+              className="min-w-0 flex-1 overflow-y-auto border-border bg-background text-foreground outline-none md:border"
+            >
+              {children}
+            </main>
+            {assistant && (
+              <aside
+                aria-label="AI assistant"
+                // the AI's mark down its left edge
+                className="ai-edge relative hidden w-[400px] shrink-0 flex-col border border-border bg-background text-foreground duration-200 animate-in slide-in-from-right-4 lg:flex"
+              >
+                {assistant}
+              </aside>
+            )}
+          </div>
         </div>
       </div>
     </TooltipProvider>
@@ -180,7 +199,7 @@ function Sidebar({ nav, path, collapsed, onToggle, onSearch, onAssistant }: Side
             {!collapsed && (
               <>
                 <span className="flex-1 text-left">Search</span>
-                <Kbd className="bg-white/10 text-cement">⌘K</Kbd>
+                <Kbd className="border-0 bg-white/10 text-cement">⌘K</Kbd>
               </>
             )}
           </button>
@@ -191,43 +210,53 @@ function Sidebar({ nav, path, collapsed, onToggle, onSearch, onAssistant }: Side
             aria-label={collapsed ? 'AI assistant' : undefined}
             onClick={onAssistant}
             className={cn(
-              // the AI's mark round a white button
-              'ai-border flex h-9 items-center gap-3 bg-white text-sm font-light text-slate [--ai-fill:var(--color-white)] hover:[--ai-fill:var(--ash)]',
+              // a black button with white type and a gold light running round its
+              // 1px edge (assistant-run, in styles.css); on hover the band fills
+              // it (the span below) and the type turns black
+              'group/assistant assistant-run relative isolate flex h-9 items-center gap-3 text-sm font-light text-white transition-colors duration-150 ease-out hover:text-slate motion-reduce:transition-none',
               collapsed ? 'w-8 justify-center self-center' : 'px-3',
               ring,
             )}
           >
-            <Sparkles className="size-4 shrink-0" />
+            {/* the fill reaches over the 1px edge (-inset-px), so on hover the
+                outline disappears under it: Hope, with a glow of the light
+                yellows crossing it from left to right
+                (assistant-glow in styles.css) */}
+            <span aria-hidden className="assistant-glow absolute -inset-px -z-10" />
+            <AssistantIcon className="size-4 shrink-0" />
             {!collapsed && <span>Ask the assistant</span>}
           </button>
         </Hint>
       </div>
 
       <div className="flex min-h-0 flex-1 flex-col gap-px overflow-x-hidden overflow-y-auto px-2 pt-1.5 pb-2">
-        {nav.map((group) =>
-          group.items && !collapsed ? (
-            <Collapsible key={group.label} open={isOpen(group)} onOpenChange={(o) => setOpen((s) => ({ ...s, [group.label]: o }))}>
-              <CollapsibleTrigger className={cn(row, 'group/trigger')}>
-                <group.icon className="size-4 shrink-0" />
-                <span className="flex-1 truncate text-left">{group.label}</span>
-                <ChevronRight className="size-3.5 shrink-0 text-cement group-data-[panel-open]/trigger:rotate-90" />
-              </CollapsibleTrigger>
-              <CollapsibleContent className="flex flex-col gap-px pb-1">
-                {group.items.map((item) => (
-                  <NavLink key={item.href} item={item} path={path} indent />
-                ))}
-              </CollapsibleContent>
-            </Collapsible>
-          ) : (
-            <NavLink
-              key={group.label}
-              item={{ href: group.href ?? group.items![0]!.href, label: group.label, icon: group.icon }}
-              path={path}
-              collapsed={collapsed}
-              activeFor={group.items?.map((i) => i.href)}
-            />
-          ),
-        )}
+        {nav.map((group) => (
+          <Fragment key={group.label}>
+            {group.items && !collapsed ? (
+              <Collapsible open={isOpen(group)} onOpenChange={(o) => setOpen((s) => ({ ...s, [group.label]: o }))}>
+                <CollapsibleTrigger className={cn(row, 'group/trigger')}>
+                  <group.icon className="size-4 shrink-0 text-white" />
+                  <span className="flex-1 truncate text-left">{group.label}</span>
+                  <ChevronRight className="size-3.5 shrink-0 text-cement group-data-[panel-open]/trigger:rotate-90" />
+                </CollapsibleTrigger>
+                <CollapsibleContent className="flex flex-col gap-px pb-1">
+                  {group.items.map((item) => (
+                    <NavLink key={item.href} item={item} path={path} indent />
+                  ))}
+                </CollapsibleContent>
+              </Collapsible>
+            ) : (
+              <NavLink
+                item={{ href: group.href ?? group.items![0]!.href, label: group.label, icon: group.icon }}
+                path={path}
+                collapsed={collapsed}
+                activeFor={group.items?.map((i) => i.href)}
+              />
+            )}
+            {/* a drawn rule, not a separator role: the nav is a plain run of links */}
+            {group.dividerAfter && <div aria-hidden className="mx-1 my-2 h-px shrink-0 bg-white/10" />}
+          </Fragment>
+        ))}
       </div>
 
       <div className="flex flex-col gap-px border-t border-white/10 p-2">
@@ -244,8 +273,8 @@ function Sidebar({ nav, path, collapsed, onToggle, onSearch, onAssistant }: Side
             <span className={collapsed ? 'sr-only' : 'truncate'}>{ME.name}</span>
           </a>
         </Hint>
-        <NavLink item={{ href: '#/help', label: 'Get help', icon: CircleHelp }} path={path} collapsed={collapsed} />
-        <NavLink item={{ href: '#/settings', label: 'Settings', icon: Settings }} path={path} collapsed={collapsed} />
+        <NavLink item={{ href: '#/help', label: 'Get help', icon: HelpIcon }} path={path} collapsed={collapsed} />
+        <NavLink item={{ href: '#/settings', label: 'Settings', icon: SettingsIcon }} path={path} collapsed={collapsed} />
       </div>
     </nav>
   );
@@ -280,7 +309,7 @@ function NavLink({
         active && 'bg-white/10 font-normal text-white before:absolute before:inset-y-0 before:left-0 before:w-0.5 before:bg-primary',
       )}
     >
-      {Icon && !indent && <Icon className="size-4 shrink-0" />}
+      {Icon && !indent && <Icon className="size-4 shrink-0 text-white" />}
       {!collapsed && <span className="flex-1 truncate">{item.label}</span>}
       {!collapsed && item.count ? (
         <span className="min-w-5 bg-hope px-1.5 text-center text-xs text-slate tabular-nums">{item.count}</span>

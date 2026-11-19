@@ -18,16 +18,49 @@ import { FORMS_DEMOS } from '@/docs/demos/forms';
 // One demo per registry item, keyed by item name. Items without one show
 // their description only.
 
-const BRAND = ['jet', 'slate', 'concrete', 'cement', 'ash', 'base-grey', 'hope', 'sky', 'field'];
+type SwatchSpec = { name: string; token: string; hex: string };
+
+// the core palette: Gold Standard, Jet and White
+const CORE: SwatchSpec[] = [
+  { name: 'Gold Standard', token: 'hope', hex: '#FEAF0E' },
+  { name: 'Jet', token: 'jet', hex: '#000000' },
+  { name: 'White', token: 'background', hex: '#FFFFFF' },
+];
+
+// the systems palette: the greys the interface is built from
+const SYSTEMS: SwatchSpec[] = [
+  { name: 'Slate', token: 'slate', hex: '#000000' },
+  { name: 'Concrete', token: 'concrete', hex: '#7C7C7C' },
+  { name: 'Cement', token: 'cement', hex: '#B1B1B1' },
+  { name: 'Ash', token: 'ash', hex: '#D9D9D9' },
+  { name: 'Base-Gray', token: 'base-grey', hex: '#ECECEC' },
+];
+
+// the expanded palette: the tag families, 01 (lightest) to 04 (darkest)
+const EXPANDED: { family: string; prefix: string; hexes: string[] }[] = [
+  { family: 'Gold Standard', prefix: 'gold', hexes: ['#FEE6B2', '#FEDB92', '#FEC54E', '#FEAF0D'] },
+  { family: 'Blueprint', prefix: 'blueprint', hexes: ['#BCE1F8', '#8BCBF3', '#40AAEB', '#1283CA'] },
+  { family: 'Groundwork', prefix: 'groundwork', hexes: ['#DACDC9', '#A2908B', '#85655D', '#482921'] },
+  { family: 'Greenlight', prefix: 'greenlight', hexes: ['#C2E5D4', '#76C09E', '#39C25E', '#003D1F'] },
+  { family: 'Ribbon Cutting', prefix: 'ribbon', hexes: ['#F9D2D3', '#E39394', '#B90B0E', '#690002'] },
+];
+
 const TINTS = ['hope-tint', 'sky-tint', 'field-tint', 'ash-tint'];
 const STATUS = ['primary', 'ok', 'info', 'warning', 'destructive'];
 const SURFACES = ['background', 'card', 'muted', 'accent', 'secondary', 'border', 'input'];
 
-function Swatch({ token }: { token: string }) {
+function Swatch({ token, name, hex }: { token: string; name?: string; hex?: string }) {
   return (
     <div className="flex flex-col gap-2">
-      <div className="h-14 w-28 border border-border" style={{ background: `var(--${token})` }} />
-      <span className="text-xs text-muted-foreground">{token}</span>
+      <div className="h-14 w-28 border border-border" style={{ background: hex ?? `var(--${token})` }} />
+      {name ? (
+        <span className="flex flex-col text-xs">
+          <span>{name}</span>
+          <span className="text-muted-foreground">{hex}</span>
+        </span>
+      ) : (
+        <span className="text-xs text-muted-foreground">{token}</span>
+      )}
     </div>
   );
 }
@@ -45,10 +78,42 @@ function Swatches({ title, tokens }: { title: string; tokens: string[] }) {
   );
 }
 
+function NamedSwatches({ title, swatches }: { title: string; swatches: SwatchSpec[] }) {
+  return (
+    <section className="flex flex-col gap-3">
+      <h3 className="eyebrow-type text-muted-foreground">{title}</h3>
+      <div className="flex flex-wrap gap-4">
+        {swatches.map((s) => (
+          <Swatch key={s.name} {...s} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ExpandedPalette() {
+  return (
+    <section className="flex flex-col gap-3">
+      <h3 className="eyebrow-type text-muted-foreground">Expanded palette</h3>
+      <div className="flex flex-wrap gap-4">
+        {EXPANDED.map(({ family, prefix, hexes }) => (
+          <div key={family} className="flex flex-col gap-4">
+            {hexes.map((hex, i) => (
+              <Swatch key={hex} token={`${prefix}-${i + 1}00`} name={`${family} 0${i + 1}`} hex={hex} />
+            ))}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function ThemeDemo() {
   return (
     <div className="flex flex-col gap-10">
-      <Swatches title="Brand palette" tokens={BRAND} />
+      <NamedSwatches title="Core palette" swatches={CORE} />
+      <ExpandedPalette />
+      <NamedSwatches title="Systems palette" swatches={SYSTEMS} />
       <Swatches title="Eyebrow tints" tokens={TINTS} />
       <Swatches title="Actions and status" tokens={STATUS} />
       <Swatches title="Surfaces" tokens={SURFACES} />

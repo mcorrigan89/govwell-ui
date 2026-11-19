@@ -81,7 +81,7 @@ describe('Deadline', () => {
     rerender(<Deadline due={at(15, 17)} now={NOW} variant="badge" showDate locale="en-US" />);
     const badge = screen.getByText('10 days left · Nov 15').closest('time')!;
     expect(badge).toHaveAttribute('data-slot', 'deadline');
-    expect(badge).toHaveClass('bg-ok');
+    expect(badge).toHaveClass('bg-greenlight-300');
   });
 });
 

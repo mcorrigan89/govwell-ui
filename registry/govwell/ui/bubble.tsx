@@ -55,8 +55,50 @@ function Bubble({
   );
 }
 
+// A box that wraps text stays as wide as the space it was given, leaving a gap
+// after the longest line wider than the padding. CSS can't shrink it to the
+// text, so measure the lines and set the width to the longest one; again
+// whenever the space or the text changes.
+function useFitToText(ref: React.RefObject<HTMLElement | null>) {
+  React.useLayoutEffect(() => {
+    const el = ref.current;
+    const room = el?.parentElement?.parentElement;
+    if (!el || !room || typeof ResizeObserver === 'undefined') return;
+    const fit = () => {
+      el.style.width = '';
+      const range = document.createRange();
+      // no layout to measure (jsdom): leave the box as it is
+      if (typeof range.getClientRects !== 'function') return;
+      range.selectNodeContents(el);
+      const lines = [...range.getClientRects()];
+      // one line already fits (w-fit); anything but text is left alone
+      if (lines.length < 2 || el.querySelector('img, video, svg, table, pre')) return;
+      const text = Math.max(...lines.map((r) => r.right)) - Math.min(...lines.map((r) => r.left));
+      const style = getComputedStyle(el);
+      const frame = ['paddingLeft', 'paddingRight', 'borderLeftWidth', 'borderRightWidth'].reduce(
+        (sum, side) => sum + parseFloat(style[side as 'paddingLeft']),
+        0,
+      );
+      el.style.width = `${Math.ceil(text + frame)}px`;
+    };
+    fit();
+    // refit when the room changes width, or the text changes (a streamed answer)
+    const resized = new ResizeObserver(fit);
+    resized.observe(room);
+    const edited = new MutationObserver(fit);
+    edited.observe(el, { childList: true, characterData: true, subtree: true });
+    return () => {
+      resized.disconnect();
+      edited.disconnect();
+    };
+  }, [ref]);
+}
+
 function BubbleContent({ className, render, ...props }: useRender.ComponentProps<'div'>) {
+  const ref = React.useRef<HTMLDivElement>(null);
+  useFitToText(ref);
   return useRender({
+    ref,
     defaultTagName: 'div',
     props: mergeProps<'div'>(
       {

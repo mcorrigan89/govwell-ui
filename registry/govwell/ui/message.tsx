@@ -50,7 +50,7 @@ function MessageHeader({ className, ...props }: React.ComponentProps<'div'>) {
     <div
       data-slot="message-header"
       className={cn(
-        'flex max-w-full min-w-0 items-center gap-2 px-4 text-xs font-normal tracking-[0.04em] text-muted-foreground uppercase group-has-data-[variant=ghost]/message:px-0 group-data-[align=end]/message:justify-end',
+        'flex max-w-full min-w-0 items-center gap-2 text-xs font-normal tracking-[0.04em] text-muted-foreground uppercase group-data-[align=end]/message:justify-end',
         className,
       )}
       {...props}

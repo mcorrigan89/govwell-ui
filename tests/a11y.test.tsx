@@ -4,6 +4,8 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { DEMOS } from '@/docs/demos';
 import { ExampleApp } from '@/docs/example-app/app';
+import { SampleLogin } from '@/docs/example-app/login';
+import { SamplePortal } from '@/docs/example-app/portal';
 
 // Every demo, and the sample app's pages, through axe's WCAG 2.2 A/AA rules.
 // jsdom has no layout, so colour contrast (tests/contrast.test.ts holds the
@@ -73,7 +75,15 @@ describe('accessibility (axe, WCAG 2.2 A/AA)', () => {
     });
   }
 
-  for (const hash of ['#/insights', '#/records/building', '#/records/building/bld-2026-0101', '#/calendar', '#/payments/invoices']) {
+  for (const hash of [
+    '#/insights',
+    '#/records/building',
+    '#/records/building/bld-2026-0101',
+    '#/calendar',
+    '#/chat',
+    '#/icons',
+    '#/payments/invoices',
+  ]) {
     it(`sample app ${hash}`, async () => {
       location.hash = hash;
       const { container } = render(<ExampleApp />);
@@ -81,4 +91,16 @@ describe('accessibility (axe, WCAG 2.2 A/AA)', () => {
       expect(await violations(container)).toEqual([]);
     });
   }
+
+  it('sample community portal', async () => {
+    const { container } = render(<SamplePortal />);
+    await act(async () => {});
+    expect(await violations(container)).toEqual([]);
+  });
+
+  it('sample sign-in', async () => {
+    const { container } = render(<SampleLogin />);
+    await act(async () => {});
+    expect(await violations(container)).toEqual([]);
+  });
 });

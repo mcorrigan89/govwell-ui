@@ -1,8 +1,9 @@
-import { CalendarDays, Construction, FileText } from 'lucide-react';
+import { FileText } from 'lucide-react';
 
 import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 
 import { RECORDS } from './data';
+import { BuildingPermitsIcon, InspectionCalendarIcon } from './icons';
 
 // GovWell's universal search (⌘K): records by number, address or applicant,
 // and a few pages to jump to.
@@ -19,10 +20,10 @@ export function SearchDialog({ open, onOpenChange }: { open: boolean; onOpenChan
           <CommandEmpty>No records match.</CommandEmpty>
           <CommandGroup heading="Go to">
             <CommandItem value="building permits" onSelect={() => go('/records/building')}>
-              <Construction /> Building Permits
+              <BuildingPermitsIcon /> Building Permits
             </CommandItem>
             <CommandItem value="inspection calendar" onSelect={() => go('/calendar')}>
-              <CalendarDays /> Inspection Calendar
+              <InspectionCalendarIcon /> Inspection Calendar
             </CommandItem>
           </CommandGroup>
           <CommandGroup heading="Records">

@@ -3,20 +3,25 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
 
-// Square buttons in GT Standard Light, as on govwell.com: the main action is
-// a Hope block with Slate type; the second is a Slate block (white in dark
-// mode). Sizes follow the site's 50px controls.
+// Square buttons in GT Standard Light. The main action is a black block with
+// white type (white with black type in dark mode, so it still shows on the
+// black ground) that turns Hope with black type on hover; the second is a
+// Slate block (white in dark mode). Secondary, outline and ghost share that
+// Hope hover. Sizes follow the site's 50px controls.
 const buttonVariants = cva(
   "group/button inline-flex shrink-0 items-center justify-center rounded-none border border-transparent text-base font-light whitespace-nowrap transition-colors outline-none select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-40 aria-invalid:border-error [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground hover:bg-[color-mix(in_srgb,var(--primary)_88%,var(--slate))]',
-        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/85 aria-expanded:bg-secondary/85',
-        outline: 'border-foreground bg-transparent text-foreground hover:bg-accent aria-expanded:bg-accent',
-        ghost: 'text-foreground hover:bg-accent aria-expanded:bg-accent',
+        default: 'bg-secondary text-secondary-foreground hover:bg-hope hover:text-slate aria-expanded:bg-hope aria-expanded:text-slate',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-hope hover:text-slate aria-expanded:bg-hope aria-expanded:text-slate',
+        outline:
+          'border-foreground bg-transparent text-foreground hover:border-hope hover:bg-hope hover:text-slate aria-expanded:border-hope aria-expanded:bg-hope aria-expanded:text-slate',
+        ghost: 'text-foreground hover:bg-hope hover:text-slate aria-expanded:bg-hope aria-expanded:text-slate',
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-        link: 'text-foreground underline decoration-1 underline-offset-4 hover:decoration-2',
+        // no underline at rest; a 1px rule draws in from the left on hover
+        // (and on keyboard focus), instantly under reduced motion
+        link: 'bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-[position:0_100%] bg-no-repeat text-foreground transition-[background-size] duration-200 ease-out hover:bg-[length:100%_1px] focus-visible:bg-[length:100%_1px] motion-reduce:transition-none',
       },
       size: {
         default: 'h-12 gap-2 px-6 has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5',
@@ -29,7 +34,8 @@ const buttonVariants = cva(
         'icon-lg': 'size-14 [&_svg:not([class*="size-"])]:size-5',
       },
     },
-    compoundVariants: [{ variant: 'link', className: 'h-auto px-0' }],
+    // a link has no padding, icon or not, so its underline ends with the text
+    compoundVariants: [{ variant: 'link', className: 'h-auto px-0 has-data-[icon=inline-end]:pr-0 has-data-[icon=inline-start]:pl-0' }],
     defaultVariants: { variant: 'default', size: 'default' },
   },
 );

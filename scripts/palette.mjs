@@ -9,7 +9,7 @@
 // The brand palette, named as the book names it.
 export const BRAND = {
   jet: '#000000',
-  slate: '#202020',
+  slate: '#000000',
   concrete: '#7c7c7c',
   cement: '#b1b1b1',
   ash: '#d9d9d9',
@@ -19,41 +19,78 @@ export const BRAND = {
   field: '#39c25e',
 };
 
+// The tag families: five colours in four steps each, lightest (100) to
+// darkest (400), for tags and statuses. Tags look the same in both modes: a
+// 100 tint (or a 200 for the second shade in a family) with black type, or a
+// strong 300 fill (black type, but white on Ribbon Cutting's red).
+//   Gold Standard  — waiting on someone (fees due, awaiting the applicant)
+//   Blueprint      — in progress (submitted, in review, inspections)
+//   Groundwork     — neutral or closed
+//   Greenlight     — done (issued, approved)
+//   Ribbon Cutting — a problem (denied, violation)
+export const TAG_FAMILIES = {
+  'gold-100': '#fee6b2',
+  'gold-200': '#fedb92',
+  'gold-300': '#fec54e',
+  'gold-400': '#feaf0d',
+  'blueprint-100': '#bce1f8',
+  'blueprint-200': '#8bcbf3',
+  'blueprint-300': '#40aaeb',
+  'blueprint-400': '#1283ca',
+  'groundwork-100': '#dacdc9',
+  'groundwork-200': '#a2908b',
+  'groundwork-300': '#85655d',
+  'groundwork-400': '#482921',
+  'greenlight-100': '#c2e5d4',
+  'greenlight-200': '#76c09e',
+  'greenlight-300': '#39c25e', // the brand's Field
+  'greenlight-400': '#003d1f',
+  'ribbon-100': '#f9d2d3',
+  'ribbon-200': '#e39394',
+  'ribbon-300': '#b90b0e',
+  'ribbon-400': '#690002',
+  // a tag's type: black on every tint, white on the one fill too dark for it
+  'tag-foreground': '#000000',
+  'tag-foreground-inverse': '#ffffff',
+};
+
 // Light is the default: a white page with Slate type, as on govwell.com.
 export const LIGHT = {
   ...BRAND,
+  ...TAG_FAMILIES,
   background: '#ffffff',
-  foreground: '#202020',
+  foreground: '#000000',
   card: '#ffffff',
-  'card-foreground': '#202020',
+  'card-foreground': '#000000',
   popover: '#ffffff',
-  'popover-foreground': '#202020',
+  'popover-foreground': '#000000',
   // the main action is Hope with Slate type (white on Hope is 1.85:1)
   primary: '#feaf0e',
-  'primary-foreground': '#202020',
+  'primary-foreground': '#000000',
   // the second action is a Slate block
-  secondary: '#202020',
+  secondary: '#000000',
   'secondary-foreground': '#ffffff',
   muted: '#ececec',
   // Concrete is 4.17:1 on white, just under AA; muted text is a step darker
   'muted-foreground': '#666666',
   accent: '#ececec',
-  'accent-foreground': '#202020',
+  'accent-foreground': '#000000',
   border: '#d9d9d9',
   // a control's edge must reach 3:1 against the page: Concrete, not Ash
   input: '#7c7c7c',
-  ring: '#202020',
+  ring: '#000000',
   // status fills; Hope, Sky and Field always carry Slate type
   ok: '#39c25e',
-  'ok-foreground': '#202020',
-  info: '#41aaeb',
-  'info-foreground': '#202020',
-  warning: '#dc6803',
-  'warning-foreground': '#202020',
-  // the brand has no red; this one is for errors and destructive actions
-  destructive: '#b42318',
+  'ok-foreground': '#000000',
+  // the tags' colours: Blueprint 300 for info, Gold Standard 300 for a
+  // warning, Ribbon Cutting 300 for errors and destructive actions
+  info: '#40aaeb',
+  'info-foreground': '#000000',
+  warning: '#fec54e',
+  'warning-foreground': '#000000',
+  destructive: '#b90b0e',
   'destructive-foreground': '#ffffff',
-  error: '#b42318',
+  error: '#b90b0e',
   // the eyebrow tints: each brand colour at 30% on the page
   'hope-tint': '#ffe7b7',
   'sky-tint': '#c6e6f9',
@@ -66,12 +103,12 @@ export const LIGHT = {
   'amber-tint': '#f1c39a',
   teal: '#3db6a4',
   'teal-tint': '#b7e4dd',
-  'tint-foreground': '#202020',
+  'tint-foreground': '#000000',
   // lines of the base grid (the base-grid utility)
   gridline: '#e6e6e6',
   // chart series, in order. On white the first series is Slate: Hope, Sky
   // and Field are under 3:1 on white, so they follow as supporting series.
-  'chart-1': '#202020',
+  'chart-1': '#000000',
   'chart-2': '#feaf0e',
   'chart-3': '#41aaeb',
   'chart-4': '#39c25e',
@@ -87,14 +124,14 @@ export const LIGHT = {
 // the accent and becomes the focus ring.
 export const DARK = {
   ...LIGHT,
-  background: '#202020',
+  background: '#000000',
   foreground: '#ffffff',
   card: '#2a2a2a',
   'card-foreground': '#ffffff',
   popover: '#2a2a2a',
   'popover-foreground': '#ffffff',
   secondary: '#ffffff',
-  'secondary-foreground': '#202020',
+  'secondary-foreground': '#000000',
   muted: '#2a2a2a',
   'muted-foreground': '#b1b1b1',
   accent: '#333333',
@@ -150,6 +187,19 @@ export const TEXT_PAIRS = [
   ['tint-foreground', 'ash-tint'],
   ['tint-foreground', 'amber-tint'],
   ['tint-foreground', 'teal-tint'],
+  // tags: every tint and fill a tag uses, with its type
+  ...['gold', 'blueprint', 'groundwork', 'greenlight', 'ribbon'].flatMap((family) => [
+    ['tag-foreground', `${family}-100`],
+    ['tag-foreground', `${family}-200`],
+  ]),
+  ['tag-foreground', 'gold-300'],
+  ['tag-foreground', 'gold-400'],
+  ['tag-foreground', 'blueprint-300'],
+  ['tag-foreground-inverse', 'groundwork-300'],
+  ['tag-foreground', 'greenlight-300'],
+  ['tag-foreground-inverse', 'ribbon-300'],
+  ['tag-foreground-inverse', 'groundwork-400'],
+  ['tag-foreground-inverse', 'greenlight-400'],
 ];
 
 // non-text pairs that must reach 3:1: control edges, the focus ring, and the

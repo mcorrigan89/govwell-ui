@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import { SendIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
@@ -38,6 +37,15 @@ type ChatComposerProps = Omit<React.ComponentProps<'form'>, 'onSubmit' | 'defaul
   actions?: React.ReactNode;
   textareaProps?: Omit<React.ComponentProps<'textarea'>, 'value' | 'defaultValue' | 'disabled'>;
 };
+
+// the send mark: a solid paper plane (Streamline's Send Email 3)
+function SendIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M23.85 0.2a0.49 0.49 0 0 0 -0.55 -0.11L0.3 10a0.52 0.52 0 0 0 -0.3 0.44 0.5 0.5 0 0 0 0.27 0.46l6.67 3.53a0.24 0.24 0 0 0 0.27 0L17.5 6.1a0.25 0.25 0 0 1 0.35 0.35l-8.3 10.29a0.24 0.24 0 0 0 0 0.27l3.53 6.67a0.5 0.5 0 0 0 0.9 0L24 0.75a0.49 0.49 0 0 0 -0.15 -0.55Z" />
+    </svg>
+  );
+}
 
 function ChatComposer({
   value: valueProp,

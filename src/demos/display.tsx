@@ -244,7 +244,9 @@ function SpinnerDemo() {
         <Spinner />
         Checking parcel records…
       </span>
-      <Button disabled>
+      {/* busy: it can't be pressed again, but stays at full strength (black, white in
+          dark mode) rather than fading like a button that's simply unavailable */}
+      <Button disabled className="disabled:opacity-100">
         <Spinner data-icon="inline-start" />
         Submitting application
       </Button>
